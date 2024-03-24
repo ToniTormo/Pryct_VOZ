@@ -1,0 +1,6 @@
+
+.vertical-range {
+    writing-mode: vertical-lr; /* Mantiene el texto en posición vertical */
+    transform: rotate(180deg); /* Rota el control deslizante */
+    width: 100px; /* Ajusta el ancho según tus necesidades */
+}

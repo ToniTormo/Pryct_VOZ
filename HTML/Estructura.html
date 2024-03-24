@@ -4,17 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto de efectos de sonido en tiempo real</title>
+    <link href="../CSS/Estilo.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Efectos de sonido en tiempo real</h1>
-    <button id="startButton">Comenzar grabación</button>
-    <button id="stopButton" disabled>Detener grabación</button>
-    <hr>
-    <div id="audioControls">
-        <label for="volume">Volumen:</label>
-        <input type="range" id="volume" min="0" max="100" value="100">
+    <div>
+        <h1>Efectos de sonido en tiempo real</h1>
     </div>
-    <audio id="audioPlayer" controls></audio>
+    <div>
+        <select name="Seleccionar Base">
+            <option value="Base 1">Base 1</option>
+            <option value="Base 2">Base 2</option>
+            <option value="Base 3">Base 3</option>
+        </select>
+        <button>Autotune</button>
+    </div>
+    <div>
+        <div>
+            <div class="sliders">
+                <input type="range" min="0" max="100" value="50" class="vertical-range">
+            </div>
+            <div>
+                <input type="range" min="0" max="100" value="50" class="vertical-range">
+            </div>
+            <div>
+                <input type="range" min="0" max="100" value="50" class="vertical-range">
+            </div>
+            <div>
+                <input type="range" min="0" max="100" value="50" class="vertical-range">
+            </div>
+        </div>
+        <div>
+            <div>
+                <p>Comenzar grabación</p>
+                <button id="startButton"></button>
+            </div>
+            <div>
+                <p>Parar grabación</p>
+                <button id="stopButton" disabled></button>
+            </div>
+            <div>
+                <p>Silenciar</p>
+                <button></button>
+            </div>
+            <div>
+                <p>Descargar Audio</p>
+                <button id="downloadButton" disabled></button>
+            </div>
+        </div>
+    </div>
     <script src="../JS/main.js"></script>
 </body>
 </html>
