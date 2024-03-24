@@ -7,19 +7,19 @@
     <link href="../CSS/Estilo.css" rel="stylesheet">
 </head>
 <body>
-    <div>
+    <div id="titulo">
         <h1>Efectos de sonido en tiempo real</h1>
     </div>
-    <div>
-        <select name="Seleccionar Base">
+    <div id="indice">
+        <select name="Seleccionar Base" class="elem_indice">
             <option value="Base 1">Base 1</option>
             <option value="Base 2">Base 2</option>
             <option value="Base 3">Base 3</option>
         </select>
-        <button>Autotune</button>
+        <button class="elem_indice">Autotune</button>
     </div>
-    <div>
-        <div>
+    <div id="botones">
+        <div id="sliders">
             <div class="sliders">
                 <input type="range" min="0" max="100" value="50" class="vertical-range">
             </div>
@@ -33,7 +33,7 @@
                 <input type="range" min="0" max="100" value="50" class="vertical-range">
             </div>
         </div>
-        <div>
+        <div id="controladores">
             <div>
                 <p>Comenzar grabación</p>
                 <button id="startButton"></button>

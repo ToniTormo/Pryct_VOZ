@@ -1,6 +1,225 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body, html{
+    background-color:black;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+#titulo{
+    position: fixed;
+    top: 0;
+    
+    width: 100%;
+    height: calc(10vh + 6vw);
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    color: white;
+}
+#titulo h1{
+    font-size: calc(2vh + 2vw);
+    text-align: center;
+    margin: auto;
+}
+
+#indice{
+    position: fixed;
+    top: calc(10vh + 6vw);
+
+    width: 100%;
+    height: 8%;
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    background-color: #0AAB9C;
+}
+
+.elem_indice{
+    width: 10%;
+    height: 50%;
+
+    margin: auto;
+
+    text-align: center;
+    
+    color: black;
+    background-color: #DADC36;
+}
+
+#botones{
+    position: fixed;
+    top: calc(19vh + 6vw);
+    bottom: 0%;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: black;
+}
+
+
+/* 
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+select,button {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding-left: 1rem;
+}
+
+select {
+    top: 0;
+    left: 0;
+    width: 48%;
+    margin-bottom: 1rem;
+}
+
+button {
+    top: 0;
+    right: 0;
+    width: 48%;
+    margin-right: 0;
+}
+
+.sliders {
+    position: relative;
+    margin-top: 2rem;
+}
 
 .vertical-range {
-    writing-mode: vertical-lr; /* Mantiene el texto en posición vertical */
-    transform: rotate(180deg); /* Rota el control deslizante */
-    width: 100px; /* Ajusta el ancho según tus necesidades */
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -2.5rem;
+    width: 1rem;
+    height: 5rem;
+    background-color: #ddd;
+    border-radius: 5px;
+    appearance: none;
 }
+
+.vertical-range:focus {
+    outline: none;
+}
+
+.vertical-range::-webkit-slider-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    background-color: #333;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.vertical-range::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    background-color: #333;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.controls {
+    position: relative;
+    margin-top: 2rem;
+    height: 12rem;
+}
+
+.control-group {
+    position: absolute;
+    width: 22%;
+    height: 100%;
+    margin-right: 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-group p {
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.control-group button {
+    width: 70%;
+    height: 3rem;
+}
+
+.control-group-1 {
+    left: 0;
+    top: 0;
+}
+
+.control-group-2 {
+    left: 24%;
+    top: 0;
+}
+
+.control-group-3 {
+    left: 48%;
+    top: 0;
+}
+
+.control-group-4 {
+    left: 72%;
+    top: 0;
+}
+
+@media screen and (max-width: 768px) {
+    select,
+    button {
+    width: 100%;
+    }
+
+    .sliders {
+        position: static;
+        margin-top: 1rem
+    } */
