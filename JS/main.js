@@ -69,11 +69,11 @@ function handleDataAvailable(event) {
 }
 
 // Control de volumen
-function changeVolume(volume) {
-    if (gainNode) {
-        gainNode.gain.value = volume / 100;
-    }
-}
+// function changeVolume(volume) {
+//     if (gainNode) {
+//         gainNode.gain.value = volume / 100;
+//     }
+// }
 
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
 document.getElementById('startButton').addEventListener('click', startRecording);
@@ -82,6 +82,6 @@ document.getElementById('startButton').addEventListener('click', startRecording)
 document.getElementById('stopButton').addEventListener('click', stopRecording);
 
 // Control de volumen al cambiar el deslizador
-document.getElementById('volume').addEventListener('input', function() {
-    changeVolume(this.value);
-});
+// document.getElementById('volume').addEventListener('input', function() {
+//     changeVolume(this.value);
+// });
