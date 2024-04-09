@@ -1,0 +1,180 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body, html{
+    background-color:black;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+#titulo{
+    position: fixed;
+    top: 0;
+    
+    width: 100%;
+    height: calc(10vh + 6vw);
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    color: white;
+}
+#titulo h1{
+    font-size: calc(2vh + 2vw);
+    text-align: center;
+    margin: auto;
+}
+
+#indice{
+    position: fixed;
+    top: calc(10vh + 6vw);
+
+    width: 100%;
+    height: 8%;
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    background-color: #0AAB9C;
+}
+
+.elem_indice{
+    width: 10%;
+    height: 50%;
+
+    margin: auto;
+
+    font-size: calc(0.7vh + 0.7vw);
+    text-align: center;
+    
+    color: black;
+    background-color: #DADC36;
+}
+
+#botones{
+    position: fixed;
+    top: calc(19vh + 6vw);
+    bottom: 0%;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: black;
+}
+
+#sliders{
+    position: fixed;
+    top: calc(19vh + 6vw);
+    bottom: 0%;
+    right: calc(35vw + 10vh);
+    left: 0%;
+
+    width: 65%;
+    height: 65%;
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: row;
+}
+
+.sliders{
+    width: 100%;
+    height: 90%;
+
+    margin-right: 5%;
+    margin-left: 5%;
+
+    background-color: #00A79D;
+}
+
+.elem_slider{
+ 
+    /* writing-mode:sideways-lr;  */
+    transform: rotate(-90deg);
+
+    width: 100%;
+    height: 100%; 
+}
+
+
+input[type=range]::-webkit-slider-thumb {
+    height: calc(10vh + 6vw); /* Ajusta la altura del botón de selección */
+    width: calc(10vh + 6vw); /* Ajusta el ancho del botón de selección */
+}
+
+#controladores{
+    position: fixed;
+    top: calc(19vh + 6vw);
+    bottom: 0%;
+    left: calc(65vw + 10vh);
+    right: 0%;
+
+    width: 35%;
+    height: 100%;
+}
+
+.sub_controladores{
+    display: flex;
+    height: calc(20vh + 3vw);
+    width: calc(20vh + 8vw);
+}
+
+.div_boton{
+    background-color: #00A79D;
+    margin: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.div_boton_rojo{
+    background-color: #e34949;
+    margin: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.div_boton_dorado{
+    background-color: #d1a616;
+    margin: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nombre_boton{
+    color: white;
+}
+
+#startButton{
+    background-color: #e34949;
+}
+
+#startImg{
+    height: calc(6vh + 3vw);
+    width: calc(6vh + 3vw);
+}

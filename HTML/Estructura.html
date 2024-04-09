@@ -4,17 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto de efectos de sonido en tiempo real</title>
+    <link href="../CSS/Estilo.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Efectos de sonido en tiempo real</h1>
-    <button id="startButton">Comenzar grabación</button>
-    <button id="stopButton" disabled>Detener grabación</button>
-    <hr>
-    <div id="audioControls">
-        <label for="volume">Volumen:</label>
-        <input type="range" id="volume" min="0" max="100" value="100">
+    <div id="titulo">
+        <h1>Efectos de sonido en tiempo real</h1>
     </div>
-    <audio id="audioPlayer" controls></audio>
+    <div id="indice">
+        <select name="Seleccionar Base" class="elem_indice">
+            <option value="Base 1">Base 1</option>
+            <option value="Base 2">Base 2</option>
+            <option value="Base 3">Base 3</option>
+        </select>
+        <button class="elem_indice">Autotune</button>
+    </div>
+    <div id="botones">
+        <div id="sliders">
+            <div class="sliders">
+                <input type="range" min="0" max="100" value="0" class="elem_slider">
+            </div>
+            <div class="sliders">
+                <input type="range" min="0" max="100" value="0" class="elem_slider">
+            </div>
+            <div class="sliders">
+                <input type="range" min="0" max="100" value="0" class="elem_slider">
+            </div>
+            <div class="sliders">
+                <input type="range" min="0" max="100" value="0" class="elem_slider">
+            </div>
+        </div>
+        <div id="controladores">
+            <div class="sub_controladores">
+                <div class="div_boton_rojo">
+                    <p class="nombre_boton">Comenzar grabación</p>
+                    <button id="startButton"><img src="../img/micro.png" id="startImg"></button> <!--cambiar imagen al pulsar a icono de parar-->
+                </div>
+                <div class="div_boton">
+                    <p class="nombre_boton">Parar grabación</p>
+                    <button id="stopButton" disabled></button>
+                </div>
+            </div>
+            <div class="sub_controladores">  
+                <div class="div_boton">
+                    <p class="nombre_boton">Silenciar</p>
+                    <button></button>
+                </div>
+                <div class="div_boton_dorado">
+                    <p class="nombre_boton">Descargar Audio</p>
+                    <button id="downloadButton" disabled></button>
+                </div>
+            </div>
+        </div>  
+    </div>
     <script src="../JS/main.js"></script>
 </body>
 </html>
