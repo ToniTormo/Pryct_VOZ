@@ -114,7 +114,6 @@ body, html{
 }
 
 .elem_slider{
- 
     /* writing-mode:sideways-lr;  */
     transform: rotate(-90deg);
 
@@ -127,6 +126,7 @@ input[type=range]::-webkit-slider-thumb {
     height: calc(10vh + 6vw); /* Ajusta la altura del botón de selección */
     width: calc(10vh + 6vw); /* Ajusta el ancho del botón de selección */
     cursor: pointer;
+
 }
 
 #controladores{
