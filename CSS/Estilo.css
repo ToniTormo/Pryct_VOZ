@@ -126,6 +126,7 @@ body, html{
 input[type=range]::-webkit-slider-thumb {
     height: calc(10vh + 6vw); /* Ajusta la altura del botón de selección */
     width: calc(10vh + 6vw); /* Ajusta el ancho del botón de selección */
+    cursor: pointer;
 }
 
 #controladores{
@@ -143,6 +144,7 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     height: calc(20vh + 3vw);
     width: calc(20vh + 8vw);
+    height: fit-content;
 }
 
 .div_boton{
@@ -150,6 +152,7 @@ input[type=range]::-webkit-slider-thumb {
     margin: 5%;
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 .div_boton_rojo{
@@ -157,6 +160,7 @@ input[type=range]::-webkit-slider-thumb {
     margin: 5%;
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 .div_boton_dorado{
@@ -164,6 +168,7 @@ input[type=range]::-webkit-slider-thumb {
     margin: 5%;
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 .nombre_boton{
@@ -174,7 +179,17 @@ input[type=range]::-webkit-slider-thumb {
     background-color: #e34949;
 }
 
-#startImg{
+#startImg, #stopImg, #muteImg, #downloadImg{
     height: calc(6vh + 3vw);
     width: calc(6vh + 3vw);
+}
+
+button{
+    border-style:none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+select{
+    cursor: pointer;
 }
