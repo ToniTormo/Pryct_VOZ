@@ -9,31 +9,32 @@ let gainNode;
 // Función para iniciar la grabación
 async function startRecording() {
     try {
+
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioContext = new AudioContext();
-        const source = audioContext.createMediaStreamSource(audioStream);
-        
+        audioContext = new AudioContext({latencyHint: 'playback', sampleRate: 96000 });
+        source = audioContext.createMediaStreamSource(audioStream);
+        document.getElementById('startButton').disabled = true;
+        document.getElementById('stopButton').disabled = false;
+        document.getElementById('downloadButton').disabled = true; // Deshabilitar el botón de descarga
         // Nodo de ganancia para ajustar el volumen
-        gainNode = audioContext.createGain();
+        //gainNode = audioContext.createGain();
 
         // Conectar el nodo de la fuente de grabación al nodo de ganancia
-        source.connect(gainNode);
+        //source.connect(gainNode);
 
         // Conectar el nodo de ganancia al nodo de grabación
         audioRecorder = audioContext.createMediaStreamDestination();
-        gainNode.connect(audioRecorder);
+        source.connect(audioRecorder);
 
         // Conectar el nodo de ganancia a la salida del contexto de audio
         gainNode.connect(audioContext.destination);
 
-        mediaRecorder = new MediaRecorder(audioRecorder.stream);
+        mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
 
         // Actualizar UI
-        document.getElementById('startButton').disabled = true;
-        document.getElementById('stopButton').disabled = false;
-        document.getElementById('downloadButton').disabled = true; // Deshabilitar el botón de descarga
+        
     } catch (error) {
         console.error('Error al iniciar la grabación:', error);
     }
