@@ -17,10 +17,10 @@ async function startRecording() {
         document.getElementById('stopButton').disabled = false;
         document.getElementById('downloadButton').disabled = true; // Deshabilitar el botón de descarga
         // Nodo de ganancia para ajustar el volumen
-        //gainNode = audioContext.createGain();
+        gainNode = audioContext.createGain();
 
         // Conectar el nodo de la fuente de grabación al nodo de ganancia
-        //source.connect(gainNode);
+        source.connect(gainNode);
 
         // Conectar el nodo de ganancia al nodo de grabación
         audioRecorder = audioContext.createMediaStreamDestination();
