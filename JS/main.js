@@ -6,6 +6,47 @@ let audioRecorder;
 let mediaRecorder;
 let audioPlayerNode;
 let gainNode;
+let echoDelay;
+// NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
+//  
+// Crear efecto de eco con el tiempo ajustable
+function createEchoDelayEffect(audioContext) {
+    const delay = audioContext.createDelay(0.2); // Se inicializa con un valor de 0.2 segundos de retardo
+    const dryNode = audioContext.createGain();
+    const wetNode = audioContext.createGain();
+    const mixer = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+
+    delay.delayTime.value = 0.75;
+    dryNode.gain.value = 1; // señal sin efecto
+    wetNode.gain.value = 1; // señal con efecto 
+    // 
+    filter.frequency.value = 1100;
+    filter.type = "highpass";
+
+    delay.connect(wetNode);
+    wetNode.connect(filter);
+    filter.connect(delay);
+
+    dryNode.connect(mixer);
+    wetNode.connect(mixer);
+    mixer.connect(audioContext.destination);
+
+    return {
+        setDelayTime(time) {
+            delay.delayTime.value = time;
+        }
+    };
+}
+
+// Agregar evento de escucha al slider de tiempo de eco
+document.getElementById('valueEco').addEventListener('input', function() {
+    const maxDelaySeconds = 2; // Máximo de 2 segundos
+    const delayTime = parseFloat(this.value) / 100; // Convertir el valor del slider a un número entre 0 y 1
+    const time = delayTime * maxDelaySeconds;
+    echoDelay.setDelayTime(time);
+});
+
 
 // Función para iniciar la grabación
 async function startRecording() {
@@ -20,14 +61,13 @@ async function startRecording() {
         // Nodo de ganancia para ajustar el volumen
         gainNode = audioContext.createGain();
 
-        //Crear Eco
-        const echoDelay = createEchoDelayEffect(audioContext);
 
         // Conectar el nodo de la fuente de grabación al nodo de ganancia
         gainNode.oversample = "4x";
         source.connect(gainNode);
+
         //conectar eco
-        echoDelay.placeBetween(gainNode, analyser);
+        // echoDelay.placeBetween(gainNode, analyser);
 
         //conectar analizer
         analyser.connect(audioContext.destination);
@@ -86,30 +126,7 @@ document.getElementById('startButton').addEventListener('click', startRecording)
 // Detener grabación al hacer clic en el botón "Detener grabación"
 document.getElementById('stopButton').addEventListener('click', stopRecording);
 
-
-function createEchoDelayEffect(audioContext) {
-    const delay = audioContext.createDelay(1);
-    const dryNode = audioContext.createGain();
-    const wetNode = audioContext.createGain();
-    const mixer = audioContext.createGain();
-    const filter = audioContext.createBiquadFilter();
-
-    delay.delayTime.value = 0.75;
-    dryNode.gain.value = 1;
-    wetNode.gain.value = 1;
-    filter.frequency.value = 1100;
-    filter.type = "highpass";
-    return {
-      placeBetween(inputNode, outputNode) {
-        inputNode.connect(delay);
-        delay.connect(wetNode);
-        wetNode.connect(filter);
-        filter.connect(delay);
-
-        inputNode.connect(dryNode);
-        dryNode.connect(mixer);
-        wetNode.connect(mixer);
-        mixer.connect(outputNode);
-      },
-    };
-  }
+// Para el reberb hay que tener como unas salas definidas --> se puede hacer con el reco realimentado configurando el eco con el retardo  la amplitud. 
+// sala virtual --> filtrado 
+// vamos a tener que cambiar la interfaz 
+// el API TIENE TODAS LAS CHINGADAS FUNCIONES NO HAY QUE QUEMARSE LA CABEZAAAA!!!!!!! 
