@@ -16,7 +16,6 @@ async function startRecording() {
         source = audioContext.createMediaStreamSource(audioStream);
         const analyser = audioContext.createAnalyser();
         analyser.smoothingTimeConstant = 0.85;
-
         // Nodo de ganancia para ajustar el volumen
         gainNode = audioContext.createGain();
 
