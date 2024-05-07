@@ -1,12 +1,11 @@
 
 // Variables globales
 let audioStream;
-let audioContext;
 let audioRecorder;
 let mediaRecorder;
-let audioPlayerNode;
-let gainNode;
-let echoDelay;
+const soundClips = document.querySelector("#indice");
+const audioElement = document.getElementById('repro'); // Obtener el elemento <audio>
+let ctx
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 //  
 // Crear efecto de eco con el tiempo ajustable
@@ -50,81 +49,97 @@ document.getElementById('valueEco').addEventListener('input', function() {
 
 // Función para iniciar la grabación
 async function startRecording() {
-    try {
+  audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  if (audioStream) {
 
-        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioContext = new AudioContext({latencyHint: 'playback', sampleRate: 96000 });
-        source = audioContext.createMediaStreamSource(audioStream);
-        const analyser = audioContext.createAnalyser();
-        analyser.smoothingTimeConstant = 0.85;
+    const constraints = { audio: true };
+    let chunks = [];
+    
+    //let onSuccess = function (stream) {
+    ctx = new AudioContext();
+    
+    source = ctx.createMediaStreamSource(audioStream);
+    audioRecorder = ctx.createMediaStreamDestination();
+    source.connect(audioRecorder);
+    mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
+    mediaRecorder.start();
+    document.getElementById('startButton').disabled = true;
+    document.getElementById('stopButton').disabled = false;
+    document.getElementById('downloadButton').disabled = true
 
-        // Nodo de ganancia para ajustar el volumen
-        gainNode = audioContext.createGain();
-
-
-        // Conectar el nodo de la fuente de grabación al nodo de ganancia
-        gainNode.oversample = "4x";
-        source.connect(gainNode);
-
-        //conectar eco
-        // echoDelay.placeBetween(gainNode, analyser);
-
-        //conectar analizer
-        analyser.connect(audioContext.destination);
-
-        // Conectar el nodo de ganancia al nodo de grabación
-        audioRecorder = audioContext.createMediaStreamDestination();
-        source.connect(audioRecorder);
-
-        // Conectar el nodo de ganancia a la salida del contexto de audio
-        gainNode.connect(audioContext.destination);
-        mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.start();
-
-        // Actualizar UI
-        document.getElementById('startButton').disabled = true;
-        document.getElementById('stopButton').disabled = false;
-        document.getElementById('downloadButton').disabled = true; // Deshabilitar el botón de descarga
-    } catch (error) {
-        console.error('Error al iniciar la grabación:', error);
-    }
+    mediaRecorder.ondataavailable = function (e) {
+      chunks.push(e.data);
+      //audioElement.setAttribute("controls", "");
+      //audioElement.controls = true;
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
+      chunks = [];
+      const audioURL = window.URL.createObjectURL(blob);
+      audioElement.src = audioURL;
+      //console.log("recorder stopped");
+      
+      // Establecer el enlace de descarga en el botón
+      document.getElementById('downloadButton').onclick = function() {
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = audioUrl;
+          a.download = 'grabacion.wav';
+          document.body.appendChild(a);
+          a.click();
+          URL.revokeObjectURL(audioUrl);
+          document.body.removeChild(a);
+    };
+    };
+    //};
+  
+    //audioStream(constraints).then(onSuccess, onError);
+  } else {
+    console.log("MediaDevices.getUserMedia() not supported on your browser!");
+  }
+  
 }
 
 // Función para detener la grabación
 function stopRecording() {
-    mediaRecorder.stop();
-    audioStream.getTracks().forEach(track => track.stop());
-
+  mediaRecorder.stop();
+  audioStream.getTracks().forEach(track => track.stop());
     // Actualizar UI
-    document.getElementById('startButton').disabled = false;
-    document.getElementById('stopButton').disabled = true;
-    document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
+  document.getElementById('startButton').disabled = false;
+  document.getElementById('stopButton').disabled = true;
+  document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
 }
 
-// Función para procesar los datos grabados
-function handleDataAvailable(event) {
-    const audioBlob = new Blob([event.data], { type: 'audio/wav' });
-    const audioUrl = URL.createObjectURL(audioBlob);
-    
-    // Establecer el enlace de descarga en el botón
-    document.getElementById('downloadButton').onclick = function() {
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = audioUrl;
-        a.download = 'grabacion.wav';
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(audioUrl);
-        document.body.removeChild(a);
-    };
-}
 
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
 document.getElementById('startButton').addEventListener('click', startRecording);
 
 // Detener grabación al hacer clic en el botón "Detener grabación"
 document.getElementById('stopButton').addEventListener('click', stopRecording);
+
+async function cargar_imp(impulseResponseURL) {
+  try {
+      const response = await fetch(impulseResponseURL);
+      const arrayBuffer = await response.arrayBuffer();
+      return await audioElement.audioContext.decodeAudioData(arrayBuffer);
+  } catch (error) {
+      console.error('Error loading impulse response:', error);
+      throw error;
+  }
+}
+
+// Función para aplicar el efecto de reverberación al audio
+async function reverb() {
+  try {
+      const audioBuffer = await cargar_imp("./Audio/Impulsos/church.mp3");
+      const convolver = audioElement.audioContext.createConvolver();
+      convolver.buffer = audioBuffer;
+      audioElement.source.disconnect(); // Desconectar el audio original
+      audioElement.source.connect(convolver); // Conectar al convolver
+      convolver.connect(audioElement.audioContext.destination); // Conectar al destino final
+  } catch (error) {
+      console.error('Error applying reverb effect:', error);
+  }
+}
+audioElement.addEventListener('canplaythrough', reverb);
 
 // Para el reberb hay que tener como unas salas definidas --> se puede hacer con el reco realimentado configurando el eco con el retardo  la amplitud. 
 // sala virtual --> filtrado 

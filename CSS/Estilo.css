@@ -193,3 +193,15 @@ button{
 select{
     cursor: pointer;
 }
+#controles-audio {
+    text-align: center;
+}
+
+#barra-volumen {
+    width: 100px;
+}
+
+/* Ocultar controles predeterminados del navegador */
+#audio {
+    display: none;
+}
