@@ -16,6 +16,12 @@
             <option value="Base 2">Base 2</option>
             <option value="Base 3">Base 3</option>
         </select>
+        <audio id="repro" ></audio>
+        <div id="controles-audio">
+            <button id="play-pause">Play</button>
+            <input type="range" id="barra-volumen" min="0" max="1" step="0.1" value="1">
+            <span id="estado-audio">00:00 / 00:00</span>
+        </div>
         <button class="elem_indice">Autotune</button>
     </div>
     <div id="botones">
@@ -57,5 +63,41 @@
         </div>  
     </div>
     <script src="../JS/main.js"></script>
+    <script>
+        var audio = document.getElementById('repro');
+        var botonPlayPause = document.getElementById('play-pause');
+        var barraVolumen = document.getElementById('barra-volumen');
+        var estadoAudio = document.getElementById('estado-audio');
+
+        botonPlayPause.addEventListener('click', function() {
+            if (audio.paused || audio.ended) {
+                audio.play();
+                botonPlayPause.innerHTML = 'Pause';
+            } else {
+                audio.pause();
+                botonPlayPause.innerHTML = 'Play';
+            }
+        });
+
+        barraVolumen.addEventListener('input', function() {
+            miAudio.volume = this.value;
+        });
+
+        audio.addEventListener('timeupdate', function() {
+            var minutos = Math.floor(audio.currentTime / 60);
+            var segundos = Math.floor(audio.currentTime % 60);
+            var duracionMinutos = Math.floor(audio.duration / 60);
+            var duracionSegundos = Math.floor(audio.duration % 60);
+            
+            if (segundos < 10) {
+                segundos = '0' + segundos;
+            }
+            if (duracionSegundos < 10) {
+                duracionSegundos = '0' + duracionSegundos;
+            }
+            
+            estadoAudio.innerHTML = minutos + ':' + segundos + ' / ' + duracionMinutos + ':' + duracionSegundos;
+        });
+    </script>
 </body>
 </html>
