@@ -18,7 +18,7 @@
         </select>
         <audio id="repro" ></audio>
         <div id="controles-audio">
-            <button id="play-pause">Play</button>
+            <button id="play-pause"><img src="../img/play.png" id="playImg"></button>
             <input type="range" id="barra-volumen" min="0" max="1" step="0.1" value="1">
             <span id="estado-audio">00:00 / 00:00</span>
         </div>
@@ -68,14 +68,15 @@
         var botonPlayPause = document.getElementById('play-pause');
         var barraVolumen = document.getElementById('barra-volumen');
         var estadoAudio = document.getElementById('estado-audio');
+        var imagenPlay = document.getElementById('playImg')
 
         botonPlayPause.addEventListener('click', function() {
             if (audio.paused || audio.ended) {
                 audio.play();
-                botonPlayPause.innerHTML = 'Pause';
+                imagenPlay.src = "../img/pausa2.png";
             } else {
                 audio.pause();
-                botonPlayPause.innerHTML = 'Play';
+                imagenPlay.src = "../img/play.png";
             }
         });
 
