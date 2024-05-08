@@ -74,6 +74,8 @@ body, html{
     
     color: black;
     background-color: #DADC36;
+    border-radius: 5px;
+    border: 1px solid black;
 }
 
 #botones{
@@ -111,6 +113,7 @@ body, html{
     margin-left: 5%;
 
     background-color: #00A79D;
+    border-radius: 10px;
 }
 
 .elem_slider{
@@ -153,6 +156,8 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     flex-direction: column;
     height: fit-content;
+    padding: 5%;
+    border-radius: 5px;
 }
 
 .div_boton_rojo{
@@ -161,6 +166,8 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     flex-direction: column;
     height: fit-content;
+    padding: 5%;
+    border-radius: 5px;
 }
 
 .div_boton_dorado{
@@ -169,6 +176,8 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     flex-direction: column;
     height: fit-content;
+    padding: 5%;
+    border-radius: 5px;
 }
 
 .nombre_boton{
@@ -192,6 +201,7 @@ button{
 
 select{
     cursor: pointer;
+    border-radius: 5px;
 }
 #controles-audio {
     text-align: center;
