@@ -1,4 +1,5 @@
 
+//import "http://reverbjs.org/reverb.js"
 // Variables globales
 let audioStream;
 let audioRecorder;
@@ -73,8 +74,8 @@ async function startRecording() {
       //audioElement.controls = true;
       const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
       chunks = [];
-      const audioURL = window.URL.createObjectURL(blob);
-      audioElement.src = audioURL;
+      const audioUrl = window.URL.createObjectURL(blob);
+      audioElement.src = audioUrl;
       //console.log("recorder stopped");
       
       // Establecer el enlace de descarga en el botón
@@ -139,7 +140,7 @@ async function reverb() {
       console.error('Error applying reverb effect:', error);
   }
 }
-audioElement.addEventListener('canplaythrough', reverb);
+//audioElement.addEventListener('canplaythrough', reverb);
 
 // Para el reberb hay que tener como unas salas definidas --> se puede hacer con el reco realimentado configurando el eco con el retardo  la amplitud. 
 // sala virtual --> filtrado 
