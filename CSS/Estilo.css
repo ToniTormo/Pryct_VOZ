@@ -42,11 +42,19 @@ body, html{
     justify-items: center;
 
     color: white;
+
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
+
 #titulo h1{
     font-size: calc(2vh + 2vw);
     text-align: center;
     margin: auto;
+    -webkit-text-stroke: 1px black;
+    font-weight: bold;
 }
 
 #indice{
@@ -214,4 +222,9 @@ select{
 /* Ocultar controles predeterminados del navegador */
 #audio {
     display: none;
+}
+
+#playImg{
+    height: calc(1vh + 1vw);
+    width: calc(1vh + 1vw); 
 }
