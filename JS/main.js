@@ -1,5 +1,5 @@
 
-import "http://reverbjs.org/reverb.js"
+//import "http://reverbjs.org/reverb.js"
 // Variables globales
 let audioStream;
 let audioRecorder;
@@ -74,8 +74,8 @@ async function startRecording() {
       //audioElement.controls = true;
       const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
       chunks = [];
-      const audioURL = window.URL.createObjectURL(blob);
-      audioElement.src = audioURL;
+      const audioUrl = window.URL.createObjectURL(blob);
+      audioElement.src = audioUrl;
       //console.log("recorder stopped");
       
       // Establecer el enlace de descarga en el botón
