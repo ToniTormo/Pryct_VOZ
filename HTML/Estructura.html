@@ -8,43 +8,58 @@
 </head>
 <body>
     <div id="titulo">
-        <h1>Efectos de sonido en tiempo real</h1>
+        <h1>Resonance</h1>
     </div>
     <div id="indice">
-        <select name="Seleccionar Base" class="elem_indice">
-            <option value="Base 1">Base 1</option>
-            <option value="Base 2">Base 2</option>
-            <option value="Base 3">Base 3</option>
-        </select>
-        <audio id="repro" ></audio>
-        <div id="controles-audio">
+        <audio id="repro" class="elem_indice"></audio>
+        <div id="controles-audio" class="elem_indice">
             <button id="play-pause"><img src="../img/play.png" id="playImg"></button>
             <input type="range" id="barra-volumen" min="0" max="1" step="0.1" value="1">
             <span id="estado-audio">00:00 / 00:00</span>
         </div>
-        <button class="elem_indice">Autotune</button>
     </div>
     <div id="botones">
         <div id="sliders">
             <div class="sliders">
-                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueEco">
-            </div>
-            <div class="sliders">
-                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueReverb">
+                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueEcho">
+                <div class="name_slider">Echo</div>
             </div>
             <div class="sliders">
                 <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueChorus">
+                <div class="name_slider">Chorus</div>
             </div>
             <div class="sliders">
                 <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueNoise">
+                <div class="name_slider">Noise</div>
             </div>
         </div>
+
+        <div id="botones_mid">
+            <select class="botones_mid" style="appearance: none;">
+                <option selected hidden>Seleccione una base</option>
+                <option value="Sin base">Sin Base</option>
+                <option value="Base 1">Base 1</option>
+                <option value="Base 2">Base 2</option>
+                <option value="Base 3">Base 3</option>
+            </select>
+            <select class="botones_mid" style="appearance: none;">
+                <option selected hidden>Salas de Reverberación</option>
+                <option value="Sin base">Sin Sala</option>
+                <option value="Sala 1">Sala 1</option>
+                <option value="Sala 2">Sala 2</option>
+                <option value="Sala 3">Sala 3</option>
+            </select>
+            <button class="botones_mid">Autotune</button>
+        </div>
+        
+
         <div id="controladores">
             <div class="sub_controladores">
                 <div class="div_boton_rojo">
                     <!-- <p class="nombre_boton">Comenzar grabación</p> -->
                     <button id="startButton"><img src="../img/micro.png" id="startImg"></button> <!--cambiar imagen al pulsar a icono de parar-->
                 </div>
+                
                 <div class="div_boton">
                     <!-- <p class="nombre_boton">Parar grabación</p> -->
                     <button id="stopButton" disabled><img src="../img/pausa.png" id="stopImg"></button> 
