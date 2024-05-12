@@ -126,13 +126,12 @@ body, html{
 }
 
 .name_slider{
-    position: relative;
-    top: -8%;
-    bottom: 0%;
-    right: 0%;
-    left: 0%;
+    position: fixed;
+    top: calc(58vh + 12vw);
 
-    height: 12%;
+    height: 14%;
+    width: 7.8%;
+
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -146,36 +145,29 @@ body, html{
 }
 
 .elem_slider{
-    /* writing-mode:sideways-lr;  */
-    transform: rotate(-90deg);
-
-    width: 100%;
-    height: 100%;
+    transform: rotate(-90deg) translateY(calc(-7vh - 3.6vw)) translateX(calc(-12vh - 6.55vw));
+    transform-origin: bottom;
+    
+    width: 300%;
 }
 
 input[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
-    width: calc(10vh + 10vw); ;
-    height: calc(0.8vh + 0.8vw); 
+    height: calc(1.1vh + 1.1vw); 
     
     background-color:#DADC36; 
     border-radius: calc(0.2vh + 0.2vw);
 }
 
 input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
-    background-color:#00A79D; /* change the background color to your liking */
-    border: none; /* remove the border */
-    border-radius: 50%; /* make the thumb a circle */
-    height: 15px; /* change the height to your liking */
-    width: 15px; /* change the width to your liking */
-}
+    
+    height: 2000px; 
+    width: calc(1.1vh + 1.1vw); 
 
-/*
-input[type=range]::-webkit-slider-thumb {
-    height: 200px; 
-    width: calc(10vh + 6vw); 
+    background-color: #00A79D; 
+    border-radius: calc(0.2vh + 0.2vw);
     cursor: pointer;
-} 
-*/
+    appearance: none;
+}
 
 #botones_mid{
     position: fixed;
