@@ -82,7 +82,7 @@ body, html{
     
     color: black;
     background-color: #DADC36;
-    border-radius: 5px;
+    border-radius: calc(0.6vh + 0.6vw);
     border: 1px solid black;
 }
 
@@ -95,16 +95,17 @@ body, html{
     height: 100%;
 
     background-color: black;
+    display: flex;
 }
 
 #sliders{
     position: fixed;
     top: calc(19vh + 6vw);
     bottom: 0%;
-    right: calc(35vw + 10vh);
+    right: calc(40vw + 8vh);
     left: 0%;
 
-    width: 65%;
+    width: 45%;
     height: 65%;
 
     display: flex;
@@ -115,13 +116,33 @@ body, html{
 
 .sliders{
     width: 100%;
-    height: 90%;
+    height: 85%;
 
-    margin-right: 5%;
-    margin-left: 5%;
+    margin-right: 8%;
+    margin-left: 8%;
 
     background-color: #00A79D;
-    border-radius: 10px;
+    border-radius: calc(0.6vh + 0.6vw);
+}
+
+.name_slider{
+    position: relative;
+    top: -8%;
+    bottom: 0%;
+    right: 0%;
+    left: 0%;
+
+    height: 12%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    text-align: center;
+    font-size: calc(0.7vh + 0.7vw);
+
+    background-color: #DADC36;
+    border-radius: calc(0.6vh + 0.6vw);
+    z-index: -1;
 }
 
 .elem_slider{
@@ -129,15 +150,62 @@ body, html{
     transform: rotate(-90deg);
 
     width: 100%;
-    height: 100%; 
+    height: 100%;
 }
 
+input[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
+    width: calc(10vh + 10vw); ;
+    height: calc(0.8vh + 0.8vw); 
+    
+    background-color:#DADC36; 
+    border-radius: calc(0.2vh + 0.2vw);
+}
 
+input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
+    background-color:#00A79D; /* change the background color to your liking */
+    border: none; /* remove the border */
+    border-radius: 50%; /* make the thumb a circle */
+    height: 15px; /* change the height to your liking */
+    width: 15px; /* change the width to your liking */
+}
+
+/*
 input[type=range]::-webkit-slider-thumb {
-    height: calc(10vh + 6vw); /* Ajusta la altura del botón de selección */
-    width: calc(10vh + 6vw); /* Ajusta el ancho del botón de selección */
+    height: 200px; 
+    width: calc(10vh + 6vw); 
     cursor: pointer;
+} 
+*/
 
+#botones_mid{
+    position: fixed;
+    top: calc(76vh + 6vw);
+    bottom: 0%;
+    right: calc(23vw + 10vh);
+    left: calc(35vw + 10vh);
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+
+.botones_mid{
+    width: 45%;
+    height: 6%;
+
+    margin-top: 6%;
+    margin-bottom: 6%;
+    
+    font-size: calc(0.7vh + 0.7vw);
+    text-align: center;
+    
+    color: black;
+    background-color: #DADC36;
+    border-radius: calc(0.6vh + 0.6vw);
+    border: 1px solid black;
 }
 
 #controladores{
@@ -150,7 +218,7 @@ input[type=range]::-webkit-slider-thumb {
     width: 35%;
     height: 100%;
 }
-
+/* 
 .sub_controladores{
     display: flex;
     height: calc(20vh + 3vw);
@@ -219,7 +287,7 @@ select{
     width: 100px;
 }
 
-/* Ocultar controles predeterminados del navegador */
+// Ocultar controles predeterminados del navegador
 #audio {
     display: none;
 }
@@ -227,4 +295,5 @@ select{
 #playImg{
     height: calc(1vh + 1vw);
     width: calc(1vh + 1vw); 
-}
+} 
+*/
