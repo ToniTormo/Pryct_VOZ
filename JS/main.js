@@ -46,9 +46,9 @@ async function startRecording() {
       chunks = [];
       const audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
-      //reverb()
-      eco();
-      //elim_ruido();
+    
+      //eco();
+      elim_ruido();
 
       
       // Establecer el enlace de descarga en el botón
@@ -91,13 +91,13 @@ document.getElementById('stopButton').addEventListener('click', stopRecording);
 function elim_ruido(){
 
   const noiseGateNode = ctx.createDynamicsCompressor();
-  noiseGateNode.threshold.value = -50; // Umbral en dB
+  noiseGateNode.threshold.value = -1; // Umbral en dB de -100 a 0 
   noiseGateNode.knee.value = 40;      // Rango de transición suave
   noiseGateNode.ratio.value = 12;     // Relación de compresión
   noiseGateNode.attack.value = 0.003; // Tiempo de ataque en segundos
   noiseGateNode.release.value = 0.25; // Tiempo de liberación en segundos
   
-  audioSource.connect(noiseGateNode);
+  sourceNode.connect(noiseGateNode);
   noiseGateNode.connect(ctx.destination);
    
 }
