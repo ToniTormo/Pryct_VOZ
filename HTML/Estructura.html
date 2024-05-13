@@ -81,9 +81,11 @@
     <script>
         var audio = document.getElementById('repro');
         var botonPlayPause = document.getElementById('play-pause');
+        var botonMicro = document.getElementById('startButton');
         var barraVolumen = document.getElementById('barra-volumen');
         var estadoAudio = document.getElementById('estado-audio');
-        var imagenPlay = document.getElementById('playImg')
+        var imagenPlay = document.getElementById('playImg');
+        var imagenMicro = document.getElementById('startImg');
 
         botonPlayPause.addEventListener('click', function() {
             if (audio.paused || audio.ended) {
@@ -92,6 +94,15 @@
             } else {
                 audio.pause();
                 imagenPlay.src = "../img/play.png";
+            }
+        });
+
+        //cambiar botón de micrófono al pulsarlo
+        botonMicro.addEventListener('click', function() {
+            if (imagenMicro.src = "../img/micro.png") {
+                imagenMicro.src = "../img/cuadrado.png";
+            } else {
+                imagenMicro.src = "../img/micro.png";
             }
         });
 

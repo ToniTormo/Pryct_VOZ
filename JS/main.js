@@ -48,6 +48,7 @@ async function startRecording() {
       audioElement.src = audioUrl;
       //reverb()
       eco();
+      elim_ruido();
 
       
       // Establecer el enlace de descarga en el botón
@@ -85,6 +86,23 @@ document.getElementById('startButton').addEventListener('click', startRecording)
 
 // Detener grabación al hacer clic en el botón "Detener grabación"
 document.getElementById('stopButton').addEventListener('click', stopRecording);
+
+//hola soy carlos esto probablemente no funcione pero lo dejo por aquí a ver si cuela
+function elim_ruido(){
+
+  const audioContext = new AudioContext();
+  const noiseGateNode = audioContext.createDynamicsCompressor();
+  noiseGateNode.threshold.value = -50; // Umbral en dB
+  noiseGateNode.knee.value = 40;      // Rango de transición suave
+  noiseGateNode.ratio.value = 12;     // Relación de compresión
+  noiseGateNode.attack.value = 0.003; // Tiempo de ataque en segundos
+  noiseGateNode.release.value = 0.25; // Tiempo de liberación en segundos
+  
+  audioSource.connect(noiseGateNode);
+  noiseGateNode.connect(audioContext.destination);
+   
+}
+
 
 
 function eco(){
