@@ -9,6 +9,9 @@ const audioElement = document.getElementById('repro'); // Obtener el elemento <a
 
 let ctx;
 var sourceNode;
+var Puerta_ruido;
+var retardo;
+var feed;
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 //  
 
@@ -46,9 +49,10 @@ async function startRecording() {
       chunks = [];
       const audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
-      //reverb()
+    
       eco();
-      //elim_ruido();
+      elim_ruido();
+      aplicar_efectos();
 
       
       // Establecer el enlace de descarga en el botón
@@ -90,15 +94,15 @@ document.getElementById('stopButton').addEventListener('click', stopRecording);
 //hola soy carlos esto probablemente no funcione pero lo dejo por aquí a ver si cuela
 function elim_ruido(){
 
-  const noiseGateNode = ctx.createDynamicsCompressor();
-  noiseGateNode.threshold.value = -50; // Umbral en dB
-  noiseGateNode.knee.value = 40;      // Rango de transición suave
-  noiseGateNode.ratio.value = 12;     // Relación de compresión
-  noiseGateNode.attack.value = 0.003; // Tiempo de ataque en segundos
-  noiseGateNode.release.value = 0.25; // Tiempo de liberación en segundos
+  Puerta_ruido = ctx.createDynamicsCompressor();
+  Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
+  Puerta_ruido.knee.value = 40;      // Rango de transición suave
+  Puerta_ruido.ratio.value = 12;     // Relación de compresión
+  Puerta_ruido.attack.value = 0.003; // Tiempo de ataque en segundos
+  Puerta_ruido.release.value = 0.25; // Tiempo de liberación en segundos
   
-  audioSource.connect(noiseGateNode);
-  noiseGateNode.connect(ctx.destination);
+  // sourceNode.connect(Puerta_ruido);
+  // Puerta_ruido.connect(ctx.destination);
    
 }
 
@@ -106,20 +110,31 @@ function elim_ruido(){
 
 function eco(){
 
-  // Crear nodo de efecto de eco (DelayNode)
+  // Crear nodo de efecto de eco (retardo)
 
-  var delayNode = ctx.createDelay();
-  delayNode.delayTime.value = 2; // Tiempo de retardo en segundos (de momento va de 0 a 1)
-  var feedbackGain = ctx.createGain();
-  feedbackGain.gain.value = 0.5; // Nivel de retroalimentación (0 a 1)
-  sourceNode.disconnect();
-  // Conectar los nodos: audioSrc -> delayNode -> salida de audio
-  sourceNode.connect(delayNode);
-  delayNode.connect(feedbackGain);
-  feedbackGain.connect(delayNode);
-  delayNode.connect(ctx.destination);
-  // Reproducir el audio
+  retardo = ctx.createDelay();
+  retardo.delayTime.value = 0.6; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  feed = ctx.createGain();
+  feed.gain.value = 0.5; // Nivel de retroalimentación (0 a 1)
+  //sourceNode.disconnect();
+  // Conectar los nodos: audioSrc -> retardo -> salida de audio
+  // sourceNode.connect(retardo);
+  // retardo.connect(feed);
+  // feed.connect(retardo);
+  // retardo.connect(ctx.destination);
   
+}
+
+function aplicar_efectos(){
+  //desconectamos
+  sourceNode.disconnect();
+  //Eliminacion de ruido
+  sourceNode.connect(Puerta_ruido);
+  //Eco
+  Puerta_ruido.connect(retardo);
+  retardo.connect(feed);
+  feed.connect(retardo);
+  retardo.connect(ctx.destination);
 }
 // function impulseResponse(duration,decay) {
 //   var length = context.sampleRate * duration
@@ -143,32 +158,32 @@ function eco(){
 //   // sourceNode.connect(reverbFilter);
 //   // reverbFilter.connect(ctx.destination);
 //   let delays = [0.1, 0.2, 0.3, 0.4, 0.5]; // Tiempos de retardo en segundos
-//   let delayNodes = delays.map(delayTime => {
-//       let delayNode = ctx.createDelay(delayTime);
-//       return delayNode;
+//   let retardos = delays.map(delayTime => {
+//       let retardo = ctx.createDelay(delayTime);
+//       return retardo;
 //   });
 
 //   // Crear nodos de realimentación (Ganancias)
-//   let feedbackGains = delayNodes.map(delayNode => {
-//       let feedbackGain = ctx.createGain();
-//       feedbackGain.gain.value = 0.5; // Ajusta el nivel de realimentación
-//       return feedbackGain;
+//   let feeds = retardos.map(retardo => {
+//       let feed = ctx.createGain();
+//       feed.gain.value = 0.5; // Ajusta el nivel de realimentación
+//       return feed;
 //   });
 
 //   // Conectar los nodos en serie (source -> delays -> feedback -> destination)
-//   sourceNode.connect(delayNodes[0]);
+//   sourceNode.connect(retardos[0]);
 
-//   for (let i = 0; i < delayNodes.length; i++) {
-//       let nextIndex = (i + 1) % delayNodes.length;
-//       delayNodes[i].connect(feedbackGains[i]);
-//       feedbackGains[i].connect(delayNodes[nextIndex]);
+//   for (let i = 0; i < retardos.length; i++) {
+//       let nextIndex = (i + 1) % retardos.length;
+//       retardos[i].connect(feedbackGains[i]);
+//       feedbackGains[i].connect(retardos[nextIndex]);
 //   }
 
 //   // Conectar la última realimentación al destino
 //   feedbackGains[feedbackGains.length - 1].connect(ctx.destination);
 
 //   // Conectar nodo fuente al primer retardo
-//   sourceNode.connect(delayNodes[0]);
+//   sourceNode.connect(retardos[0]);
 // }
 
 
