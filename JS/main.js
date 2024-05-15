@@ -50,9 +50,10 @@ async function startRecording() {
       const audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
     
-      eco();
-      elim_ruido();
-      aplicar_efectos();
+      // eco();
+      // elim_ruido();
+      // aplicar_efectos();
+      chorus();
 
       
       // Establecer el enlace de descarga en el botón
@@ -106,8 +107,6 @@ function elim_ruido(){
    
 }
 
-
-
 function eco(){
 
   // Crear nodo de efecto de eco (retardo)
@@ -135,6 +134,61 @@ function aplicar_efectos(){
   retardo.connect(feed);
   feed.connect(retardo);
   retardo.connect(ctx.destination);
+}
+
+// Función de modulación
+function modulationFunction(modDepth,modFreq,time) {
+  return Math.sin(2 * Math.PI * modFreq * time) * modDepth;
+}
+
+function chorus(){
+
+  // Parámetros de modulación
+  var modFreq = 0.2; // Frecuencia de modulación en Hz
+  var modDepth = 0.02; // Profundidad de modulación en segundos (ajuste según sea necesario)
+
+
+  
+
+  // Crear nodos de retardo para las voces moduladas
+  var numVoices = 5; // Número de voces moduladas
+  var delays = [];
+  var gains=[];
+  for (var i = 0; i < numVoices; i++) {
+      var delayModulated = ctx.createDelay();
+      var gm = ctx.createGain();
+      gm.gain.value=0.4 + Math.random() * 0.4;
+      delayModulated.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
+      delays.push(delayModulated);
+      gains.push(gm);
+  }
+
+  // Conectar nodo de retardo principal al inicio
+  sourceNode.disconnect();
+  //sourceNode.connect(delayMain);
+
+
+  delays.forEach(function(delay) {
+    sourceNode.connect(delay);
+  });
+
+  // Aplicar la modulación al tiempo de retardo del nodo modulado
+  var currentTime = ctx.currentTime;
+  delays.forEach(function(delay) {
+    delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
+  });
+
+
+  // Conectar los nodos de retardo al destino de audio
+  sourceNode.connect(ctx.destination);
+
+  for (var i = 0; i < numVoices; i++) {
+    delays[i].connect(gains[i])
+  }
+  gains.forEach(function(gain) {
+    gain.connect(ctx.destination);
+  });
+
 }
 // function impulseResponse(duration,decay) {
 //   var length = context.sampleRate * duration
