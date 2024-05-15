@@ -210,7 +210,7 @@ input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
     width: 35%;
     height: 100%;
 }
-/* 
+
 .sub_controladores{
     display: flex;
     height: calc(20vh + 3vw);
@@ -256,7 +256,7 @@ input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
     background-color: #e34949;
 }
 
-#startImg, #stopImg, #muteImg, #downloadImg{
+#startImg, #stopImg, #downloadImg{
     height: calc(6vh + 3vw);
     width: calc(6vh + 3vw);
 }
@@ -273,13 +273,16 @@ select{
 }
 #controles-audio {
     text-align: center;
+    /*No acaba de cuadrar cuando se hace pequeño*/
+    width: calc(20vh + 10vw);
+    height: calc(2vh + 1vw);
 }
 
 #barra-volumen {
     width: 100px;
 }
 
-// Ocultar controles predeterminados del navegador
+/* Ocultar controles predeterminados del navegador*/
 #audio {
     display: none;
 }
@@ -288,4 +291,3 @@ select{
     height: calc(1vh + 1vw);
     width: calc(1vh + 1vw); 
 } 
-*/
