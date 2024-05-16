@@ -2,7 +2,7 @@ var audio = document.getElementById('repro');
 var botonPlayPause = document.getElementById('play-pause');
 // var botonMicro = document.getElementById('startButton');
 var botonBases = document.getElementById('stopButton');
-var barraVolumen = document.getElementById('barra-volumen');
+//var barraVolumen = document.getElementById('barra-volumen');
 var estadoAudio = document.getElementById('estado-audio');
 var imagenPlay = document.getElementById('playImg');
 // var imagenMicro = document.getElementById('startImg');
@@ -36,9 +36,9 @@ botonBases.addEventListener('click', function() {
     }
 });
 
-barraVolumen.addEventListener('input', function() {
-    miAudio.volume = this.value;
-});
+// barraVolumen.addEventListener('input', function() {
+//     miAudio.volume = this.value;
+// });
 
 audio.addEventListener('timeupdate', function() {
     var minutos = Math.floor(audio.currentTime / 60);
