@@ -66,60 +66,13 @@
                 
                 <div id="div_boton_azul">
                     <!-- <p class="nombre_boton">Parar grabación</p> -->
-                    <button id="stopButton" disabled><img src="../img/pausa.png" id="stopImg"></button> 
+                    <button id="stopButton" disabled><img src="../img/play.png" id="stopImg"></button> 
                 </div>
             </div>
         </div>  
     </div>
 
     <script src="../JS/main.js"></script>
-    <script>
-        var audio = document.getElementById('repro');
-        var botonPlayPause = document.getElementById('play-pause');
-        var botonMicro = document.getElementById('startButton');
-        var barraVolumen = document.getElementById('barra-volumen');
-        var estadoAudio = document.getElementById('estado-audio');
-        var imagenPlay = document.getElementById('playImg');
-        var imagenMicro = document.getElementById('startImg');
-
-        botonPlayPause.addEventListener('click', function() {
-            if (audio.paused || audio.ended) {
-                audio.play();
-                imagenPlay.src = "../img/pausa2.png";
-            } else {
-                audio.pause();
-                imagenPlay.src = "../img/play.png";
-            }
-        });
-
-        //cambiar botón de micrófono al pulsarlo
-        botonMicro.addEventListener('click', function() {
-            if (imagenMicro.src = "../img/micro.png") {
-                imagenMicro.src = "../img/cuadrado.png";
-            } else {
-                imagenMicro.src = "../img/micro.png";
-            }
-        });
-
-        barraVolumen.addEventListener('input', function() {
-            miAudio.volume = this.value;
-        });
-
-        audio.addEventListener('timeupdate', function() {
-            var minutos = Math.floor(audio.currentTime / 60);
-            var segundos = Math.floor(audio.currentTime % 60);
-            var duracionMinutos = Math.floor(audio.duration / 60);
-            var duracionSegundos = Math.floor(audio.duration % 60);
-            
-            if (segundos < 10) {
-                segundos = '0' + segundos;
-            }
-            if (duracionSegundos < 10) {
-                duracionSegundos = '0' + duracionSegundos;
-            }
-            
-            estadoAudio.innerHTML = minutos + ':' + segundos + ' / ' + duracionMinutos + ':' + duracionSegundos;
-        });
-    </script>
+    <script src="../JS/botones.js"></script>
 </body>
 </html>
