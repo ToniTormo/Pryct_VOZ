@@ -1,11 +1,11 @@
 var audio = document.getElementById('repro');
 var botonPlayPause = document.getElementById('play-pause');
-var botonMicro = document.getElementById('startButton');
+// var botonMicro = document.getElementById('startButton');
 var botonBases = document.getElementById('stopButton');
 var barraVolumen = document.getElementById('barra-volumen');
 var estadoAudio = document.getElementById('estado-audio');
 var imagenPlay = document.getElementById('playImg');
-var imagenMicro = document.getElementById('startImg');
+// var imagenMicro = document.getElementById('startImg');
 var imagenBases = document.getElementById('stopImg');
 
 botonPlayPause.addEventListener('click', function() {
