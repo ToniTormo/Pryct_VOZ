@@ -66,24 +66,34 @@ body, html{
 
     display: flex;
     align-items: center;
+
     justify-items: center;
 
     background-color: #0AAB9C;
 }
 
 .elem_indice{
-    width: 10%;
+    width: 4%;
     height: 50%;
 
-    margin: auto;
+    padding: 0.2%;
+
+    display: flex;
+    align-items: center;
 
     font-size: calc(0.7vh + 0.7vw);
     text-align: center;
     
     color: black;
-    background-color: #DADC36;
     border-radius: calc(0.6vh + 0.6vw);
     border: 1px solid black;
+}
+
+#div_boton_dorado{
+    background-color: #d1a616;
+    display: flex;
+    height: fit-content;
+    padding: 0.4%;
 }
 
 #botones{
@@ -151,14 +161,17 @@ body, html{
     width: 300%;
 }
 
-input[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
+
+/* Ver como modificaar estas barras sin modificar la de arriba */
+
+.elem_slider input[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
     height: calc(1.1vh + 1.1vw); 
     
     background-color:#DADC36; 
     border-radius: calc(0.2vh + 0.2vw);
 }
 
-input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
+.elem_slider input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
     
     height: 2000px; 
     width: calc(1.1vh + 1.1vw); 
@@ -202,51 +215,48 @@ input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
 
 #controladores{
     position: fixed;
-    top: calc(19vh + 6vw);
+    top: calc(16vh + 6vw);
     bottom: 0%;
     left: calc(65vw + 10vh);
     right: 0%;
+
+    display: flex;
+    align-items: center;
+    align-self: center;
 
     width: 35%;
     height: 100%;
 }
 
-.sub_controladores{
+#sub_controladores{
     display: flex;
     height: calc(20vh + 3vw);
     width: calc(20vh + 8vw);
     height: fit-content;
 }
 
-.div_boton{
+#div_boton_azul{
     background-color: #00A79D;
     margin: 5%;
     display: flex;
     flex-direction: column;
     height: fit-content;
     padding: 5%;
-    border-radius: 5px;
+    border-radius: calc(0.6vh + 0.6vw);
 }
 
-.div_boton_rojo{
+#div_boton_rojo{
     background-color: #e34949;
     margin: 5%;
     display: flex;
     flex-direction: column;
     height: fit-content;
     padding: 5%;
-    border-radius: 5px;
+    border-radius: calc(0.6vh + 0.6vw);
 }
 
-.div_boton_dorado{
-    background-color: #d1a616;
-    margin: 5%;
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    padding: 5%;
-    border-radius: 5px;
-}
+
+
 
 .nombre_boton{
     color: white;

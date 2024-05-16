@@ -16,6 +16,10 @@
             <button id="play-pause"><img src="../img/play.png" id="playImg"></button>
             <input type="range" id="barra-volumen" min="0" max="1" step="0.1" value="1">
             <span id="estado-audio">00:00 / 00:00</span>
+        </div> 
+        <div id="div_boton_dorado" class="elem_indice">
+            <!-- <p class="nombre_boton">Descargar Audio</p> -->
+            <button id="downloadButton" disabled><img src="../img/descargar.png" id="downloadImg" style="width: 40%; height: auto;"></button>
         </div>
     </div>
     <div id="botones">
@@ -54,25 +58,20 @@
         
 
         <div id="controladores">
-            <div class="sub_controladores">
-                <div class="div_boton_rojo">
+            <div id="sub_controladores">
+                <div id="div_boton_rojo">
                     <!-- <p class="nombre_boton">Comenzar grabación</p> -->
                     <button id="startButton"><img src="../img/micro.png" id="startImg"></button> <!--cambiar imagen al pulsar a icono de parar-->
                 </div>
                 
-                <div class="div_boton">
+                <div id="div_boton_azul">
                     <!-- <p class="nombre_boton">Parar grabación</p> -->
                     <button id="stopButton" disabled><img src="../img/pausa.png" id="stopImg"></button> 
                 </div>
             </div>
-            <div class="sub_controladores">  
-                <div class="div_boton_dorado">
-                    <!-- <p class="nombre_boton">Descargar Audio</p> -->
-                    <button id="downloadButton" disabled><img src="../img/descargar.png" id="downloadImg"></button>
-                </div>
-            </div>
         </div>  
     </div>
+
     <script src="../JS/main.js"></script>
     <script>
         var audio = document.getElementById('repro');
