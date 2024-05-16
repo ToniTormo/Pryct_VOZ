@@ -10,10 +10,8 @@ var imagenBases = document.getElementById('stopImg');
 
 botonPlayPause.addEventListener('click', function() {
     if (audio.paused || audio.ended) {
-        audio.play();
         imagenPlay.src = "../img/pausa2.png";
     } else {
-        audio.pause();
         imagenPlay.src = "../img/play.png";
     }
 });
