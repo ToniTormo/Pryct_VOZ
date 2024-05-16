@@ -18,14 +18,14 @@ botonPlayPause.addEventListener('click', function() {
     }
 });
 
-//cambiar botón de micrófono al pulsarlo
-botonMicro.addEventListener('click', function() {
-    if (imagenMicro.src = "../img/micro.png") {
-        imagenMicro.src = "../img/cuadrado.png";
-    } else {
-        imagenMicro.src = "../img/micro.png";
-    }
-});
+// //cambiar botón de micrófono al pulsarlo
+// botonMicro.addEventListener('click', function() {
+//     if (imagenMicro.src = "../img/micro.png") {
+//         imagenMicro.src = "../img/cuadrado.png";
+//     } else {
+//         imagenMicro.src = "../img/micro.png";
+//     }
+// });
 
 //cambiar botón de play pause bases al pulsarlo
 botonBases.addEventListener('click', function() {

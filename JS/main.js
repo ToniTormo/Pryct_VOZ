@@ -42,7 +42,7 @@ async function startRecording() {
     source.connect(audioRecorder);
     mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
     mediaRecorder.start();
-    document.getElementById('startButton').disabled = true;
+    // document.getElementById('startButton').disabled = true;
     document.getElementById('stopButton').disabled = false;
     document.getElementById('downloadButton').disabled = true
 
@@ -91,9 +91,11 @@ function stopRecording() {
 
 function start_stop(){
   if (grabando == false){
+    document.getElementById('startImg').src = "../img/cuadrado.png";
     startRecording();
     grabando = true;
   } else {
+    document.getElementById('startImg').src = "../img/micro.png";
     stopRecording();
     grabando = false;
   }
