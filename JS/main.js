@@ -12,6 +12,8 @@ var sourceNode;
 var Puerta_ruido;
 var retardo;
 var feed;
+var chor_delays = [];
+var chor_gains=[];
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 //  
 
@@ -50,10 +52,11 @@ async function startRecording() {
       const audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
     
-      // eco();
-      // elim_ruido();
-      // aplicar_efectos();
+      elim_ruido();
       chorus();
+      eco();
+      aplicar_efectos();
+      
 
       
       // Establecer el enlace de descarga en el botón
@@ -129,8 +132,18 @@ function aplicar_efectos(){
   sourceNode.disconnect();
   //Eliminacion de ruido
   sourceNode.connect(Puerta_ruido);
-  //Eco
+  //Chorus
+  chor_delays.forEach(function(delay) {
+    Puerta_ruido.connect(delay);
+  });
   Puerta_ruido.connect(retardo);
+  for (var i = 0; i < chor_delays.length; i++) {
+    chor_delays[i].connect(chor_gains[i])
+  }
+  chor_gains.forEach(function(gain) {
+    gain.connect(retardo);
+  });
+  //Eco
   retardo.connect(feed);
   feed.connect(retardo);
   retardo.connect(ctx.destination);
@@ -146,48 +159,43 @@ function chorus(){
   // Parámetros de modulación
   var modFreq = 0.2; // Frecuencia de modulación en Hz
   var modDepth = 0.02; // Profundidad de modulación en segundos (ajuste según sea necesario)
-
-
-  
-
   // Crear nodos de retardo para las voces moduladas
   var numVoices = 5; // Número de voces moduladas
-  var delays = [];
-  var gains=[];
+  
   for (var i = 0; i < numVoices; i++) {
       var delayModulated = ctx.createDelay();
       var gm = ctx.createGain();
       gm.gain.value=0.4 + Math.random() * 0.4;
       delayModulated.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
-      delays.push(delayModulated);
-      gains.push(gm);
+      chor_delays.push(delayModulated);
+      chor_gains.push(gm);
   }
 
   // Conectar nodo de retardo principal al inicio
-  sourceNode.disconnect();
+  //sourceNode.disconnect();
   //sourceNode.connect(delayMain);
 
 
-  delays.forEach(function(delay) {
-    sourceNode.connect(delay);
-  });
+  // chor_delays.forEach(function(delay) {
+  //   sourceNode.connect(delay);
+  // });
 
   // Aplicar la modulación al tiempo de retardo del nodo modulado
   var currentTime = ctx.currentTime;
-  delays.forEach(function(delay) {
+  chor_delays.forEach(function(delay) {
     delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
   });
 
 
   // Conectar los nodos de retardo al destino de audio
-  sourceNode.connect(ctx.destination);
+  // sourceNode.connect(ctx.destination);
 
-  for (var i = 0; i < numVoices; i++) {
-    delays[i].connect(gains[i])
-  }
-  gains.forEach(function(gain) {
-    gain.connect(ctx.destination);
-  });
+  // for (var i = 0; i < chor_delays.length; i++) {
+  //   chor_delays[i].connect(chor_gains[i])
+  // }
+  // chor_gains.forEach(function(gain) {
+  //   gain.connect(ctx.destination);
+  // });
 
 }
 // function impulseResponse(duration,decay) {
@@ -259,7 +267,3 @@ function chorus(){
 
 //audioElement.addEventListener('canplaythrough', reverb);
 
-// Para el reberb hay que tener como unas salas definidas --> se puede hacer con el reco realimentado configurando el eco con el retardo  la amplitud. 
-// sala virtual --> filtrado 
-// vamos a tener que cambiar la interfaz 
-// el API TIENE TODAS LAS CHINGADAS FUNCIONES NO HAY QUE QUEMARSE LA CABEZAAAA!!!!!!! 
