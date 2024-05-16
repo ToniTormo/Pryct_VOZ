@@ -14,7 +14,7 @@
         <audio id="repro" class="elem_indice"></audio>
         <div id="controles-audio" class="elem_indice">
             <button id="play-pause"><img src="../img/play.png" id="playImg"></button>
-            <input type="range" id="barraRepro" min="0" max="1" step="0.1" value="0">
+            <input type="range" id="barraRepro" min="0" max="1" step="0.1" value="0" style="visibility: hidden;">
             <span id="estado-audio">00:00 / 00:00</span>
         </div> 
         <div id="div_boton_dorado" class="elem_indice">
@@ -24,11 +24,11 @@
     <div id="botones">
         <div id="sliders">
             <div class="sliders">
-                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueEcho">
+                <input type="range" min="0" max="1" value="0" step="0.025" class="elem_slider" id="valueEcho">
                 <div class="name_slider">ECHO</div>
             </div>
             <div class="sliders">
-                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueChorus">
+                <input type="range" min="0" max="8" value="0" step="1" class="elem_slider" id="valueChorus">
                 <div class="name_slider">CHORUS</div>
             </div>
             <div class="sliders">
