@@ -53,9 +53,9 @@ async function startRecording() {
       const audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
     
-      //elim_ruido();
+      elim_ruido();
       //chorus();
-      eco();
+      //eco();
       // aplicar_efectos();
       
 
@@ -111,9 +111,9 @@ document.getElementById('startButton').addEventListener('click', start_stop);
 function elim_ruido(){
 
   Puerta_ruido = ctx.createDynamicsCompressor();
-  Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
-  Puerta_ruido.knee.value = 3;      // Rango de transición suave
-  Puerta_ruido.ratio.value = 20;     // Relación de compresión
+  Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
+  Puerta_ruido.knee.value = 0;      // Rango de transición suave
+  Puerta_ruido.ratio.value = 1;     // Relación de compresión
   Puerta_ruido.attack.value = 0.003; // Tiempo de ataque en segundos
   Puerta_ruido.release.value = 0.25; // Tiempo de liberación en segundos
   
@@ -208,9 +208,9 @@ function chorus(){
 }
 
 document.getElementById("play-pause").addEventListener('click', function(){
-  //elim_ruido();
+  elim_ruido();
   //chorus();
-  eco();
+  //eco();
   // aplicar_efectos();
   if (audio.paused || audio.ended) {
     audio.play();

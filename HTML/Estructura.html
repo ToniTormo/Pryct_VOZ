@@ -32,7 +32,7 @@
                 <div class="name_slider">CHORUS</div>
             </div>
             <div class="sliders">
-                <input type="range" min="0" max="100" value="0" class="elem_slider" id="valueNoise">
+                <input type="range" min="-100" max="0" value="-100" step="0.1" class="elem_slider" id="valueNoise">
                 <div class="name_slider">NOISE</div>
             </div>
         </div>
@@ -45,6 +45,7 @@
                 <option value="Sala 2">SALA 2</option>
                 <option value="Sala 3">Sala 3</option>
             </select>
+            <audio id="base"></audio>
             <select class="botones_mid" style="appearance: none;">
                 <option selected hidden>SELECCIONE UNA BASE</option>
                 <option value="Sin base">SIN BASE</option>
