@@ -133,10 +133,12 @@ body, html{
     padding-right: 1%;
 }
 
+
 #playImg{
     height: calc(1vh + 1vw);
     width: calc(1vh + 1vw); 
 } 
+
 
 #div_boton_dorado{
     padding: 0.4%; 
