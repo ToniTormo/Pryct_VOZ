@@ -91,7 +91,7 @@ body, html{
 }
 
 #div_boton_dorado{
-    background-color: #d1a616;
+    background-color: #d6af2d;
     display: flex;
     height: fit-content;
     padding: 0.4%;
@@ -162,22 +162,27 @@ body, html{
     width: 300%;
 }
 
+.elem_slider[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+}
 
-/* Ver como modificaar estas barras sin modificar la de arriba */
-
-.elem_slider input[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
+.elem_slider[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
     height: calc(1.1vh + 1.1vw); 
     
-    background-color:#DADC36; 
+    background-color:#ffffff; 
     border-radius: calc(0.2vh + 0.2vw);
 }
 
-.elem_slider input[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
-    
-    height: 2000px; 
+.elem_slider[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
+    height: calc(3vh + 3vw); 
     width: calc(1.1vh + 1.1vw); 
 
-    background-color: #00A79D; 
+    position: relative;
+    bottom: calc(0.9vh + 0.9vw);
+
+    background-color:#DADC36; 
     border-radius: calc(0.2vh + 0.2vw);
     cursor: pointer;
     appearance: none;
