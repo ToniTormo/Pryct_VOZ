@@ -1,3 +1,4 @@
+/* Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / Body-Titulo / */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -57,6 +58,8 @@ body, html{
     font-weight: bold;
 }
 
+/* Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / */
+
 #indice{
     position: fixed;
     top: calc(10vh + 6vw);
@@ -90,12 +93,40 @@ body, html{
     border: 1px solid black;
 }
 
+#barraRepro[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+}
+
+#barraRepro[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
+    height: calc(0.7vh + 0.7vw); 
+    
+    background-color:white;
+    border-radius: calc(0.2vh + 0.2vw);
+}
+
+#barraRepro[type="range"]::-webkit-slider-thumb { /*Modifica punto*/
+    height: calc(1.2vh + 1.2vw); 
+    width: calc(0.4vh + 0.4vw); 
+
+    position: relative;
+    bottom: calc(0.25vh + 0.25vw);
+
+    background-color:#DADC36; 
+    border-radius: calc(0.2vh + 0.2vw);
+    cursor: pointer;
+    appearance: none;
+}
+
 #div_boton_dorado{
     background-color: #d6af2d;
     display: flex;
     height: fit-content;
     padding: 0.4%;
 }
+
+/* Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / */
 
 #botones{
     position: fixed;
@@ -171,7 +202,7 @@ body, html{
 .elem_slider[type="range"]::-webkit-slider-runnable-track { /*Modifica barra*/
     height: calc(1.1vh + 1.1vw); 
     
-    background-color:#ffffff; 
+    background-color:white;
     border-radius: calc(0.2vh + 0.2vw);
 }
 
@@ -187,6 +218,8 @@ body, html{
     cursor: pointer;
     appearance: none;
 }
+
+/* Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / Botones Mid / */
 
 #botones_mid{
     position: fixed;
@@ -218,6 +251,8 @@ body, html{
     border-radius: calc(0.6vh + 0.6vw);
     border: 1px solid black;
 }
+
+/* Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / */
 
 #controladores{
     position: fixed;
@@ -283,10 +318,11 @@ button{
     cursor: pointer;
 }
 
-select{
+/* select{
     cursor: pointer;
     border-radius: 5px;
-}
+} */
+
 #controles-audio {
     text-align: center;
     /*No acaba de cuadrar cuando se hace pequeño*/
