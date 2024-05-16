@@ -48,14 +48,15 @@ body, html{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    filter: grayscale(50%);
 }
 
 #titulo h1{
-    font-size: calc(2vh + 2vw);
+    font-size: calc(3vh + 3vw);
     text-align: center;
     margin: auto;
-    -webkit-text-stroke: 1px black;
-    font-weight: bold;
+
+    font-family:'Courier New';
 }
 
 /* Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / Indice / */
@@ -79,7 +80,8 @@ body, html{
     width: 4%;
     height: 50%;
 
-    padding: 0.2%;
+    padding-top: 0.2%;
+    padding-bottom: 0.2%;
     margin-left: 1%;
 
     display: flex;
@@ -90,7 +92,7 @@ body, html{
     
     color: black;
     border-radius: calc(0.6vh + 0.6vw);
-    border: 1px solid black;
+    border: calc(0.07vh + 0.07vw) solid black;
 }
 
 #barraRepro[type="range"] {
@@ -119,11 +121,30 @@ body, html{
     appearance: none;
 }
 
+#controles-audio {
+    width: calc(20vh + 10vw);
+    height: calc(2vh + 1vw);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+#playImg{
+    height: calc(1vh + 1vw);
+    width: calc(1vh + 1vw); 
+} 
+
 #div_boton_dorado{
-    background-color: #d6af2d;
+    padding: 0.4%; 
+
     display: flex;
     height: fit-content;
-    padding: 0.4%;
+    
+    background-color: #DADC36;
 }
 
 /* Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / */
@@ -138,6 +159,11 @@ body, html{
 
     background-color: black;
     display: flex;
+
+    background-image: url("../img/background_body.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #sliders{
@@ -163,16 +189,17 @@ body, html{
     margin-right: 8%;
     margin-left: 8%;
 
-    background-color: #00A79D;
+    background: linear-gradient(to top, #DADC36, #00A79D);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
 .name_slider{
     position: fixed;
-    top: calc(58vh + 12vw);
+    top: calc(56vh + 12vw);
 
     height: 14%;
     width: 7.8%;
+    padding-bottom: 1%;
 
     display: flex;
     align-items: flex-end;
@@ -213,7 +240,8 @@ body, html{
     position: relative;
     bottom: calc(0.9vh + 0.9vw);
 
-    background-color:#DADC36; 
+    background-color:#DADC36;
+    border:calc(0.01vh + 0.01vw) solid black;
     border-radius: calc(0.2vh + 0.2vw);
     cursor: pointer;
     appearance: none;
@@ -249,7 +277,7 @@ body, html{
     color: black;
     background-color: #DADC36;
     border-radius: calc(0.6vh + 0.6vw);
-    border: 1px solid black;
+    border: calc(0.07vh + 0.07vw) solid black;
 }
 
 /* Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / */
@@ -277,34 +305,29 @@ body, html{
 }
 
 #div_boton_azul{
-    background-color: #00A79D;
+    padding: 5%;
     margin: 5%;
+
     display: flex;
     flex-direction: column;
     height: fit-content;
-    padding: 5%;
+    align-items: center;
+    
+    background-color: #00A79D;
     border-radius: calc(0.6vh + 0.6vw);
 }
 
 #div_boton_rojo{
-    background-color: #e34949;
+    padding: 5%;
     margin: 5%;
+
     display: flex;
     flex-direction: column;
     height: fit-content;
-    padding: 5%;
-    border-radius: calc(0.6vh + 0.6vw);
-}
-
-
-
-
-.nombre_boton{
-    color: white;
-}
-
-#startButton{
+    align-items: center;
+    
     background-color: #e34949;
+    border-radius: calc(0.6vh + 0.6vw);
 }
 
 #startImg, #stopImg, #downloadImg{
@@ -318,28 +341,22 @@ button{
     cursor: pointer;
 }
 
-/* select{
-    cursor: pointer;
-    border-radius: 5px;
-} */
+.name_controladores{
+    position: fixed;
+    top: calc(48vh + 10vw);
 
-#controles-audio {
+    height: 10%;
+    width: 8.5%;
+    padding-bottom: 1%;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
     text-align: center;
-    /*No acaba de cuadrar cuando se hace pequeño*/
-    width: calc(20vh + 10vw);
-    height: calc(2vh + 1vw);
-}
+    font-size: calc(0.7vh + 0.7vw);
 
-#barra-volumen {
-    width: 100px;
+    background: linear-gradient(to top, #DADC36 0%, #DADC36 2%, #00A79D);
+    border-radius: calc(0.6vh + 0.6vw);
+    z-index: -1;
 }
-
-/* Ocultar controles predeterminados del navegador*/
-#audio {
-    display: none;
-}
-
-#playImg{
-    height: calc(1vh + 1vw);
-    width: calc(1vh + 1vw); 
-} 
