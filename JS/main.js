@@ -14,6 +14,7 @@ var retardo;
 var feed;
 var chor_delays = [];
 var chor_gains=[];
+var grabando = false;
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 //  
 
@@ -88,12 +89,21 @@ function stopRecording() {
   document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
 }
 
+function start_stop(){
+  if (grabando == false){
+    startRecording();
+    grabando = true;
+  } else {
+    stopRecording();
+    grabando = false;
+  }
+}
 
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
-document.getElementById('startButton').addEventListener('click', startRecording);
+document.getElementById('startButton').addEventListener('click', start_stop);
 
-// Detener grabación al hacer clic en el botón "Detener grabación"
-document.getElementById('stopButton').addEventListener('click', stopRecording);
+// // Detener grabación al hacer clic en el botón "Detener grabación"
+// document.getElementById('stopButton').addEventListener('click', stopRecording);
 
 //hola soy carlos esto probablemente no funcione pero lo dejo por aquí a ver si cuela
 function elim_ruido(){
