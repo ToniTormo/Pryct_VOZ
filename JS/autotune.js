@@ -184,6 +184,33 @@ function encuentra_fi_espectrograma(X, fs, N, H, umbral=30, pre_max=3, post_max=
     return [picos, fi];
 }
 
+// Función para generar las frecuencias de las notas musicales en una escala
+function generarFrecuenciasNotas(fmin, fmax) {
+    const A4 = 440; // Frecuencia de la nota A4
+    const notas = [];
+    let f = fmin;
+    while (f <= fmax) {
+        notas.push(f);
+        f *= Math.pow(2, 1/12); // Incrementar por un semitono
+    }
+    return notas;
+}
+
+// Función para encontrar la frecuencia más cercana en la escala musical
+function frecuenciaMasCercana(f, notas) {
+    let closest = notas[0];
+    let minDiff = Math.abs(f - closest);
+    for (const nota of notas) {
+        const diff = Math.abs(f - nota);
+        if (diff < minDiff) {
+            closest = nota;
+            minDiff = diff;
+        }
+    }
+    return closest;
+}
+
+// Modificar trayectoriaPitch_stft para cuantizar a las notas más cercanas
 function trayectoriaPitch_stft(x, fs, NFFT, H, fmax, umbral=30, pre_max=3, post_max=3, pre_avg=3, post_avg=3, delta=0.01, wait=2) {
     const noverlap = NFFT - H;
     const [f, t, Zxx] = signal.stft(x, fs, NFFT, noverlap);
@@ -197,13 +224,23 @@ function trayectoriaPitch_stft(x, fs, NFFT, H, fmax, umbral=30, pre_max=3, post_
             fpitch[n] = numeric.min(fi.pick(k, n));
         }
     }
-    const f0 = segmentaf0(fpitch);
+    let f0 = segmentaf0(fpitch);
+
+    // Generar la lista de frecuencias de notas musicales entre el rango mínimo y máximo de f0
+    const fmin = Math.min(...f0.filter(v => v > 0)); // Obtener el valor mínimo de f0 que no sea cero
+    const fnotas = generarFrecuenciasNotas(fmin, fmax);
+
+    // Cuantizar f0 a la frecuencia más cercana en la escala musical
+    f0 = f0.map(f => f > 0 ? frecuenciaMasCercana(f, fnotas) : 0);
+
     const n = numeric.argwhere(f0.gt(0)); // Bloques con Pitch válido
     const a = numeric.rep([f0.length], 0);
     const indices_k = numeric.rint(numeric.mul(f0.pick(n), NFFT / fs)).toInt();
     numeric.set(a, n, numeric.abs(Zxx.get(indices_k, n))); // Amplitud asociada a cada frecuencia fundamental
+
     const pfref = numeric.rep([f0.length], 0);
     numeric.set(pfref, n, numeric.rint(numeric.mul(12, numeric.log2(numeric.div(f0.pick(n), 440))).add(69)));
+
     const f0nota = numeric.rep([f0.length], 0);
     numeric.set(f0nota, n, numeric.mul(440, numeric.pow(2, numeric.div(numeric.sub(pfref.pick(n), 69), 12)))); // Calculamos las frecuencias nominales de las notas musicales más cercanas al pitch
 
@@ -314,62 +351,29 @@ function modificaPitch(xin, fs, B, H, f0, f02, fmin) {
     return A_corrected;
 }
 
-const fs = 44100; // Definimos una frecuencia de muestreo de ejemplo
-const x = []; // Aquí deberías tener la forma de onda de la señal de audio, por ejemplo, un array de muestras
+function autotune(audioBuffer) {
+    // Parámetros para el cálculo del espectrograma
+    const fs = 44100; // Frecuencia de muestreo del audio
+    const NFFT = 2048; // Tamaño de la ventana de FFT
+    const H = 512; // Paso entre ventanas
+    const fmax = 2000; // Frecuencia máxima considerada para el análisis
 
-const B = 1024; // Definimos el tamaño del bloque
-const H = 256; // Definimos el tamaño de salto
+    // Obtener la señal de audio del buffer
+    const audioData = audioBuffer.getChannelData(0);
 
-// Calculamos la trayectoria del pitch
-const [f0, f0midi, a] = trayectoriaPitch_stft(x, fs, B, H, 300);
+    // Obtener la trayectoria del pitch
+    const [f0, f0nota, a] = trayectoriaPitch_stft(audioData, fs, NFFT, H, fmax);
 
-// Cambiamos las frecuencias 'cero' de la trayectoria por valores NaN
-const f0nan = numeric.clone(f0);
-numeric.set(f0nan, numeric.argwhere(numeric.eq(f0nan, 0)), NaN);
+    // Aplicar modificación de pitch
+    const B = 1024; // Tamaño de bloque para la modificación de pitch
+    const fmin = 100; // Frecuencia mínima para la modificación de pitch
+    const A_corrected = modificaPitch(audioData, fs, B, H, f0, f0nota, fmin);
 
-// Cambiamos las frecuencias 'cero' de la trayectoria por valores NaN
-const f0midiNan = numeric.clone(f0midi);
-numeric.set(f0midiNan, numeric.argwhere(numeric.eq(f0midiNan, 0)), NaN);
+    // Crear un nuevo buffer de audio con la señal corregida
+    const audioContext = new AudioContext();
+    const newBuffer = audioContext.createBuffer(1, A_corrected.length, fs);
+    const newData = newBuffer.getChannelData(0);
+    newData.set(A_corrected);
 
-const f0_target = numeric.clone(f0midi);
-
-// Calculamos la señal con la transformación del pitch
-const x3 = modificaPitch(x, fs, B, H, f0nan, f0_target, 65);
-
-
-
-/*function aplicarAutotune() {
-  // Configurar los parámetros necesarios para el autotune
-  const fs = 44100;
-  const B = 1024;
-  const H = 256;
-  const umbral = 30;
-  const pre_max = 3;
-  const post_max = 3;
-  const pre_avg = 3;
-  const post_avg = 3;
-  const delta = 0.01;
-  const wait = 2;
-  const fmin = 65;
-
-  // Calcular la trayectoria del pitch original y deseado (f0 y f0_target)
-  const f0 = ctx.sampleRate;; // Calcular la trayectoria del pitch original
-  const f0_target = ...; // Calcular la trayectoria del pitch deseado
-
-  // Obtener el audio del elemento <audio> y convertirlo a un buffer
-  const audioBuffer = await getAudioBuffer(audioElement.src);
-
-  // Aplicar el autotune al audio
-  const audioProcesado = await aplicarAutotune(audioBuffer, f0, f0_target, fs, B, H, umbral, pre_max, post_max, pre_avg, post_avg, delta, wait, fmin);
-
-  // Crear un nodo para reproducir el audio procesado
-  const processedSource = audioCtx.createBufferSource();
-  processedSource.buffer = audioProcesado;
-  processedSource.connect(audioCtx.destination);
-
-  // Reproducir el audio procesado
-  processedSource.start();
+    return newBuffer;
 }
-
-// Event listener para el botón de aplicar autotune
-document.getElementById('boton_tune').addEventListener('click', aplicarAutotune);*/
