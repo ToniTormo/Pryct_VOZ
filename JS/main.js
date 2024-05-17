@@ -15,6 +15,9 @@ var feed;
 var chor_delays = [];
 var chor_gains=[];
 var grabando = false;
+// var miWorkletNode;
+// var down=[];
+
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 //  
 
@@ -31,10 +34,14 @@ async function startRecording() {
     //let onSuccess = function (stream) {
     if (!ctx) {
       ctx = new AudioContext();
+      // await ctx.audioWorklet.addModule('procesador-audio.js');
+      // miWorkletNode = new AudioWorkletNode(contextoAudio, 'mi-procesador-de-audio');
+
     }
     if (!sourceNode){
     sourceNode = ctx.createMediaElementSource(audioElement);
     }
+    
 
     
     source = ctx.createMediaStreamSource(audioStream);
@@ -43,7 +50,7 @@ async function startRecording() {
     mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
     mediaRecorder.start();
     // document.getElementById('startButton').disabled = true;
-    document.getElementById('stopButton').disabled = false;
+    //document.getElementById('stopButton').disabled = false;
     document.getElementById('downloadButton').disabled = true
 
     mediaRecorder.ondataavailable = function (e) {
@@ -54,22 +61,32 @@ async function startRecording() {
       audioElement.src = audioUrl;
     
       elim_ruido();
-      //chorus();
-      //eco();
-      // aplicar_efectos();
+      chorus();
+      eco();
+      aplicar_efectos();
       
 
       
       // Establecer el enlace de descarga en el botón
       document.getElementById('downloadButton').onclick = function() {
+          // Acceder al contexto de audio del nodo de trabajo
+          miWorkletNode.port.onmessage = function(event) {
+            // El evento.data contendrá el array de audio
+            var audioData = event.data;
+            down.push(audioData)
+            //console.log("Datos de audio recibidos:", audioData);
+          };
           const a = document.createElement('a');
           a.style.display = 'none';
+          const blob = new Blob(down, { type: mediaRecorder.mimeType });
+          const audioUrl = window.URL.createObjectURL(blob);
           a.href = audioUrl;
           a.download = 'grabacion.wav';
           document.body.appendChild(a);
           a.click();
           URL.revokeObjectURL(audioUrl);
           document.body.removeChild(a);
+          down=[];
     };
     };
 
@@ -85,7 +102,7 @@ function stopRecording() {
   audioStream.getTracks().forEach(track => track.stop());
     // Actualizar UI
   document.getElementById('startButton').disabled = false;
-  document.getElementById('stopButton').disabled = true;
+  //document.getElementById('stopButton').disabled = true;
   document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
 }
 
@@ -104,21 +121,19 @@ function start_stop(){
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
 document.getElementById('startButton').addEventListener('click', start_stop);
 
-// // Detener grabación al hacer clic en el botón "Detener grabación"
-// document.getElementById('stopButton').addEventListener('click', stopRecording);
 
-//hola soy carlos esto probablemente no funcione pero lo dejo por aquí a ver si cuela
 function elim_ruido(){
 
   Puerta_ruido = ctx.createDynamicsCompressor();
-  Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
+  //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
+  Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
   Puerta_ruido.knee.value = 0;      // Rango de transición suave
   Puerta_ruido.ratio.value = 1;     // Relación de compresión
   Puerta_ruido.attack.value = 0.003; // Tiempo de ataque en segundos
   Puerta_ruido.release.value = 0.25; // Tiempo de liberación en segundos
   
-  sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
-  Puerta_ruido.connect(ctx.destination);
+  // sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
+  // Puerta_ruido.connect(ctx.destination);
    
 }
 
@@ -130,12 +145,12 @@ function eco(){
   retardo.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
   feed = ctx.createGain();
   feed.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
-  sourceNode.disconnect();
-  //Conectar los nodos: audioSrc -> retardo -> salida de audio
-  sourceNode.connect(retardo);
-  retardo.connect(feed);
-  feed.connect(retardo);
-  retardo.connect(ctx.destination);
+  // sourceNode.disconnect();
+  // //Conectar los nodos: audioSrc -> retardo -> salida de audio
+  // sourceNode.connect(retardo);
+  // retardo.connect(feed);
+  // feed.connect(retardo);
+  // retardo.connect(ctx.destination);
   
   
 }
@@ -193,25 +208,48 @@ function chorus(){
 
 
   // Conectar los nodos de retardo al destino de audio
-  chor_delays.forEach(function(delay) {
-    sourceNode.connect(delay);
-  });
-  sourceNode.connect(ctx.destination);
+  // chor_delays.forEach(function(delay) {
+  //   sourceNode.connect(delay);
+  // });
+  // sourceNode.connect(ctx.destination);
 
-  for (var i = 0; i < chor_delays.length; i++) {
-    chor_delays[i].connect(chor_gains[i])
-  }
-  chor_gains.forEach(function(gain) {
-    gain.connect(ctx.destination);
-  });
+  // for (var i = 0; i < chor_delays.length; i++) {
+  //   chor_delays[i].connect(chor_gains[i])
+  // }
+  // chor_gains.forEach(function(gain) {
+  //   gain.connect(ctx.destination);
+  // });
 
 }
-
+function desconectar(){
+  //desconectamos
+  sourceNode.disconnect();
+  //Eliminacion de ruido
+  //Chorus
+  Puerta_ruido.disconnect();
+  chor_delays.forEach(function(delay) {
+    delay.disconnect();
+  });
+  // Puerta_ruido.connect(retardo);
+  // for (var i = 0; i < chor_delays.length; i++) {
+  //   chor_delays[i].connect(chor_gains[i])
+  // }
+  chor_gains.forEach(function(gain) {
+    gain.disconnect();
+  });
+  //Eco
+  retardo.disconnect();
+  feed.disconnect();
+  //retardo.connect(ctx.destination);
+  chor_delays = [];
+  chor_gains=[]
+}
 document.getElementById("play-pause").addEventListener('click', function(){
+  desconectar();
   elim_ruido();
-  //chorus();
-  //eco();
-  // aplicar_efectos();
+  chorus();
+  eco();
+  aplicar_efectos();
   if (audio.paused || audio.ended) {
     audio.play();
 
@@ -221,6 +259,7 @@ document.getElementById("play-pause").addEventListener('click', function(){
 }
 }
 );
+
 
 async function aplicarAutotune() {
   // Obtener el audio del elemento <audio> y convertirlo a un buffer
@@ -242,3 +281,4 @@ async function aplicarAutotune() {
 
 // Event listener para el botón de aplicar autotune
 document.getElementById('boton_tune').addEventListener('click', aplicarAutotune);
+
