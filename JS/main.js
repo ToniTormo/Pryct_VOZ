@@ -221,3 +221,24 @@ document.getElementById("play-pause").addEventListener('click', function(){
 }
 }
 );
+
+async function aplicarAutotune() {
+  // Obtener el audio del elemento <audio> y convertirlo a un buffer
+  const response = await fetch(audioElement.src);
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+
+  // Llamar a la función de autotune definida en autotune.js
+  const audioProcesado = autotune(audioBuffer); // Esta función es hipotética, reemplázala con la función real de autotune de autotune.js si tiene un nombre diferente
+
+  // Crear un nodo para reproducir el audio procesado
+  const processedSource = ctx.createBufferSource();
+  processedSource.buffer = audioProcesado;
+  processedSource.connect(ctx.destination);
+
+  // Reproducir el audio procesado
+  processedSource.start();
+}
+
+// Event listener para el botón de aplicar autotune
+document.getElementById('boton_tune').addEventListener('click', aplicarAutotune);
