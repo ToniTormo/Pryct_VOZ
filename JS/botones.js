@@ -66,8 +66,15 @@ bases.addEventListener('change',function(){
     var opcionSeleccionada = bases.options[bases.selectedIndex].value;
     switch (opcionSeleccionada) {
         case "Base 1":
-            base.src="../Audio/Bases/Base1.wav";
-            botonBases.disabled=false;
+            base.src = "../Audio/Bases/Base1.wav";
+            // const blobPromise = fileToBlob(base.src);
+            // blobPromise.then(blob => {
+            //     // Hacer algo con el Blob, como enviarlo a través de una solicitud AJAX o usarlo en otra parte de tu aplicación
+            //     console.log(blob);
+            // }).catch(error => {
+            //     console.error('Error al convertir el archivo en Blob:', error);
+            // });
+            botonBases.disabled = false;
             break;
         case "Base 2":
             base.src="../Audio/Bases/Base2.wav"
@@ -82,3 +89,21 @@ bases.addEventListener('change',function(){
             break;
     }
 });
+
+
+
+function fileToBlob(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        // Crear un Blob a partir de los datos del archivo
+        const blob = new Blob([event.target.result], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = function(error) {
+        reject(error);
+      };
+      // Leer el contenido del archivo como un ArrayBuffer
+      reader.readAsArrayBuffer(file);
+    });
+  }
