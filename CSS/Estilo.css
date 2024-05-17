@@ -133,12 +133,10 @@ body, html{
     padding-right: 1%;
 }
 
-
 #playImg{
     height: calc(1vh + 1vw);
     width: calc(1vh + 1vw); 
 } 
-
 
 #div_boton_dorado{
     padding: 0.4%; 
@@ -216,7 +214,7 @@ body, html{
 }
 
 .elem_slider{
-    transform: rotate(-90deg) translateY(calc(-7vh - 3.6vw)) translateX(calc(-12vh - 6.55vw));
+    transform: rotate(-90deg) translateY(calc(-7vh - 3.8vw)) translateX(calc(-12vh - 6.55vw));
     transform-origin: bottom;
     
     width: 300%;
@@ -315,7 +313,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background-color: #00A79D;
+    background: linear-gradient(to top, #DADC36 0%, #DADC36 5%, #00A79D 40%, #00A79D 100%);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -328,7 +326,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background-color: #e34949;
+    background: linear-gradient(to top, #DADC36 0%, #DADC36 1%, #e34949 30%, #e34949 100%);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -348,7 +346,7 @@ button{
     top: calc(48vh + 10vw);
 
     height: 10%;
-    width: 8.5%;
+    width: calc(5.7vh + 5.7vw);
     padding-bottom: 1%;
 
     display: flex;
@@ -356,9 +354,59 @@ button{
     justify-content: center;
 
     text-align: center;
-    font-size: calc(0.7vh + 0.7vw);
+    font-size: calc(0.6vh + 0.6vw);
 
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 2%, #00A79D);
+    background-color: #DADC36;
     border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
+}
+
+/* Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / */
+
+.info_indice{
+    width: 2%;
+    height: auto;
+    
+    margin: 1%;
+}
+
+.info_sliders{
+    width: 15%;
+    height: auto;
+
+    margin-left: 6%;
+    margin-bottom: 0.8%;
+}
+
+#info_mid{
+    position: fixed;
+    top: calc(23.2vh + 10vw);
+    left: calc(57.4vw + 10vh);
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.info_mid{
+    width: 6%;
+    height: 6%;
+
+    padding: 1%;
+
+    margin-top: calc(1.2vh + 1.2vw);
+    margin-bottom: calc(1.538vh + 1.6vw);
+
+    
+    background-color: #DADC36;
+    border-radius: calc(0.6vh + 0.6vw);
+}
+
+.info_controladores{
+    width: 24%;
+    height: auto;
+
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 0.8%;
 }

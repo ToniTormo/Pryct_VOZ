@@ -12,28 +12,31 @@
     </div>
     <div id="indice">
         <audio id="repro" class="elem_indice"></audio>
+        <img src="../img/info.png" class="info_indice" id="info_barraRepro">
         <div id="controles-audio" class="elem_indice">
             <button id="play-pause"><img src="../img/play.png" id="playImg"></button>
             <input type="range" id="barraRepro" min="0" max="1" step="0.1" value="0" style="visibility: hidden;">
             <span id="estado-audio">00:00 / 00:00</span>
         </div> 
+
         <div id="div_boton_dorado" class="elem_indice">
             <button id="downloadButton" disabled><img src="../img/descargar.png" id="downloadImg" style="width: 40%; height: auto;"></button>
         </div>
+        <img src="../img/info.png" class="info_indice" id="info_descarga">
     </div>
     <div id="botones">
         <div id="sliders">
             <div class="sliders">
                 <input type="range" min="0" max="1" value="0" step="0.025" class="elem_slider" id="valueEcho">
-                <div class="name_slider">ECHO</div>
+                <div class="name_slider">ECHO<img src="../img/info.png" class="info_sliders" id="info_echo"></div>
             </div>
             <div class="sliders">
                 <input type="range" min="0" max="8" value="0" step="1" class="elem_slider" id="valueChorus">
-                <div class="name_slider">CHORUS</div>
+                <div class="name_slider">CHORUS<img src="../img/info.png" class="info_sliders" id="info_chorus"></div>
             </div>
             <div class="sliders">
                 <input type="range" min="-100" max="0" value="-100" step="0.1" class="elem_slider" id="valueNoise">
-                <div class="name_slider">NOISE</div>
+                <div class="name_slider">NOISE<img src="../img/info.png" class="info_sliders" id="info_noise"></div>
             </div>
         </div>
 
@@ -55,21 +58,27 @@
             </select>
             <button class="botones_mid">AUTOTUNE</button>
         </div>
+        <div id="info_mid">
+            <img src="../img/info.png" class="info_mid" id="info_reverb">
+            <img src="../img/info.png" class="info_mid" id="info_bases">
+            <img src="../img/info.png" class="info_mid" id="info_autotune">
+        </div>
 
         <div id="controladores">
             <div id="sub_controladores">
                 <div id="div_boton_azul">
                     <button id="stopButton" disabled><img src="../img/play.png" id="stopImg"></button>
-                    <div class="name_controladores">ESCUCHAR BASES</div> 
+                    <div class="name_controladores">ESCUCHAR BASES<img src="../img/info.png" class="info_controladores" id="info_basesRepro"></div> 
                 </div>
                 <div id="div_boton_rojo">
                     <button id="startButton"><img src="../img/micro.png" id="startImg"></button>
-                    <div class="name_controladores">COMENZAR GRABACIÓN</div>
+                    <div class="name_controladores">COMENZAR GRABACIÓN<img src="../img/info.png" class="info_controladores" id="info_inicioGrabacion"></div>
                 </div>
             </div>
         </div>  
     </div>
     <script src="../JS/main.js"></script>
     <script src="../JS/botones.js"></script>
+    <script src="../JS/info.js"></script>
 </body>
 </html>
