@@ -93,3 +93,50 @@ const info_inicioGrabacion = document.getElementById("info_inicioGrabacion");
 const text_inicioGrabacion = "Al pulsar por primera vez este botón, se activará la grabación del micrófono. Es probable que el navegador pida permiso al usuario para acceder al micrófono, por lo que se deberá aceptar este permiso. Tras pulsar el botón, éste pasará a contener un icono distinto: un cuadrado que indica el fin de la grabación. Al pulsarlo, la grabación acabará y se guardará para reproducirla en el reproductor superior y descargarla, a la vez que el botón vuelve a su estado original con el icono de micrófono."
 
 crearInfoBox(info_inicioGrabacion, text_inicioGrabacion)
+
+
+// Funciones actualizar sliders
+
+//Echo
+const echo = document.getElementById("valueEcho");
+const spanEcho = document.getElementById("spanEcho");
+
+echo.addEventListener('input', function() {
+    spanEcho.textContent = this.value*1000 + " ms";
+});
+
+//Chorus
+const Chorus = document.getElementById("valueChorus");
+const spanChorus = document.getElementById("spanChorus");
+
+Chorus.addEventListener('input', function() {
+    if (this.value == 1) {
+        spanChorus.textContent = this.value + " voz";
+    }else{
+        spanChorus.textContent = this.value + " voces";
+    }
+});
+
+//Noise
+const noise = document.getElementById("valueNoise");
+const spanNoise = document.getElementById("spanNoise");
+
+noise.addEventListener('input', function() {
+    spanNoise.textContent = this.value + " db";
+});
+
+//Autotune
+const autotu = document.getElementById("boton_tune");
+var press = 0;
+
+autotu.addEventListener('click', function() {
+    if (press == 0) {
+        autotu.style.backgroundColor = "#c1c357";
+        info_autotune.style.backgroundColor = "#c1c357";
+        press = 1;
+    }else if(press == 1){
+        autotu.style.backgroundColor = "#DADC36";
+        info_autotune.style.backgroundColor = "#DADC36";
+        press = 0;
+    }
+});

@@ -131,6 +131,7 @@ body, html{
 
     padding-left: 1%;
     padding-right: 1%;
+    padding-top: 0.4%;
 }
 
 #playImg{
@@ -168,7 +169,7 @@ body, html{
 
 #sliders{
     position: fixed;
-    top: calc(19vh + 6vw);
+    top: calc(16vh + 6vw);
     bottom: 0%;
     right: calc(40vw + 8vh);
     left: 0%;
@@ -213,10 +214,18 @@ body, html{
     z-index: -1;
 }
 
+.span_sliders{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    margin-top: 10%;
+}
+
 .elem_slider{
-    transform: rotate(-90deg) translateY(calc(-7vh - 3.8vw)) translateX(calc(-12vh - 6.55vw));
+    transform: rotate(-90deg) translateY(calc(-7vh - 3.8vw)) translateX(calc(-10vh - 6vw));
     transform-origin: bottom;
-    
+
     width: 300%;
 }
 
@@ -274,10 +283,10 @@ body, html{
     font-size: calc(0.7vh + 0.7vw);
     text-align: center;
     
-    color: black;
     background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
-    border: calc(0.07vh + 0.07vw) solid black;
+    border-bottom-left-radius: calc(0.6vh + 0.6vw);
+    border-top-left-radius: calc(0.6vh + 0.6vw);
+    cursor: pointer;
 }
 
 /* Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / */
@@ -378,28 +387,18 @@ button{
     margin-bottom: 0.8%;
 }
 
-#info_mid{
-    position: fixed;
-    top: calc(23.2vh + 10vw);
-    left: calc(57.4vw + 10vh);
-
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-}
-
 .info_mid{
-    width: 6%;
+    transform: translateX(300%) translateY(calc(-16vh - 12.65vw));
+
+    width: auto;
     height: 6%;
 
-    padding: 1%;
-
-    margin-top: calc(1.2vh + 1.2vw);
-    margin-bottom: calc(1.538vh + 1.6vw);
-
+    margin-top: 6%;
+    margin-bottom: 6%;
     
     background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
+    border-top-right-radius: calc(0.6vh + 0.6vw);
+    border-bottom-right-radius: calc(0.6vh + 0.6vw);
 }
 
 .info_controladores{
@@ -407,6 +406,6 @@ button{
     height: auto;
 
     margin-left: 2%;
-    margin-right: 2%;
+    margin-right: 4%;
     margin-bottom: 0.8%;
 }

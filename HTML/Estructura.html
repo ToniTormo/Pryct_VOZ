@@ -27,14 +27,17 @@
     <div id="botones">
         <div id="sliders">
             <div class="sliders">
+                <span class="span_sliders" id="spanEcho">0 ms</span>
                 <input type="range" min="0" max="1" value="0" step="0.025" class="elem_slider" id="valueEcho">
                 <div class="name_slider">ECHO<img src="../img/info.png" class="info_sliders" id="info_echo"></div>
             </div>
             <div class="sliders">
+                <span class="span_sliders" id="spanChorus">0 voces</span>
                 <input type="range" min="0" max="8" value="0" step="1" class="elem_slider" id="valueChorus">
                 <div class="name_slider">CHORUS<img src="../img/info.png" class="info_sliders" id="info_chorus"></div>
             </div>
             <div class="sliders">
+                <span class="span_sliders" id="spanNoise">0 db</span>
                 <input type="range" min="-100" max="0" value="-100" step="0.1" class="elem_slider" id="valueNoise">
                 <div class="name_slider">NOISE<img src="../img/info.png" class="info_sliders" id="info_noise"></div>
             </div>
@@ -57,8 +60,6 @@
                 <option value="Base 3">BASE 3</option>
             </select>
             <button class="botones_mid" id="boton_tune">AUTOTUNE</button>
-        </div>
-        <div id="info_mid">
             <img src="../img/info.png" class="info_mid" id="info_reverb">
             <img src="../img/info.png" class="info_mid" id="info_bases">
             <img src="../img/info.png" class="info_mid" id="info_autotune">
@@ -82,7 +83,7 @@
     <script src="../JS/botones.js"></script>
     <script src="../JS/info.js"></script>
     <script src="../JS/autotune.js"></script>
-   <!-- <script src="../JS/procesador-audio.js"></script> -->
+    <!-- <script src="../JS/procesador-audio.js"></script> -->
 
 </body>
 </html>
