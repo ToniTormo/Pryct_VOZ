@@ -74,14 +74,17 @@ bases.addEventListener('change',function(){
             // }).catch(error => {
             //     console.error('Error al convertir el archivo en Blob:', error);
             // });
+            imagenBases.src = "../img/play.png";
             botonBases.disabled = false;
             break;
         case "Base 2":
-            base.src="../Audio/Bases/Base2.wav"
+            base.src="../Audio/Bases/Base2.wav";
+            imagenBases.src = "../img/play.png";
             botonBases.disabled=false;
             break;
         case "Base 3":
-            base.src="../Audio/Bases/Base3.wav"
+            base.src="../Audio/Bases/Base3.wav";
+            imagenBases.src = "../img/play.png";
             botonBases.disabled=false;
             break;
         default:
