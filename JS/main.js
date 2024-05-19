@@ -364,7 +364,7 @@ document.getElementById('downloadButton').onclick = async function() {
   a.click();
   URL.revokeObjectURL(audioUrl);
   document.body.removeChild(a);
-  //down=[];
+  document.getElementById('downloadButton').disabled=true;
 };
 
 
