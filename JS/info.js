@@ -34,9 +34,15 @@ const crearInfoBox = (info, text) => {
     });
 }
 
+// Titulo
+const info_titulo = document.getElementById("info_titulo");
+const text_titulo = "Por explicar"
+
+crearInfoBox(info_titulo, text_titulo)
+
 // BarraRepro
 const info_barraRepro = document.getElementById("info_barraRepro");
-const text_barraRepro = "Por explicar"
+const text_barraRepro = "Una vez grabado el audio y aplicados los efectos deseados, el usuario puede pulsar este botón de reproducción para escuchar una preview del resultado de su grabación sin necesidad de descargar el audio todavía. Se pueden modificar los efectos aplicados y volver a pulsar el botón de reproducción en caso de que se desee cambiar el resultado antes de descargar. Además, se indicará la duración de la grabación en un pequeño temporizador a la derecha del botón de reproducción."
 
 crearInfoBox(info_barraRepro, text_barraRepro)
 
@@ -54,7 +60,7 @@ crearInfoBox(info_echo, text_echo)
 
 // Chorus
 const info_chorus = document.getElementById("info_chorus");
-const text_chorus = "Este deslizador aplica a nuestra grabación el efecto de coro. El usuario podrá mover el deslizador para variar entre 0 y 8 voces adicionales. La cantidad de voces adicionales se aplicará a la grabación realizada y podrá manipularse todas las veces que se deseen sobre una misma grabación."
+const text_chorus = "Este deslizador aplica a nuestra grabación el efecto de coro. El usuario podrá mover el deslizador para variar entre 0 y 8 voces adicionales. La cantidad de voces adicionales se aplicará a la grabación realizada y podrá manipularse todas las veces que se deseen sobre una misma grabación. La frecuencia de modulación está fijada en 0.2 Hz y la profundidad de modulación en 0.02 segundos. Con estos valores y el número de voces introducido por el usuario creamos el efecto de coro aplicando pequeños retardos de duración aleatoria a cada voz."
 
 crearInfoBox(info_chorus, text_chorus)
 
@@ -72,7 +78,7 @@ crearInfoBox(info_reverb, text_reverb)
 
 // Bases
 const info_bases = document.getElementById("info_bases");
-const text_bases = "Por explicar"
+const text_bases = "Este desplegable permite seleccionar la base que sonará al pulsar el botón de reproducción de bases para poder añadir el audio grabado por encima, lo cual permite al usuario improvisar música con estas bases. Cada base tiene una duración de 2 minutos y son producciones propias de Daniel Cabañero, miembro del grupo que ha realizado este proyecto. Si no seleccionamos ninguna base o seleccionamos la opción “Sin base”, el botón de reproducción de bases estará deshabilitado. Si el usuario cambia de base mientras se está reproduciendo una de estas, deberá volver a pulsar el botón de reproducción de bases."
 
 crearInfoBox(info_bases, text_bases)
 

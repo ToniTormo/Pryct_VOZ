@@ -33,14 +33,14 @@ body, html{
 
 #titulo{
     position: fixed;
-    top: 0;
+    top: 0%;
     
     width: 100%;
     height: calc(10vh + 6vw);
 
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
 
     color: white;
 
@@ -54,7 +54,7 @@ body, html{
 #titulo h1{
     font-size: calc(3vh + 3vw);
     text-align: center;
-    margin: auto;
+    margin-right: 1%;
 
     font-family:'Courier New';
 }
@@ -371,6 +371,14 @@ button{
 }
 
 /* Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / */
+
+#info_titulo{
+    width: 2.6%;
+    height: auto;
+    
+    margin-left: 1%;
+    filter: invert(90%);
+}
 
 .info_indice{
     width: 2%;
