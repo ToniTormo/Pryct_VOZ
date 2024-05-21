@@ -36,7 +36,7 @@ const crearInfoBox = (info, text) => {
 
 // Titulo
 const info_titulo = document.getElementById("info_titulo");
-const text_titulo = "Por explicar"
+const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. ¡A crear música y sonido!"
 
 crearInfoBox(info_titulo, text_titulo)
 
@@ -48,7 +48,7 @@ crearInfoBox(info_barraRepro, text_barraRepro)
 
 // Descargar
 const info_descarga = document.getElementById("info_descarga");
-const text_descarga = "Este botón permite descargar el audio grabado con sus efectos y base aplicados"
+const text_descarga = "Este botón permite descargar el audio grabado con sus efectos y base aplicados. ¡Ojo! Una vez descargado el audio, ya no se podrá seguir manipulando, así que el usuario debe asegurarse de que los efectos aplicados son los deseados antes de realizar la descarga. A continuación se podrá refrescar la página para empezar el proceso de nuevo."
 
 crearInfoBox(info_descarga, text_descarga)
 
@@ -66,7 +66,7 @@ crearInfoBox(info_chorus, text_chorus)
 
 // Noise
 const info_noise = document.getElementById("info_noise");
-const text_noise = "Por explicar"
+const text_noise = "Este deslizador permite al usuario implementar una puerta de ruido. El deslizador cambia el umbral de la puerta entre los -100 y los 0 dB. El valor del tiempo de ataque y el de liberación son de 1.5 segundos."
 
 crearInfoBox(info_noise, text_noise)
 
