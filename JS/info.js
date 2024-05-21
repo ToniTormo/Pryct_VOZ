@@ -36,7 +36,7 @@ const crearInfoBox = (info, text) => {
 
 // Titulo
 const info_titulo = document.getElementById("info_titulo");
-const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. ¡A crear música y sonido!"
+const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. Para este proyecto hemos utilizado Web Audio API, realizado por completo con JavaScript ¡A crear música y sonido!"
 
 crearInfoBox(info_titulo, text_titulo)
 
@@ -54,7 +54,7 @@ crearInfoBox(info_descarga, text_descarga)
 
 // Echo
 const info_echo = document.getElementById("info_echo");
-const text_echo = "Este deslizador permite ajustar el efecto de eco en nuestra grabación. El nivel de eco se aplicará a la grabación realizada y podrá manipularse todas las veces que se deseen sobre una misma grabación. Los parámetros que varían son el tiempo entre retardos, que varía entre 0 y 1 segundos; y la ganancia de retroalimentación, que varía entre 0 y 0.5. Ambos parámetros se modifican conjuntamente."
+const text_echo = "Este deslizador permite ajustar el efecto de eco realimentado en nuestra grabación. El nivel de eco se aplicará a la grabación realizada y podrá manipularse todas las veces que se deseen sobre una misma grabación. Los parámetros que varían son el tiempo entre retardos, que varía entre 0 y 1 segundos; y la ganancia de retroalimentación, que varía entre 0 y 0.5. Ambos parámetros se modifican conjuntamente."
 
 crearInfoBox(info_echo, text_echo)
 
@@ -66,13 +66,13 @@ crearInfoBox(info_chorus, text_chorus)
 
 // Reverb
 const info_reverb = document.getElementById("info_reverb");
-const text_reverb = "Por explicar"
+const text_reverb = "Este deslizador aplica al audio un efecto de reverberación. Se podrá modificar la ganancia entre 0 y 0.9. El retardo de la reverberación está fijado en 15 milisegundos."
 
 crearInfoBox(info_reverb, text_reverb)
 
 // Bases
 const info_bases = document.getElementById("info_bases");
-const text_bases = "Este desplegable permite seleccionar la base que sonará al pulsar el botón de reproducción de bases para poder añadir el audio grabado por encima, lo cual permite al usuario improvisar música con estas bases. Cada base tiene una duración de 2 minutos y son producciones propias de Daniel Cabañero, miembro del grupo que ha realizado este proyecto. Si no seleccionamos ninguna base o seleccionamos la opción “Sin base”, el botón de reproducción de bases estará deshabilitado. Si el usuario cambia de base mientras se está reproduciendo una de estas, deberá volver a pulsar el botón de reproducción de bases."
+const text_bases = "Este desplegable permite seleccionar la base que sonará al pulsar el botón de reproducción de bases para hacer algunas pruebas antes de grabar. Las bases se pausarán al pulsar el botón de grabar. Cada base tiene una duración de 2 minutos y son producciones propias de Daniel Cabañero, miembro del grupo que ha realizado este proyecto. Si no seleccionamos ninguna base o seleccionamos la opción “Sin base”, el botón de reproducción de bases estará deshabilitado. Si el usuario cambia de base mientras se está reproduciendo una de estas, deberá volver a pulsar el botón de reproducción de bases."
 
 crearInfoBox(info_bases, text_bases)
 
