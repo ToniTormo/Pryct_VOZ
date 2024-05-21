@@ -91,6 +91,7 @@ bases.addEventListener('change',function(){
             botonBases.disabled=false;
             break;
         default:
+            imagenBases.src = "../img/play.png";
             botonBases.disabled=true;
             break;
     }

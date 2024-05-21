@@ -36,7 +36,7 @@ const crearInfoBox = (info, text) => {
 
 // Titulo
 const info_titulo = document.getElementById("info_titulo");
-const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. ¡A crear música y sonido!"
+const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. Para este proyecto hemos utilizado Web Audio API, realizado por completo con JavaScript ¡A crear música y sonido!"
 
 crearInfoBox(info_titulo, text_titulo)
 
