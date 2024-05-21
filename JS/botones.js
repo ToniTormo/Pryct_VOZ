@@ -43,6 +43,7 @@ botonBases.addEventListener('click', function() {
 // });
 document.getElementById('startButton').addEventListener('click', function(){
     base.pause();
+    imagenBases.src = "../img/play.png";
     botonBases.disabled=true;
 });
 
