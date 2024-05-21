@@ -220,6 +220,9 @@ body, html{
     justify-content: center;
 
     margin-top: 10%;
+
+    text-align: center;
+    font-size: calc(0.65vh + 0.65vw);
 }
 
 .elem_slider{
@@ -260,7 +263,7 @@ body, html{
 
 #botones_mid{
     position: fixed;
-    top: calc(76vh + 6vw);
+    top: calc(68vh + 20vw);
     bottom: 0%;
     right: calc(23vw + 10vh);
     left: calc(35vw + 10vh);
@@ -396,7 +399,7 @@ button{
 }
 
 .info_mid{
-    transform: translateX(300%) translateY(calc(-16vh - 12.65vw));
+    transform: translateX(300%) translateY(calc(-12vh - 7.8vw));
 
     width: auto;
     height: 6%;

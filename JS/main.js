@@ -23,6 +23,10 @@ var offlineContext;
 var offlineSource;
 var audioBuffer;
 var wavBlob;
+var revdelay;
+var revdelayoff;
+var revgain;
+var revgainoff;
 
 // NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
 
@@ -159,6 +163,28 @@ function eco(){
   
 }
 
+function reverb(){
+
+  // Crear nodo de efecto de eco (retardo)
+
+  revdelay = ctx.createDelay();
+  revdelay.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  revgain = ctx.createGain();
+  revgain.gain.value = document.getElementById("valueEcho").value; // Nivel de retroalimentación (0 a 1)
+  revdelayoff = offlineContext.createDelay();
+  revdelayoff.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  revgainoff = offlineContext.createGain();
+  revgainoff.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
+  // sourceNode.disconnect();
+  // //Conectar los nodos: audioSrc -> retardo -> salida de audio
+  // sourceNode.connect(retardo);
+  // retardo.connect(feed);
+  // feed.connect(retardo);
+  // retardo.connect(ctx.destination);
+  
+  
+}
+
 function aplicar_efectos(){
   //desconectamos
   sourceNode.disconnect();
@@ -178,7 +204,10 @@ function aplicar_efectos(){
   //Eco
   retardo.connect(feed);
   feed.connect(retardo);
-  retardo.connect(ctx.destination);
+  retardo.connect(revdelay);
+  revdelay.connect(revgain);
+  revgain.connect(revdelay);
+  revdelay.connect(ctx.destination);
   
 }
 
@@ -258,6 +287,8 @@ function desconectar(){
   //Eco
   retardo.disconnect();
   feed.disconnect();
+  revdelay.disconnect();
+  revgain.disconnect();
   //retardo.connect(ctx.destination);
   chor_delays = [];
   chor_gains=[];
@@ -267,6 +298,7 @@ document.getElementById("play-pause").addEventListener('click', function(){
   elim_ruido();
   chorus();
   eco();
+  reverb();
   aplicar_efectos();
   if (audioElement.paused || audioElement.ended) {
     audioElement.play();
@@ -301,7 +333,11 @@ async function render(){
   //Eco
   retardooff.connect(feedoff);
   feedoff.connect(retardooff);
-  retardooff.connect(offlineContext.destination);
+  retardooff.connect(revdelayoff);
+  //Reverb
+  revdelayoff.connect(revgainoff);
+  revgainoff.connect(revdelayoff);
+  revdelayoff.connect(offlineContext.destination);
 
   offlineSource.start();
   const renderedBuffer = await offlineContext.startRendering();
@@ -325,8 +361,12 @@ async function render(){
   //Eco
   retardooff.disconnect();
   feedoff.disconnect();
-  chor_delays = [];
-  chor_gains=[];
+
+  revdelayoff.disconnect();
+  revgainoff.disconnect();
+
+  chor_delaysoff = [];
+  chor_gainsoff=[];
 
 }
 
