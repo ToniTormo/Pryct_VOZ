@@ -78,9 +78,10 @@ async function startRecording() {
         offlineSource= offlineContext.createBufferSource();
       } 
     
-      elim_ruido();
+      //elim_ruido();
       chorus();
       eco();
+      reverb();
       aplicar_efectos();
       
     };
@@ -119,27 +120,27 @@ function start_stop(){
 document.getElementById('startButton').addEventListener('click', start_stop);
 
 
-function elim_ruido(){
+// function elim_ruido(){
 
-  Puerta_ruido = ctx.createDynamicsCompressor();
-  //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
-  Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
-  Puerta_ruido.knee.value = 0;      // Rango de transición suave
-  Puerta_ruido.ratio.value = 1;     // Relación de compresión
-  Puerta_ruido.attack.value = 1.5; // Tiempo de ataque en segundos
-  Puerta_ruido.release.value = 1.5; // Tiempo de liberación en segundos
-  Puerta_ruidooff = offlineContext.createDynamicsCompressor();
-  //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
-  Puerta_ruidooff.threshold.value = -1; // Umbral en dB de -100 a 0 
-  Puerta_ruidooff.knee.value = 0;      // Rango de transición suave
-  Puerta_ruidooff.ratio.value = 1;     // Relación de compresión
-  Puerta_ruidooff.attack.value = 1.5; // Tiempo de ataque en segundos
-  Puerta_ruidooff.release.value = 1.5; // Tiempo de liberación en segundos
+//   Puerta_ruido = ctx.createDynamicsCompressor();
+//   //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
+//   Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
+//   Puerta_ruido.knee.value = 0;      // Rango de transición suave
+//   Puerta_ruido.ratio.value = 1;     // Relación de compresión
+//   Puerta_ruido.attack.value = 1.5; // Tiempo de ataque en segundos
+//   Puerta_ruido.release.value = 1.5; // Tiempo de liberación en segundos
+//   Puerta_ruidooff = offlineContext.createDynamicsCompressor();
+//   //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
+//   Puerta_ruidooff.threshold.value = -1; // Umbral en dB de -100 a 0 
+//   Puerta_ruidooff.knee.value = 0;      // Rango de transición suave
+//   Puerta_ruidooff.ratio.value = 1;     // Relación de compresión
+//   Puerta_ruidooff.attack.value = 1.5; // Tiempo de ataque en segundos
+//   Puerta_ruidooff.release.value = 1.5; // Tiempo de liberación en segundos
   
-  // sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
-  // Puerta_ruido.connect(ctx.destination);
+//   // sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
+//   // Puerta_ruido.connect(ctx.destination);
    
-}
+// }
 
 function eco(){
 
@@ -168,13 +169,13 @@ function reverb(){
   // Crear nodo de efecto de eco (retardo)
 
   revdelay = ctx.createDelay();
-  revdelay.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  revdelay.delayTime.value = 0.01; // Tiempo de retardo en segundos (de momento va de 0 a 1)
   revgain = ctx.createGain();
-  revgain.gain.value = document.getElementById("valueEcho").value; // Nivel de retroalimentación (0 a 1)
+  revgain.gain.value = document.getElementById("valueReverb").value; // Nivel de retroalimentación (0 a 1)
   revdelayoff = offlineContext.createDelay();
   revdelayoff.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
   revgainoff = offlineContext.createGain();
-  revgainoff.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
+  revgainoff.gain.value = document.getElementById("valueReverb").value/2; // Nivel de retroalimentación (0 a 1)
   // sourceNode.disconnect();
   // //Conectar los nodos: audioSrc -> retardo -> salida de audio
   // sourceNode.connect(retardo);
@@ -188,13 +189,11 @@ function reverb(){
 function aplicar_efectos(){
   //desconectamos
   sourceNode.disconnect();
-  //Eliminacion de ruido
-  sourceNode.connect(Puerta_ruido);
   //Chorus
   chor_delays.forEach(function(delay) {
-    Puerta_ruido.connect(delay);
+    sourceNode.connect(delay);
   });
-  Puerta_ruido.connect(retardo);
+  sourceNode.connect(retardo);
   for (var i = 0; i < chor_delays.length; i++) {
     chor_delays[i].connect(chor_gains[i])
   }
@@ -205,6 +204,7 @@ function aplicar_efectos(){
   retardo.connect(feed);
   feed.connect(retardo);
   retardo.connect(revdelay);
+  //Reverb
   revdelay.connect(revgain);
   revgain.connect(revdelay);
   revdelay.connect(ctx.destination);
@@ -271,16 +271,10 @@ function chorus(){
 function desconectar(){
   //desconectamos
   sourceNode.disconnect();
-  //Eliminacion de ruido
   //Chorus
-  Puerta_ruido.disconnect();
   chor_delays.forEach(function(delay) {
     delay.disconnect();
   });
-  // Puerta_ruido.connect(retardo);
-  // for (var i = 0; i < chor_delays.length; i++) {
-  //   chor_delays[i].connect(chor_gains[i])
-  // }
   chor_gains.forEach(function(gain) {
     gain.disconnect();
   });
@@ -289,13 +283,11 @@ function desconectar(){
   feed.disconnect();
   revdelay.disconnect();
   revgain.disconnect();
-  //retardo.connect(ctx.destination);
   chor_delays = [];
   chor_gains=[];
 }
 document.getElementById("play-pause").addEventListener('click', function(){
   desconectar();
-  elim_ruido();
   chorus();
   eco();
   reverb();
@@ -318,12 +310,12 @@ async function render(){
   //desconectamos
   offlineSource.disconnect();
   //Eliminacion de ruido
-  offlineSource.connect(Puerta_ruidooff);
+  //offlineSource.connect(Puerta_ruidooff);
   //Chorus
   chor_delaysoff.forEach(function(dly) {
-    Puerta_ruidooff.connect(dly);
+    offlineSource.connect(dly);
   });
-  Puerta_ruidooff.connect(retardooff);
+  offlineSource.connect(retardooff);
   for (var i = 0; i < chor_delaysoff.length; i++) {
     chor_delaysoff[i].connect(chor_gainsoff[i])
   }
@@ -350,7 +342,7 @@ async function render(){
   offlineSource.disconnect();
   //Chorus
   
-  Puerta_ruidooff.disconnect();
+  //Puerta_ruidooff.disconnect();
 
   for (var i = 0; i < chor_delays.length; i++) {
     chor_delaysoff[i].disconnect()
