@@ -64,12 +64,6 @@ const text_chorus = "Este deslizador aplica a nuestra grabación el efecto de co
 
 crearInfoBox(info_chorus, text_chorus)
 
-// Noise
-const info_noise = document.getElementById("info_noise");
-const text_noise = "Este deslizador permite al usuario implementar una puerta de ruido. El deslizador cambia el umbral de la puerta entre los -100 y los 0 dB. El valor del tiempo de ataque y el de liberación son de 1.5 segundos."
-
-crearInfoBox(info_noise, text_noise)
-
 // Reverb
 const info_reverb = document.getElementById("info_reverb");
 const text_reverb = "Por explicar"
@@ -124,11 +118,11 @@ Chorus.addEventListener('input', function() {
 });
 
 //Noise
-const noise = document.getElementById("valueNoise");
-const spanNoise = document.getElementById("spanNoise");
+const Reverb = document.getElementById("valueReverb");
+const spanReverb = document.getElementById("spanReverb");
 
-noise.addEventListener('input', function() {
-    spanNoise.textContent = this.value + " db";
+Reverb.addEventListener('input', function() {
+    spanReverb.textContent = this.value;
 });
 
 //Autotune
