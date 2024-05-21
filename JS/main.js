@@ -95,6 +95,7 @@ async function stopRecording() {
   document.getElementById('startButton').disabled = false;
   //document.getElementById('stopButton').disabled = true;
   document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
+  document.getElementById('stopButton').disabled=false;
   
 }
 

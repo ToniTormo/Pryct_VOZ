@@ -41,7 +41,10 @@ botonBases.addEventListener('click', function() {
 // barraVolumen.addEventListener('input', function() {
 //     miAudio.volume = this.value;
 // });
-
+document.getElementById('startButton').addEventListener('click', function(){
+    base.pause();
+    botonBases.disabled=true;
+});
 
 
 
@@ -95,18 +98,18 @@ bases.addEventListener('change',function(){
 
 
 
-function fileToBlob(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        // Crear un Blob a partir de los datos del archivo
-        const blob = new Blob([event.target.result], { type: file.type });
-        resolve(blob);
-      };
-      reader.onerror = function(error) {
-        reject(error);
-      };
-      // Leer el contenido del archivo como un ArrayBuffer
-      reader.readAsArrayBuffer(file);
-    });
-  }
+// function fileToBlob(file) {
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.onload = function(event) {
+//         // Crear un Blob a partir de los datos del archivo
+//         const blob = new Blob([event.target.result], { type: file.type });
+//         resolve(blob);
+//       };
+//       reader.onerror = function(error) {
+//         reject(error);
+//       };
+//       // Leer el contenido del archivo como un ArrayBuffer
+//       reader.readAsArrayBuffer(file);
+//     });
+//   }
