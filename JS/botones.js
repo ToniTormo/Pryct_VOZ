@@ -1,11 +1,8 @@
 var audio = document.getElementById('repro');
 var botonPlayPause = document.getElementById('play-pause');
-// var botonMicro = document.getElementById('startButton');
 var botonBases = document.getElementById('stopButton');
-//var barraVolumen = document.getElementById('barra-volumen');
 var estadoAudio = document.getElementById('estado-audio');
 var imagenPlay = document.getElementById('playImg');
-// var imagenMicro = document.getElementById('startImg');
 var imagenBases = document.getElementById('stopImg');
 var bases=document.getElementById("bases");
 var base= document.getElementById("base");
@@ -17,14 +14,6 @@ botonPlayPause.addEventListener('click', function() {
     }
 });
 
-// //cambiar botón de micrófono al pulsarlo
-// botonMicro.addEventListener('click', function() {
-//     if (imagenMicro.src = "../img/micro.png") {
-//         imagenMicro.src = "../img/cuadrado.png";
-//     } else {
-//         imagenMicro.src = "../img/micro.png";
-//     }
-// });
 
 //cambiar botón de play pause bases al pulsarlo
 botonBases.addEventListener('click', function() {
@@ -38,17 +27,11 @@ botonBases.addEventListener('click', function() {
 
 });
 
-// barraVolumen.addEventListener('input', function() {
-//     miAudio.volume = this.value;
-// });
 document.getElementById('startButton').addEventListener('click', function(){
     base.pause();
     imagenBases.src = "../img/play.png";
     botonBases.disabled=true;
 });
-
-
-
 
 audio.addEventListener('timeupdate', function() {
     var minutos = Math.floor(audio.currentTime / 60);
@@ -71,13 +54,6 @@ bases.addEventListener('change',function(){
     switch (opcionSeleccionada) {
         case "Base 1":
             base.src = "../Audio/Bases/Base1.wav";
-            // const blobPromise = fileToBlob(base.src);
-            // blobPromise.then(blob => {
-            //     // Hacer algo con el Blob, como enviarlo a través de una solicitud AJAX o usarlo en otra parte de tu aplicación
-            //     console.log(blob);
-            // }).catch(error => {
-            //     console.error('Error al convertir el archivo en Blob:', error);
-            // });
             imagenBases.src = "../img/play.png";
             botonBases.disabled = false;
             break;
@@ -100,18 +76,3 @@ bases.addEventListener('change',function(){
 
 
 
-// function fileToBlob(file) {
-//     return new Promise((resolve, reject) => {
-//       const reader = new FileReader();
-//       reader.onload = function(event) {
-//         // Crear un Blob a partir de los datos del archivo
-//         const blob = new Blob([event.target.result], { type: file.type });
-//         resolve(blob);
-//       };
-//       reader.onerror = function(error) {
-//         reject(error);
-//       };
-//       // Leer el contenido del archivo como un ArrayBuffer
-//       reader.readAsArrayBuffer(file);
-//     });
-//   }

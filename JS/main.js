@@ -28,9 +28,6 @@ var revdelayoff;
 var revgain;
 var revgainoff;
 
-// NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
-
-
 // Función para iniciar la grabación
 async function startRecording() {
   audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -63,7 +60,6 @@ async function startRecording() {
       }
       
       // Configuración de nodos de efectos
-      //sourceNode = ctx.createBufferSource();
       sourceNode.buffer = audioBuffer;
       chunks = [];
       audioUrl = window.URL.createObjectURL(blob);
@@ -77,8 +73,7 @@ async function startRecording() {
       if (!offlineSource){
         offlineSource= offlineContext.createBufferSource();
       } 
-    
-      //elim_ruido();
+
       chorus();
       eco();
       reverb();
@@ -96,9 +91,8 @@ async function startRecording() {
 async function stopRecording() {
   mediaRecorder.stop();
   audioStream.getTracks().forEach(track => track.stop());
-    // Actualizar UI
+  // Actualizar UI
   document.getElementById('startButton').disabled = false;
-  //document.getElementById('stopButton').disabled = true;
   document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
   document.getElementById('stopButton').disabled=false;
   
@@ -119,33 +113,9 @@ function start_stop(){
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
 document.getElementById('startButton').addEventListener('click', start_stop);
 
-
-// function elim_ruido(){
-
-//   Puerta_ruido = ctx.createDynamicsCompressor();
-//   //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
-//   Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
-//   Puerta_ruido.knee.value = 0;      // Rango de transición suave
-//   Puerta_ruido.ratio.value = 1;     // Relación de compresión
-//   Puerta_ruido.attack.value = 1.5; // Tiempo de ataque en segundos
-//   Puerta_ruido.release.value = 1.5; // Tiempo de liberación en segundos
-//   Puerta_ruidooff = offlineContext.createDynamicsCompressor();
-//   //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
-//   Puerta_ruidooff.threshold.value = -1; // Umbral en dB de -100 a 0 
-//   Puerta_ruidooff.knee.value = 0;      // Rango de transición suave
-//   Puerta_ruidooff.ratio.value = 1;     // Relación de compresión
-//   Puerta_ruidooff.attack.value = 1.5; // Tiempo de ataque en segundos
-//   Puerta_ruidooff.release.value = 1.5; // Tiempo de liberación en segundos
-  
-//   // sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
-//   // Puerta_ruido.connect(ctx.destination);
-   
-// }
-
 function eco(){
 
   // Crear nodo de efecto de eco (retardo)
-
   retardo = ctx.createDelay();
   retardo.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
   feed = ctx.createGain();
@@ -309,8 +279,6 @@ async function render(){
   offlineSource.buffer = audioBuffer;
   //desconectamos
   offlineSource.disconnect();
-  //Eliminacion de ruido
-  //offlineSource.connect(Puerta_ruidooff);
   //Chorus
   chor_delaysoff.forEach(function(dly) {
     offlineSource.connect(dly);
@@ -337,8 +305,8 @@ async function render(){
   // Convertir el buffer renderizado a WAV
   wavBlob = bufferToWave(renderedBuffer);
   aplicar_efectos();
+
   //Desconectar todo
-  
   offlineSource.disconnect();
   //Chorus
   
