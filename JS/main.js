@@ -27,6 +27,7 @@ var revdelay;
 var revdelayoff;
 var revgain;
 var revgainoff;
+var tune=false;
 
 // Función para iniciar la grabación
 async function startRecording() {
@@ -301,9 +302,16 @@ async function render(){
 
   offlineSource.start();
   const renderedBuffer = await offlineContext.startRendering();
+  if (tune==true){
+    const newBuffer = autotune(renderedBuffer);
+  }else{
+    const newBuffer = renderedBuffer;
+  }
+  
+    //playBuffer(newBuffer, audioContext);
 
   // Convertir el buffer renderizado a WAV
-  wavBlob = bufferToWave(renderedBuffer);
+  wavBlob = bufferToWave(newBuffer);
   aplicar_efectos();
 
   //Desconectar todo
@@ -368,7 +376,14 @@ document.getElementById('downloadButton').onclick = async function() {
   document.getElementById('downloadButton').disabled=true;
 };
 
-
+document.getElementById('boton_tune').onclick= async function(){
+  
+  if (tune==false){
+    tune=true;
+  }else{
+    tune=false;
+  }
+}
 
 function bufferToWave(abuffer) {
   const numOfChan = abuffer.numberOfChannels;
