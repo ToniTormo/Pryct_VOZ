@@ -36,7 +36,7 @@ const crearInfoBox = (info, text) => {
 
 // Titulo
 const info_titulo = document.getElementById("info_titulo");
-const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. Para este proyecto hemos utilizado Web Audio API, realizado por completo con JavaScript ¡A crear música y sonido!"
+const text_titulo = "¡Muchas gracias por probar Resonance! Recomendamos encarecidamente leer la ayuda de los iconos de información de cada elemento de la página antes de utilizarlo. En este proyecto hemos utilizado Web Audio API para aplicar efectos de audio mediante linea de retardo universal con JavaScript ¡A jugar con el delay!"
 
 crearInfoBox(info_titulo, text_titulo)
 
@@ -48,7 +48,7 @@ crearInfoBox(info_barraRepro, text_barraRepro)
 
 // Descargar
 const info_descarga = document.getElementById("info_descarga");
-const text_descarga = "Este botón permite descargar el audio grabado con sus efectos y base aplicados. ¡Ojo! Una vez descargado el audio, ya no se podrá seguir manipulando, así que el usuario debe asegurarse de que los efectos aplicados son los deseados antes de realizar la descarga. A continuación se podrá refrescar la página para empezar el proceso de nuevo."
+const text_descarga = "Este botón permite descargar el audio grabado con sus efectos aplicados. ¡Ojo! Una vez descargado el audio habrá que recargar la pagina para poder volver a descargar. Así que el usuario debe asegurarse de que los efectos aplicados son los deseados antes de realizar la descarga."
 
 crearInfoBox(info_descarga, text_descarga)
 
@@ -79,7 +79,7 @@ crearInfoBox(info_bases, text_bases)
 
 // BasesRepro
 const info_basesRepro = document.getElementById("info_basesRepro");
-const text_basesRepro = "Tras seleccionar una base, el usuario podrá pulsar este botón para iniciar la reproducción de la base seleccionada, pudiendo escucharla se esté grabando o no el micrófono. A continuación, el botón cambiará su icono a uno de pausa, permitiendo detener la reproducción de la base en cualquier momento. En caso de que no se haya seleccionado una base el botón no estará habilitado."
+const text_basesRepro = "Tras seleccionar una base, el usuario podrá pulsar este botón para iniciar la reproducción de la base seleccionada. A continuación, el botón cambiará su icono a uno de pausa, permitiendo detener la reproducción de la base en cualquier momento. En caso de que no se haya seleccionado una base el botón no estará habilitado."
 
 crearInfoBox(info_basesRepro, text_basesRepro)
 
