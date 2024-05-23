@@ -33,14 +33,14 @@ body, html{
 
 #titulo{
     position: fixed;
-    top: 0;
+    top: 0%;
     
     width: 100%;
     height: calc(10vh + 6vw);
 
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
 
     color: white;
 
@@ -54,7 +54,7 @@ body, html{
 #titulo h1{
     font-size: calc(3vh + 3vw);
     text-align: center;
-    margin: auto;
+    margin-right: 1%;
 
     font-family:'Courier New';
 }
@@ -131,6 +131,7 @@ body, html{
 
     padding-left: 1%;
     padding-right: 1%;
+    padding-top: 0.4%;
 }
 
 #playImg{
@@ -168,7 +169,7 @@ body, html{
 
 #sliders{
     position: fixed;
-    top: calc(19vh + 6vw);
+    top: calc(16vh + 6vw);
     bottom: 0%;
     right: calc(40vw + 8vh);
     left: 0%;
@@ -213,10 +214,21 @@ body, html{
     z-index: -1;
 }
 
+.span_sliders{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    margin-top: 10%;
+
+    text-align: center;
+    font-size: calc(0.65vh + 0.65vw);
+}
+
 .elem_slider{
-    transform: rotate(-90deg) translateY(calc(-7vh - 3.8vw)) translateX(calc(-12vh - 6.55vw));
+    transform: rotate(-90deg) translateY(calc(-7vh - 3.8vw)) translateX(calc(-10vh - 6vw));
     transform-origin: bottom;
-    
+
     width: 300%;
 }
 
@@ -251,7 +263,7 @@ body, html{
 
 #botones_mid{
     position: fixed;
-    top: calc(76vh + 6vw);
+    top: calc(68vh + 20vw);
     bottom: 0%;
     right: calc(23vw + 10vh);
     left: calc(35vw + 10vh);
@@ -274,10 +286,10 @@ body, html{
     font-size: calc(0.7vh + 0.7vw);
     text-align: center;
     
-    color: black;
     background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
-    border: calc(0.07vh + 0.07vw) solid black;
+    border-bottom-left-radius: calc(0.6vh + 0.6vw);
+    border-top-left-radius: calc(0.6vh + 0.6vw);
+    cursor: pointer;
 }
 
 /* Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / Botones Derecha / */
@@ -363,6 +375,14 @@ button{
 
 /* Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / */
 
+#info_titulo{
+    width: 2.6%;
+    height: auto;
+    
+    margin-left: 1%;
+    filter: invert(90%);
+}
+
 .info_indice{
     width: 2%;
     height: auto;
@@ -378,28 +398,18 @@ button{
     margin-bottom: 0.8%;
 }
 
-#info_mid{
-    position: fixed;
-    top: calc(23.2vh + 10vw);
-    left: calc(57.4vw + 10vh);
-
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-}
-
 .info_mid{
-    width: 6%;
+    transform: translateX(300%) translateY(calc(-12vh - 7.8vw));
+
+    width: auto;
     height: 6%;
 
-    padding: 1%;
-
-    margin-top: calc(1.2vh + 1.2vw);
-    margin-bottom: calc(1.538vh + 1.6vw);
-
+    margin-top: 6%;
+    margin-bottom: 6%;
     
     background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
+    border-top-right-radius: calc(0.6vh + 0.6vw);
+    border-bottom-right-radius: calc(0.6vh + 0.6vw);
 }
 
 .info_controladores{
@@ -407,6 +417,6 @@ button{
     height: auto;
 
     margin-left: 2%;
-    margin-right: 2%;
+    margin-right: 4%;
     margin-bottom: 0.8%;
 }

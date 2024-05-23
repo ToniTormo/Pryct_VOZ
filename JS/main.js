@@ -1,11 +1,9 @@
 
-//import "http://reverbjs.org/reverb.js"
 // Variables globales
 let audioStream;
 let audioRecorder;
 let mediaRecorder;
-const soundClips = document.querySelector("#indice");
-const audioElement = document.getElementById('repro'); // Obtener el elemento <audio>
+const audioElement = document.getElementById('repro'); // Obtener el elemento reproductor
 var audio = document.getElementById('repro');
 let ctx;
 var sourceNode;
@@ -14,14 +12,22 @@ var retardo;
 var feed;
 var chor_delays = [];
 var chor_gains=[];
+var Puerta_ruidooff;
+var retardooff;
+var feedoff;
+var chor_delaysoff = [];
+var chor_gainsoff=[];
 var grabando = false;
-// var miWorkletNode;
-// var down=[];
-
-// NOTAS --> hacer un doc/poner las explicaciones de cada boton y cada cosa 
-//  
-
-
+var audioUrl;
+var offlineContext;
+var offlineSource;
+var audioBuffer;
+var wavBlob;
+var revdelay;
+var revdelayoff;
+var revgain;
+var revgainoff;
+var tune=false;
 
 // Función para iniciar la grabación
 async function startRecording() {
@@ -30,64 +36,50 @@ async function startRecording() {
 
     const constraints = { audio: true };
     let chunks = [];
-    
-    //let onSuccess = function (stream) {
     if (!ctx) {
       ctx = new AudioContext();
-      // await ctx.audioWorklet.addModule('procesador-audio.js');
-      // miWorkletNode = new AudioWorkletNode(contextoAudio, 'mi-procesador-de-audio');
 
     }
     if (!sourceNode){
     sourceNode = ctx.createMediaElementSource(audioElement);
     }
-    
-
-    
+ 
     source = ctx.createMediaStreamSource(audioStream);
     audioRecorder = ctx.createMediaStreamDestination();
     source.connect(audioRecorder);
     mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
     mediaRecorder.start();
-    // document.getElementById('startButton').disabled = true;
-    //document.getElementById('stopButton').disabled = false;
+
     document.getElementById('downloadButton').disabled = true
 
-    mediaRecorder.ondataavailable = function (e) {
+    mediaRecorder.ondataavailable = async function (e) {
       chunks.push(e.data);
-      const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
+      const blob = new Blob(chunks, {type: mediaRecorder.mimeType});
+      const arrayBuffer = await blob.arrayBuffer();
+      if (!audioBuffer){
+        audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+      }
+      
+      // Configuración de nodos de efectos
+      sourceNode.buffer = audioBuffer;
       chunks = [];
-      const audioUrl = window.URL.createObjectURL(blob);
+      audioUrl = window.URL.createObjectURL(blob);
       audioElement.src = audioUrl;
-    
-      elim_ruido();
+      if (!offlineContext){ 
+        offlineContext= new OfflineAudioContext(
+        audioBuffer.numberOfChannels,
+        audioBuffer.length,
+        audioBuffer.sampleRate);
+      }
+      if (!offlineSource){
+        offlineSource= offlineContext.createBufferSource();
+      } 
+
       chorus();
       eco();
+      reverb();
       aplicar_efectos();
       
-
-      
-      // Establecer el enlace de descarga en el botón
-      document.getElementById('downloadButton').onclick = function() {
-          // Acceder al contexto de audio del nodo de trabajo
-          miWorkletNode.port.onmessage = function(event) {
-            // El evento.data contendrá el array de audio
-            var audioData = event.data;
-            down.push(audioData)
-            //console.log("Datos de audio recibidos:", audioData);
-          };
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          const blob = new Blob(down, { type: mediaRecorder.mimeType });
-          const audioUrl = window.URL.createObjectURL(blob);
-          a.href = audioUrl;
-          a.download = 'grabacion.wav';
-          document.body.appendChild(a);
-          a.click();
-          URL.revokeObjectURL(audioUrl);
-          document.body.removeChild(a);
-          down=[];
-    };
     };
 
   } else {
@@ -97,13 +89,14 @@ async function startRecording() {
 }
 
 // Función para detener la grabación
-function stopRecording() {
+async function stopRecording() {
   mediaRecorder.stop();
   audioStream.getTracks().forEach(track => track.stop());
-    // Actualizar UI
+  // Actualizar UI
   document.getElementById('startButton').disabled = false;
-  //document.getElementById('stopButton').disabled = true;
   document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
+  document.getElementById('stopButton').disabled=false;
+  
 }
 
 function start_stop(){
@@ -121,30 +114,39 @@ function start_stop(){
 // Iniciar grabación al hacer clic en el botón "Comenzar grabación"
 document.getElementById('startButton').addEventListener('click', start_stop);
 
-
-function elim_ruido(){
-
-  Puerta_ruido = ctx.createDynamicsCompressor();
-  //Puerta_ruido.threshold.value = document.getElementById("valueNoise").value; // Umbral en dB de -100 a 0 
-  Puerta_ruido.threshold.value = -1; // Umbral en dB de -100 a 0 
-  Puerta_ruido.knee.value = 0;      // Rango de transición suave
-  Puerta_ruido.ratio.value = 1;     // Relación de compresión
-  Puerta_ruido.attack.value = 0.003; // Tiempo de ataque en segundos
-  Puerta_ruido.release.value = 0.25; // Tiempo de liberación en segundos
-  
-  // sourceNode.connect(ctx.createGain().connect(Puerta_ruido));
-  // Puerta_ruido.connect(ctx.destination);
-   
-}
-
 function eco(){
 
   // Crear nodo de efecto de eco (retardo)
-
   retardo = ctx.createDelay();
   retardo.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
   feed = ctx.createGain();
   feed.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
+  retardooff = offlineContext.createDelay();
+  retardooff.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  feedoff = offlineContext.createGain();
+  feedoff.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
+  // sourceNode.disconnect();
+  // //Conectar los nodos: audioSrc -> retardo -> salida de audio
+  // sourceNode.connect(retardo);
+  // retardo.connect(feed);
+  // feed.connect(retardo);
+  // retardo.connect(ctx.destination);
+  
+  
+}
+
+function reverb(){
+
+  // Crear nodo de efecto de eco (retardo)
+
+  revdelay = ctx.createDelay();
+  revdelay.delayTime.value = 0.01; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  revgain = ctx.createGain();
+  revgain.gain.value = document.getElementById("valueReverb").value; // Nivel de retroalimentación (0 a 1)
+  revdelayoff = offlineContext.createDelay();
+  revdelayoff.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
+  revgainoff = offlineContext.createGain();
+  revgainoff.gain.value = document.getElementById("valueReverb").value/2; // Nivel de retroalimentación (0 a 1)
   // sourceNode.disconnect();
   // //Conectar los nodos: audioSrc -> retardo -> salida de audio
   // sourceNode.connect(retardo);
@@ -158,13 +160,11 @@ function eco(){
 function aplicar_efectos(){
   //desconectamos
   sourceNode.disconnect();
-  //Eliminacion de ruido
-  sourceNode.connect(Puerta_ruido);
   //Chorus
   chor_delays.forEach(function(delay) {
-    Puerta_ruido.connect(delay);
+    sourceNode.connect(delay);
   });
-  Puerta_ruido.connect(retardo);
+  sourceNode.connect(retardo);
   for (var i = 0; i < chor_delays.length; i++) {
     chor_delays[i].connect(chor_gains[i])
   }
@@ -174,7 +174,12 @@ function aplicar_efectos(){
   //Eco
   retardo.connect(feed);
   feed.connect(retardo);
-  retardo.connect(ctx.destination);
+  retardo.connect(revdelay);
+  //Reverb
+  revdelay.connect(revgain);
+  revgain.connect(revdelay);
+  revdelay.connect(ctx.destination);
+  
 }
 
 // Función de modulación
@@ -197,11 +202,23 @@ function chorus(){
       delayModulated.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
       chor_delays.push(delayModulated);
       chor_gains.push(gm);
+      
   }
+  for (var i = 0; i < numVoices; i++) {
+    var delayModulatedoff = offlineContext.createDelay();
+    var gmoff = offlineContext.createGain();
+    gmoff.gain.value=0.4 + Math.random() * 0.4;
+    delayModulatedoff.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
+    chor_delaysoff.push(delayModulatedoff);
+    chor_gainsoff.push(gmoff);
+}
 
   // Aplicar la modulación al tiempo de retardo del nodo modulado
   var currentTime = ctx.currentTime;
   chor_delays.forEach(function(delay) {
+    delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
+  });
+  chor_delaysoff.forEach(function(delay) {
     delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
   });
 
@@ -221,40 +238,36 @@ function chorus(){
   // });
 
 }
+
 function desconectar(){
   //desconectamos
   sourceNode.disconnect();
-  //Eliminacion de ruido
   //Chorus
-  Puerta_ruido.disconnect();
   chor_delays.forEach(function(delay) {
     delay.disconnect();
   });
-  // Puerta_ruido.connect(retardo);
-  // for (var i = 0; i < chor_delays.length; i++) {
-  //   chor_delays[i].connect(chor_gains[i])
-  // }
   chor_gains.forEach(function(gain) {
     gain.disconnect();
   });
   //Eco
   retardo.disconnect();
   feed.disconnect();
-  //retardo.connect(ctx.destination);
+  revdelay.disconnect();
+  revgain.disconnect();
   chor_delays = [];
-  chor_gains=[]
+  chor_gains=[];
 }
 document.getElementById("play-pause").addEventListener('click', function(){
   desconectar();
-  elim_ruido();
   chorus();
   eco();
+  reverb();
   aplicar_efectos();
-  if (audio.paused || audio.ended) {
-    audio.play();
+  if (audioElement.paused || audioElement.ended) {
+    audioElement.play();
 
 } else {
-    audio.pause();
+    audioElement.pause();
 
 }
 }
@@ -763,6 +776,70 @@ function autotune(audioBuffer) {
 
   return newBuffer;
 }
+async function render(){
+  desconectar();
+  offlineSource='';
+  offlineSource = offlineContext.createBufferSource();
+  offlineSource.buffer = audioBuffer;
+  //desconectamos
+  offlineSource.disconnect();
+  //Chorus
+  chor_delaysoff.forEach(function(dly) {
+    offlineSource.connect(dly);
+  });
+  offlineSource.connect(retardooff);
+  for (var i = 0; i < chor_delaysoff.length; i++) {
+    chor_delaysoff[i].connect(chor_gainsoff[i])
+  }
+  chor_gainsoff.forEach(function(gain) {
+    gain.connect(retardooff);
+  });
+  //Eco
+  retardooff.connect(feedoff);
+  feedoff.connect(retardooff);
+  retardooff.connect(revdelayoff);
+  //Reverb
+  revdelayoff.connect(revgainoff);
+  revgainoff.connect(revdelayoff);
+  revdelayoff.connect(offlineContext.destination);
+
+  offlineSource.start();
+  const renderedBuffer = await offlineContext.startRendering();
+  if (tune==true){
+    const newBuffer = autotune(renderedBuffer);
+  }else{
+    const newBuffer = renderedBuffer;
+  }
+  
+    //playBuffer(newBuffer, audioContext);
+
+  // Convertir el buffer renderizado a WAV
+  wavBlob = bufferToWave(newBuffer);
+  aplicar_efectos();
+
+  //Desconectar todo
+  offlineSource.disconnect();
+  //Chorus
+  
+  //Puerta_ruidooff.disconnect();
+
+  for (var i = 0; i < chor_delays.length; i++) {
+    chor_delaysoff[i].disconnect()
+  }
+  chor_gainsoff.forEach(function(gain) {
+    gain.disconnect();
+  });
+  //Eco
+  retardooff.disconnect();
+  feedoff.disconnect();
+
+  revdelayoff.disconnect();
+  revgainoff.disconnect();
+
+  chor_delaysoff = [];
+  chor_gainsoff=[];
+
+}
 
 async function aplicarAutotune() {
 // Obtener el audio del elemento <audio> y convertirlo a un buffer
@@ -784,8 +861,82 @@ processedSource.start();
 
 
 // Event listener para el botón de aplicar autotune
-document.getElementById('boton_tune').addEventListener('click', aplicarAutotune);
+//document.getElementById('boton_tune').addEventListener('click', aplicarAutotune);
 
-///////////////////////////////////////////////////AUTOTUNE//////////////////////////////////////////////////////////////////////////////
+document.getElementById('downloadButton').onclick = async function() {
+  await render();
+  audioUrl='';    
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  // const blob = new Blob(down, { type: mediaRecorder.mimeType });
+  audioUrl = window.URL.createObjectURL(wavBlob);
+  a.href = audioUrl;
+  a.download = 'grabacion.wav';
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(audioUrl);
+  document.body.removeChild(a);
+  document.getElementById('downloadButton').disabled=true;
+};
 
+document.getElementById('boton_tune').onclick= async function(){
+  
+  if (tune==false){
+    tune=true;
+  }else{
+    tune=false;
+  }
+}
+
+function bufferToWave(abuffer) {
+  const numOfChan = abuffer.numberOfChannels;
+  const length = abuffer.length * numOfChan * 2 + 44;
+  const buffer = new ArrayBuffer(length);
+  const view = new DataView(buffer);
+  const channels = [];
+  let offset = 0;
+  let pos = 0;
+
+  function setUint16(data) {
+    view.setUint16(pos, data, true);
+    pos += 2;
+  }
+
+  function setUint32(data) {
+    view.setUint32(pos, data, true);
+    pos += 4;
+  }
+
+  // Write WAVE header
+  setUint32(0x46464952); // "RIFF"
+  setUint32(length - 8); // file length - 8
+  setUint32(0x45564157); // "WAVE"
+  setUint32(0x20746d66); // "fmt " chunk
+  setUint32(16); // length = 16
+  setUint16(1); // PCM (uncompressed)
+  setUint16(numOfChan);
+  setUint32(abuffer.sampleRate);
+  setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+  setUint16(numOfChan * 2); // block-align
+  setUint16(16); // 16-bit (hardcoded in this demo)
+
+  // Write interleaved data
+  setUint32(0x61746164); // "data" - chunk
+  setUint32(length - pos - 4); // chunk length
+
+  for (let i = 0; i < abuffer.numberOfChannels; i++) {
+    channels.push(abuffer.getChannelData(i));
+  }
+
+  while (pos < length) {
+    for (let i = 0; i < numOfChan; i++) {
+      let sample = Math.max(-1, Math.min(1, channels[i][offset])); // clamp
+      sample = sample * 32767.5; // scale to 16-bit signed int
+      view.setInt16(pos, sample, true); // write 16-bit sample
+      pos += 2;
+    }
+    offset++; // next source sample
+  }
+  return new Blob([buffer], { type: "audio/wav" });
+}
 

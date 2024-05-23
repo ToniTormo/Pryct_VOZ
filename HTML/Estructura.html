@@ -9,6 +9,7 @@
 <body>
     <div id="titulo">
         <h1>RESONANCE</h1>
+        <img src="../img/info.png" id="info_titulo">
     </div>
     <div id="indice">
         <audio id="repro" class="elem_indice"></audio>
@@ -27,27 +28,23 @@
     <div id="botones">
         <div id="sliders">
             <div class="sliders">
+                <span class="span_sliders" id="spanEcho">0 ms</span>
                 <input type="range" min="0" max="1" value="0" step="0.025" class="elem_slider" id="valueEcho">
                 <div class="name_slider">ECHO<img src="../img/info.png" class="info_sliders" id="info_echo"></div>
             </div>
             <div class="sliders">
+                <span class="span_sliders" id="spanChorus">0 voces</span>
                 <input type="range" min="0" max="8" value="0" step="1" class="elem_slider" id="valueChorus">
                 <div class="name_slider">CHORUS<img src="../img/info.png" class="info_sliders" id="info_chorus"></div>
             </div>
             <div class="sliders">
-                <input type="range" min="-100" max="0" value="-100" step="0.1" class="elem_slider" id="valueNoise">
-                <div class="name_slider">NOISE<img src="../img/info.png" class="info_sliders" id="info_noise"></div>
+                <span class="span_sliders" id="spanReverb">0</span>
+                <input type="range" min="0" max="0.9" value="0" step="0.01" class="elem_slider" id="valueReverb">
+                <div class="name_slider">REVERB<img src="../img/info.png" class="info_sliders" id="info_reverb"></div>
             </div>
         </div>
-
+        
         <div id="botones_mid">
-            <select class="botones_mid" style="appearance: none;">
-                <option selected hidden>SALAS DE REVERB</option>
-                <option value="Sin base">SIN SALA</option>
-                <option value="Sala 1">SALA 1</option>
-                <option value="Sala 2">SALA 2</option>
-                <option value="Sala 3">Sala 3</option>
-            </select>
             <audio id="base"></audio>
             <select id="bases" class="botones_mid" style="appearance: none;">
                 <option selected hidden>SELECCIONE UNA BASE</option>
@@ -57,9 +54,6 @@
                 <option value="Base 3">BASE 3</option>
             </select>
             <button class="botones_mid" id="boton_tune">AUTOTUNE</button>
-        </div>
-        <div id="info_mid">
-            <img src="../img/info.png" class="info_mid" id="info_reverb">
             <img src="../img/info.png" class="info_mid" id="info_bases">
             <img src="../img/info.png" class="info_mid" id="info_autotune">
         </div>
@@ -81,7 +75,8 @@
     <script src="../JS/main.js"></script>
     <script src="../JS/botones.js"></script>
     <script src="../JS/info.js"></script>
-   <!-- <script src="../JS/procesador-audio.js"></script> -->
+    <script src="../JS/autotune.js"></script>
+    <!-- <script src="../JS/procesador-audio.js"></script> -->
 
 </body>
 </html>
