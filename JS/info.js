@@ -76,11 +76,6 @@ const text_bases = "Este desplegable permite seleccionar la base que sonará al 
 
 crearInfoBox(info_bases, text_bases)
 
-// Autotune
-const info_autotune = document.getElementById("info_autotune");
-const text_autotune = "Por explicar"
-
-crearInfoBox(info_autotune, text_autotune)
 
 // BasesRepro
 const info_basesRepro = document.getElementById("info_basesRepro");
@@ -116,8 +111,7 @@ Chorus.addEventListener('input', function() {
         spanChorus.textContent = this.value + " voces";
     }
 });
-
-//Noise
+//Reverb
 const Reverb = document.getElementById("valueReverb");
 const spanReverb = document.getElementById("spanReverb");
 
@@ -125,18 +119,3 @@ Reverb.addEventListener('input', function() {
     spanReverb.textContent = this.value;
 });
 
-//Autotune
-const autotu = document.getElementById("boton_tune");
-var press = 0;
-
-autotu.addEventListener('click', function() {
-    if (press == 0) {
-        autotu.style.backgroundColor = "#c1c357";
-        info_autotune.style.backgroundColor = "#c1c357";
-        press = 1;
-    }else if(press == 1){
-        autotu.style.backgroundColor = "#DADC36";
-        info_autotune.style.backgroundColor = "#DADC36";
-        press = 0;
-    }
-});
