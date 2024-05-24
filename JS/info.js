@@ -76,7 +76,6 @@ const text_bases = "Este desplegable permite seleccionar la base que sonará al 
 
 crearInfoBox(info_bases, text_bases)
 
-
 // BasesRepro
 const info_basesRepro = document.getElementById("info_basesRepro");
 const text_basesRepro = "Tras seleccionar una base, el usuario podrá pulsar este botón para iniciar la reproducción de la base seleccionada. A continuación, el botón cambiará su icono a uno de pausa, permitiendo detener la reproducción de la base en cualquier momento. En caso de que no se haya seleccionado una base el botón no estará habilitado."
@@ -88,7 +87,6 @@ const info_inicioGrabacion = document.getElementById("info_inicioGrabacion");
 const text_inicioGrabacion = "Al pulsar por primera vez este botón, se activará la grabación del micrófono. Es probable que el navegador pida permiso al usuario para acceder al micrófono, por lo que se deberá aceptar este permiso. Tras pulsar el botón, éste pasará a contener un icono distinto: un cuadrado que indica el fin de la grabación. Al pulsarlo, la grabación acabará y se guardará para reproducirla en el reproductor superior y descargarla, a la vez que el botón vuelve a su estado original con el icono de micrófono."
 
 crearInfoBox(info_inicioGrabacion, text_inicioGrabacion)
-
 
 // Funciones actualizar sliders
 
@@ -111,6 +109,7 @@ Chorus.addEventListener('input', function() {
         spanChorus.textContent = this.value + " voces";
     }
 });
+
 //Reverb
 const Reverb = document.getElementById("valueReverb");
 const spanReverb = document.getElementById("spanReverb");

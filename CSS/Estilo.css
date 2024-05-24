@@ -263,7 +263,7 @@ body, html{
 
 #botones_mid{
     position: fixed;
-    top: calc(68vh + 20vw);
+    top: calc(68vh + 26vw);
     bottom: 0%;
     right: calc(23vw + 10vh);
     left: calc(35vw + 10vh);
@@ -276,7 +276,7 @@ body, html{
     align-self: center;
 }
 
-.botones_mid{
+#bases{
     width: 45%;
     height: 6%;
 
@@ -398,8 +398,8 @@ button{
     margin-bottom: 0.8%;
 }
 
-.info_mid{
-    transform: translateX(300%) translateY(calc(-12vh - 7.8vw));
+#info_bases{
+    transform: translateX(300%) translateY(calc(-6vh - 3.9vw));
 
     width: auto;
     height: 6%;
