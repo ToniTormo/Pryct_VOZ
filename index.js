@@ -1,0 +1,1 @@
+/* This is the index.js file. It serves as the entry point for our application. Here, we initialize and configure our application. */

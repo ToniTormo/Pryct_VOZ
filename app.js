@@ -1,0 +1,1 @@
+/* This is the app.js file. It contains the main application logic. Here, we define the application's routes and their handlers. */

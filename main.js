@@ -1,0 +1,1 @@
+/* This is the main.js file. It contains the main application flow and logic. Here, we register event listeners and handle user interactions. */
