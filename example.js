@@ -1,0 +1,1 @@
+document.querySelectorAll('p').forEach(function(el) { el.style.color = 'red'; });
