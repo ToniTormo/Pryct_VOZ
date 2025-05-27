@@ -1,0 +1,19 @@
+/* Existing CSS content here */
+
+/* Media queries for different screen sizes */
+@media only screen and (max-width: 600px) {
+/* CSS for mobile screens */
+}
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+/* CSS for tablet screens */
+}
+@media only screen and (min-width: 1025px) {
+/* CSS for desktop screens */
+}
+
+/* Night mode CSS */
+body.night-mode {
+background-color: #000;
+color: #fff;
+/* Rest of your night mode CSS here */
+}
