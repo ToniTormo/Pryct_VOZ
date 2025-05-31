@@ -1,0 +1,1 @@
+const utilityFunction1 = () => { /*logic*/ }; const utilityFunction2 = () => { /*logic*/ }; module.exports = { utilityFunction1, utilityFunction2 };
