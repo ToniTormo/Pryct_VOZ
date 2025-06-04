@@ -1,3 +1,4 @@
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 function argprin(v) {
     // Calcula el argumento principal de v
     let w = (Math.atan2(Math.sin(v), Math.cos(v)) + Math.PI) % (2 * Math.PI) - Math.PI;
@@ -377,3 +378,14 @@ function autotune(audioBuffer) {
 
     return newBuffer;
 }
+
+
+const audioContext = new AudioContext();
+const oscillator = audioContext.createOscillator();
+const gainNode = audioContext.createGain();
+osciillator.connect(gainNode);
+gainNode.connect(audioContext.destination);
+osciillator.type = 'sine';
+osciillator.frequency.value = 440; 
+gainNode.gain.value = 0.5;
+osciillator.start();
