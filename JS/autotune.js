@@ -377,3 +377,14 @@ function autotune(audioBuffer) {
 
     return newBuffer;
 }
+
+
+// Web Audio API implementation for voice manipulation
+function modifyPitch(audioContext, sourceNode, pitch) {
+    var biquadFilter = audioContext.createBiquadFilter();
+    biquadFilter.type = 'peaking';
+    biquadFilter.frequency.value = pitch;
+    sourceNode.connect(biquadFilter);
+    biquadFilter.connect(audioContext.destination);
+    return biquadFilter;
+}
