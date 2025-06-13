@@ -351,6 +351,9 @@ function modificaPitch(xin, fs, B, H, f0, f02, fmin) {
     return A_corrected;
 }
 
+import { trayectoriaPitch_stft, modificaPitch } from './pitch.js';
+import { argprin } from './utils.js';
+
 function autotune(audioBuffer) {
     // Parámetros para el cálculo del espectrograma
     const fs = 44100; // Frecuencia de muestreo del audio
