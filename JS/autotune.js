@@ -1,6 +1,5 @@
-function argprin(v) {
-    // Calcula el argumento principal de v
-    let w = (Math.atan2(Math.sin(v), Math.cos(v)) + Math.PI) % (2 * Math.PI) - Math.PI;
+import { argprin, segmentaf0, convolve, generarFrecuenciasNotas, frecuenciaMasCercana } from './utils';import { trayectoriaPitch_stft, modificaPitch } from './pitch';    // Calcula el argumento principal de v
+import { eco, reverb, aplicar_efectos, chorus } from './effects';    let w = (Math.atan2(Math.sin(v), Math.cos(v)) + Math.PI) % (2 * Math.PI) - Math.PI;
     return w;
 }
 
