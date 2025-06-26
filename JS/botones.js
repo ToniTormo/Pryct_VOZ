@@ -4,9 +4,8 @@ var botonBases = document.getElementById('stopButton');
 var estadoAudio = document.getElementById('estado-audio');
 var imagenPlay = document.getElementById('playImg');
 var imagenBases = document.getElementById('stopImg');
-var bases=document.getElementById("bases");
-var base= document.getElementById("base");
-botonPlayPause.addEventListener('click', function() {
+var bases=document.getElementById('bases');
+var base= document.getElementById('base');botonPlayPause.addEventListener('click', function() {
     if (audio.paused || audio.ended) {
         imagenPlay.src = "../img/pausa2.png";
     } else {
@@ -76,3 +75,4 @@ bases.addEventListener('change',function(){
 
 
 
+// New functionality can be added here

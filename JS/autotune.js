@@ -4,26 +4,16 @@ function argprin(v) {
     return w;
 }
 
+// Refactored segmentaf0 function
 function segmentaf0(fo, M=3, D=3, umbral=10) {
-    // Definimos el filtro de promediado
     if (D > M) {
         D = M;
     }
     const h = new Array(2 * D + 1).fill(1 / (2 * D));
     h[D + 1] = 0;
 
-    // Realizamos una doble diferenciación para detectar grandes variaciones en el pitch y las hacemos cero (sonidos sordos)
     let f0 = [...fo];
     let ruido = [];
-    for (let i = 0; i < f0.length - 1; i++) {
-        if (Math.abs(f0[i + 1] - f0[i]) > umbral) {
-            ruido.push(i);
-        }
-    }
-    ruido.forEach(idx => {
-        f0[idx] = 0;
-    });
-    ruido = [];
     for (let i = 0; i < f0.length - 1; i++) {
         if (Math.abs(f0[i + 1] - f0[i]) > umbral) {
             ruido.push(i);
@@ -36,7 +26,6 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
     const Nbloques = f0.length;
     const sonoras = new Array(Nbloques + 1).fill(0);
 
-    // Eliminamos los tramos sordos muy cortos interpolando
     for (let i = 0; i < Nbloques; i++) {
         sonoras[i] = f0[i] > 0 ? 1 : 0;
     }
@@ -65,7 +54,6 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
         inicio = fin;
     });
 
-    // Eliminamos los tramos sonoros muy cortos
     for (let i = 0; i < Nbloques; i++) {
         sonoras[i] = f0[i] > 0 ? 1 : 0;
     }
@@ -93,7 +81,6 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
         inicio = fin;
     });
 
-    // Eliminamos anomalías
     for (let i = 0; i < Nbloques; i++) {
         sonoras[i] = f0[i] > 0 ? 1 : 0;
     }
@@ -132,7 +119,6 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
 
     return f0;
 }
-
 // Función de convolución
 function convolve(signal, kernel) {
     const result = [];
