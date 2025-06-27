@@ -5,43 +5,56 @@ function argprin(v) {
 }
 
 function segmentaf0(fo, M=3, D=3, umbral=10) {
-    // Definimos el filtro de promediado
+    // Apply smoothing filter
     if (D > M) {
         D = M;
     }
     const h = new Array(2 * D + 1).fill(1 / (2 * D));
     h[D + 1] = 0;
 
-    // Realizamos una doble diferenciación para detectar grandes variaciones en el pitch y las hacemos cero (sonidos sordos)
+    // Step 1: Detect large variations and set to zero
     let f0 = [...fo];
-    let ruido = [];
-    for (let i = 0; i < f0.length - 1; i++) {
-        if (Math.abs(f0[i + 1] - f0[i]) > umbral) {
-            ruido.push(i);
+    f0 = detectLargeVariations(f0, umbral);
+
+    // Step 2: Interpolate short silent segments
+    f0 = interpolateShortSilentSegments(f0, M, D);
+
+    // Step 3: Remove short voiced segments
+    f0 = interpolateShortVoicedSegments(f0, M, D);
+
+    // Step 4: Filter anomalies
+    f0 = filterAnomalies(f0, M, D, umbral);
+
+    return f0;
+}
+
+// Helper function to detect large variations and set to zero
+function detectLargeVariations(f0, umbral) {
+    const f0_copy = [...f0];
+    const length = f0_copy.length;
+    for (let i = 0; i < length - 1; i++) {
+        if (Math.abs(f0_copy[i + 1] - f0_copy[i]) > umbral) {
+            f0_copy[i] = 0;
         }
     }
-    ruido.forEach(idx => {
-        f0[idx] = 0;
-    });
-    ruido = [];
-    for (let i = 0; i < f0.length - 1; i++) {
-        if (Math.abs(f0[i + 1] - f0[i]) > umbral) {
-            ruido.push(i);
+    // Repeat detection for double differentiation
+    for (let i = 0; i < length - 1; i++) {
+        if (Math.abs(f0_copy[i + 1] - f0_copy[i]) > umbral) {
+            f0_copy[i] = 0;
         }
     }
-    ruido.forEach(idx => {
-        f0[idx] = 0;
-    });
+    return f0_copy;
+}
 
-    const Nbloques = f0.length;
-    const sonoras = new Array(Nbloques + 1).fill(0);
-
-    // Eliminamos los tramos sordos muy cortos interpolando
-    for (let i = 0; i < Nbloques; i++) {
-        sonoras[i] = f0[i] > 0 ? 1 : 0;
-    }
-    sonoras[Nbloques] = sonoras[Nbloques - 1] ? 0 : 1;
-
+// Helper function to interpolate short silent segments
+function interpolateShortSilentSegments(f0, M, D) {
+    const f0_interp = [...f0];
+    const N = f0_interp.length;
+    const h = new Array(2 * D + 1).fill(1 / (2 * D));
+    h[D + 1] = 0;
+    // Convert to binary voiced/unvoiced
+    let sonoras = f0_interp.map(val => val > 0 ? 1 : 0);
+    sonoras.push(sonoras[sonoras.length - 1] ? 0 : 1);
     const cambio = [];
     for (let i = 1; i < sonoras.length; i++) {
         cambio.push(sonoras[i] - sonoras[i - 1]);
@@ -50,27 +63,29 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
         if (val !== 0) acc.push(idx);
         return acc;
     }, []);
-
     let inicio = 0;
     bloquecambio.forEach(b => {
         const fin = b + 1;
         if (fin - inicio < M) {
             if (!sonoras[fin - 1]) {
-                const interpolatedValues = Array.from({ length: fin - inicio + 1 }, (_, i) => f0[inicio - 1] + (f0[fin] - f0[inicio - 1]) * (i / (fin - inicio)));
+                const interpolatedValues = Array.from({ length: fin - inicio + 1 }, (_, i) => f0_interp[inicio - 1] + (f0_interp[fin] - f0_interp[inicio - 1]) * (i / (fin - inicio)));
                 for (let i = inicio - 1; i < fin + 1; i++) {
-                    f0[i] = interpolatedValues[i - inicio + 1];
+                    f0_interp[i] = interpolatedValues[i - inicio + 1];
                 }
             }
         }
         inicio = fin;
     });
+    return f0_interp;
+}
 
-    // Eliminamos los tramos sonoros muy cortos
-    for (let i = 0; i < Nbloques; i++) {
-        sonoras[i] = f0[i] > 0 ? 1 : 0;
-    }
-    sonoras[Nbloques] = sonoras[Nbloques - 1] ? 0 : 1;
-
+// Helper function to interpolate short voiced segments
+function interpolateShortVoicedSegments(f0, M, D) {
+    const f0_copy = [...f0];
+    const N = f0_copy.length;
+    // Convert to binary voiced/unvoiced
+    let sonoras = f0_copy.map(val => val > 0 ? 1 : 0);
+    sonoras.push(sonoras[sonoras.length - 1] ? 0 : 1);
     const cambio2 = [];
     for (let i = 1; i < sonoras.length; i++) {
         cambio2.push(sonoras[i] - sonoras[i - 1]);
@@ -79,26 +94,28 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
         if (val !== 0) acc.push(idx);
         return acc;
     }, []);
-
-    inicio = 0;
+    let inicio = 0;
     bloquecambio2.forEach(b => {
         const fin = b + 1;
         if (fin - inicio < M) {
             if (sonoras[fin - 1]) {
                 for (let i = inicio; i < fin; i++) {
-                    f0[i] = 0;
+                    f0_copy[i] = 0;
                 }
             }
         }
         inicio = fin;
     });
+    return f0_copy;
+}
 
-    // Eliminamos anomalías
-    for (let i = 0; i < Nbloques; i++) {
-        sonoras[i] = f0[i] > 0 ? 1 : 0;
-    }
-    sonoras[Nbloques] = sonoras[Nbloques - 1] ? 0 : 1;
-
+// Helper function to filter anomalies
+function filterAnomalies(f0, M, D, umbral) {
+    const f0_filtered = [...f0];
+    const N = f0_filtered.length;
+    // Recompute voiced/unvoiced
+    let sonoras = f0_filtered.map(val => val > 0 ? 1 : 0);
+    sonoras.push(sonoras[sonoras.length - 1] ? 0 : 1);
     const cambio3 = [];
     for (let i = 1; i < sonoras.length; i++) {
         cambio3.push(sonoras[i] - sonoras[i - 1]);
@@ -107,12 +124,11 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
         if (val !== 0) acc.push(idx);
         return acc;
     }, []);
-
-    inicio = 0;
+    let inicio = 0;
     bloquecambio3.forEach(b => {
         const fin = b + 1;
         if (sonoras[fin - 1]) {
-            const Bloquesonoro = f0.slice(inicio, fin);
+            const Bloquesonoro = f0_filtered.slice(inicio, fin);
             const Bloquesonoro_e = [...Bloquesonoro.slice(D, 0).reverse(), ...Bloquesonoro, ...Bloquesonoro.slice(-2, -2 - D, -1)];
             const Bloquesonoro_convolved = convolve(Bloquesonoro_e, h);
             const Bloquesonoro_filtered = Bloquesonoro_convolved.slice(2 * D, -2 * D);
@@ -124,13 +140,12 @@ function segmentaf0(fo, M=3, D=3, umbral=10) {
                 Bloquesonoro[a] = Bloquesonoro_filtered[a];
             });
             for (let i = inicio; i < fin; i++) {
-                f0[i] = Bloquesonoro[i - inicio];
+                f0_filtered[i] = Bloquesonoro[i - inicio];
             }
         }
         inicio = fin;
     });
-
-    return f0;
+    return f0_filtered;
 }
 
 // Función de convolución
