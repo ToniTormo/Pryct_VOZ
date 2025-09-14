@@ -1,0 +1,13 @@
+{
+  "name": "pryct_voz",
+  "version": "1.0.0",
+  "description": "Pryct_VOZ - tests for autotune utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive --exit"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
+}
