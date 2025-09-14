@@ -1,0 +1,11 @@
+{
+  "name": "pryct_voz",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
