@@ -6,26 +6,19 @@ const crearInfoBox = (info, text) => {
     span_style.style.top = "50%";
     span_style.style.left = "50%";
     span_style.style.transform = "translate(-50%, -50%)";
-
-    span_style.style.width = "auto";
-    span_style.style.height = "auto";
-
-    span_style.style.padding = "1.2%";
-
+    span_style.style.maxWidth = "520px";
+    span_style.style.padding = "14px";
     span_style.style.display = "flex";
     span_style.style.justifyContent = "center";
     span_style.style.alignItems = "center";
-
     span_style.style.textAlign = "justify";
-
-    span_style.style.backgroundColor = "khaki";
-    span_style.style.border = "calc(0.08vh + 0.08vw) solid black"
-    span_style.style.borderRadius = "calc(0.6vh + 0.6vw)";
-    
+    span_style.style.backgroundColor = "var(--panel)";
+    span_style.style.color = "var(--text)";
+    span_style.style.border = "1px solid rgba(0,0,0,0.2)";
+    span_style.style.borderRadius = "10px";
+    span_style.style.boxShadow = "0 8px 30px rgba(0,0,0,0.45)";
     span_style.style.zIndex = "1000";
-
-    span_style.textContent = text;
-
+    span_style.classList.add('fade-in');
     info.addEventListener('mouseover', () => {
         body.appendChild(span_style);
     });

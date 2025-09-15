@@ -19,16 +19,55 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+/* ========== Theme variables & modern base styles (inserted) ========== */
+:root {
+    --bg: #0b0f12;            /* default dark background */
+    --panel: #0f1618;
+    --accent: #DADC36;
+    --accent-2: #00A79D;
+    --text: #E6F0EF;
+    --muted: #9AA6A3;
+    --led-off: #2b2f2f;
+    --led-on: #ffcc33;
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --transition: 300ms cubic-bezier(.2,.9,.2,1);
+}
+.theme-light {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --accent: #006d5b;
+    --accent-2: #00A79D;
+    --text: #0b0f12;
+    --muted: #4a4f4f;
+    --led-off: #dfe6e4;
+    --led-on: #ffb84d;
+    --glass: rgba(0,0,0,0.04);
+    --glass-2: rgba(0,0,0,0.02);
+}
+
+/* Smooth transitions for interactive elements */
+* { transition: background-color var(--transition), color var(--transition), transform var(--transition); }
+
+/* Canvas and UI container baseline */
+#visualizerContainer { pointer-events: auto; }
+canvas { width: 100%; height: auto; display: block; border-radius: 8px; background: linear-gradient(180deg,var(--glass),transparent); box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
+.theme-toggle { background: var(--panel); color: var(--text); border: none; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+
+.led { width: 14px; height: 14px; border-radius: 50%; background: var(--led-off); box-shadow: 0 0 10px rgba(0,0,0,0.4) inset; border: 1px solid rgba(0,0,0,0.5);} 
+.led.on { background: var(--led-on); box-shadow: 0 0 12px var(--led-on); transform: scale(1.08); }
+
+@keyframes pulseLed { 0% { box-shadow: 0 0 4px rgba(0,0,0,0.2);} 50% { box-shadow: 0 0 18px rgba(255,204,51,0.9);} 100% { box-shadow: 0 0 4px rgba(0,0,0,0.2);} }
 
 body, html{
-    background-color:black;
-    font-family: Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: Inter, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    
+    min-height: 100vh;
     width: 100%;
-    height: 100%;
-    position: fixed;
+    transition: background-color var(--transition), color var(--transition);
 }
 
 #titulo{
@@ -413,6 +452,10 @@ button{
 }
 
 .info_controladores{
+button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+.panel { background: linear-gradient(180deg,var(--panel),var(--glass)); border-radius: 10px; padding: 8px; }
+.fade-in { animation: fadeIn 260ms ease-out both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
     width: 24%;
     height: auto;
 

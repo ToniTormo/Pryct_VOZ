@@ -6,10 +6,7 @@ En tus manos dejamos nuestro proyecto de la asignatura de Voz.
 
 Primeramente, te explicaremos de forma breve cómo puedes inicializarlo. 
 
-**Para probar nuestro proyecto solo tienes que abrir tu navegador y arrastrar el HTML dentro.**
-Y ya está. Fácil y sencillo. **No necesitas Ni servidores ni descarga de librerías.**
-
-Una vez se abra la página **recomendamos que leas todos los pop-ups de información** para poder hacer un correcto uso de sus funciones.
+**Para probar el proyecto en modo demo profesional:** Sirve un servidor estático simple (por ejemplo: VSCode Live Server o python -m http.server) y abre http://localhost:8000/HTML/Resonance.html. Esto es necesario porque la versión modular (ES Modules) requiere cargar los scripts como módulos.Una vez se abra la página **recomendamos que leas todos los pop-ups de información** para poder hacer un correcto uso de sus funciones.
 También **recomendamos auriculares y un entorno sin mucho ruido de fondo.**
 
 ***¡Esperamos que te guste!***
@@ -29,4 +26,12 @@ Otro de los problemas que tuvimos al principio, es que queríamos que mientras t
 ¡Esperamos que te guste/gustara nuestro proyecto! :3
 <3 <3 <3 <3 
 
+
+---
+DEMO: Esta versión ha sido modernizada con:
+- Visualizador de ondas en tiempo real y espectrograma (Canvas)
+- Indicadores LED de nivel y animaciones CSS
+- Clases ES6 (AudioProcessor, EventBus) y modularización
+- Eliminación básica de ruido, compresión, y render offline
+- Toggle de tema oscuro/claro, presets y undo/redo (básico)
 
