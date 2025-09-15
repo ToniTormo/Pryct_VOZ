@@ -8,6 +8,14 @@ Primeramente, te explicaremos de forma breve cómo puedes inicializarlo.
 
 **Para probar nuestro proyecto solo tienes que abrir tu navegador y arrastrar el HTML dentro.**
 Y ya está. Fácil y sencillo. **No necesitas Ni servidores ni descarga de librerías.**
+IMPORTANT: For development and automated tests we added npm scripts. If you have Node.js installed you can run:
+- npm install    # installs dev dependencies (jest, http-server)
+- npm test       # run unit tests (Jest)
+- npm start      # starts a static server on http://localhost:8080 to open the HTML in the browser
+
+If you prefer the original behavior (open the HTML file directly by dragging to the browser), that still works unchanged.
+
+Rationale: This documents the small additions (test & start). The original usage instruction remains valid per requirement.
 
 Una vez se abra la página **recomendamos que leas todos los pop-ups de información** para poder hacer un correcto uso de sus funciones.
 También **recomendamos auriculares y un entorno sin mucho ruido de fondo.**

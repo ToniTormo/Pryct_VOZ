@@ -20,8 +20,15 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
+:root {
+  --main-bg: #000000;
+  --accent-1: #00A79D;
+  --accent-2: #DADC36;
+  --accent-contrast: #e34949;
+}
+
 body, html{
-    background-color:black;
+    background-color: var(--main-bg);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -73,7 +80,7 @@ body, html{
     justify-content: center;
     justify-items: center;
 
-    background-color: #0AAB9C;
+    background-color: var(--accent-1);
 }
 
 .elem_indice{
@@ -115,7 +122,7 @@ body, html{
     position: relative;
     bottom: calc(0.25vh + 0.25vw);
 
-    background-color:#DADC36; 
+    background-color: var(--accent-2); 
     border-radius: calc(0.2vh + 0.2vw);
     cursor: pointer;
     appearance: none;
@@ -145,7 +152,7 @@ body, html{
     display: flex;
     height: fit-content;
     
-    background-color: #DADC36;
+    background-color: var(--accent-2);
 }
 
 /* Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / */
@@ -190,7 +197,7 @@ body, html{
     margin-right: 8%;
     margin-left: 8%;
 
-    background: linear-gradient(to top, #DADC36, #00A79D);
+    background: linear-gradient(to top, var(--accent-2), var(--accent-1));
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -209,7 +216,7 @@ body, html{
     text-align: center;
     font-size: calc(0.7vh + 0.7vw);
 
-    background-color: #DADC36;
+    background-color: var(--accent-2);
     border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
 }
@@ -252,7 +259,7 @@ body, html{
     position: relative;
     bottom: calc(0.9vh + 0.9vw);
 
-    background-color:#DADC36;
+    background-color: var(--accent-2);
     border:calc(0.01vh + 0.01vw) solid black;
     border-radius: calc(0.2vh + 0.2vw);
     cursor: pointer;
@@ -286,7 +293,7 @@ body, html{
     font-size: calc(0.7vh + 0.7vw);
     text-align: center;
     
-    background-color: #DADC36;
+    background-color: var(--accent-2);
     border-bottom-left-radius: calc(0.6vh + 0.6vw);
     border-top-left-radius: calc(0.6vh + 0.6vw);
     cursor: pointer;
@@ -325,7 +332,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 5%, #00A79D 40%, #00A79D 100%);
+    background: linear-gradient(to top, var(--accent-2) 0%, var(--accent-2) 5%, var(--accent-1) 40%, var(--accent-1) 100%);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -338,7 +345,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 1%, #e34949 30%, #e34949 100%);
+    background: linear-gradient(to top, var(--accent-2) 0%, var(--accent-2) 1%, var(--accent-contrast) 30%, var(--accent-contrast) 100%);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -352,6 +359,20 @@ button{
     background-color: transparent;
     cursor: pointer;
 }
+
+button img, #startImg, #stopImg, #downloadImg { transition: transform 0.15s ease, filter 0.15s ease; }
+button:hover img { transform: scale(1.06); filter: brightness(1.08); }
+.sliders { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.sliders:hover { transform: translateY(-6px); box-shadow: 0 10px 20px rgba(0,0,0,0.35); }
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Helper class to toggle on recording elements (JS can add/remove 'recording') */
+.recording { animation: pulse 0.9s infinite ease-in-out; }
 
 .name_controladores{
     position: fixed;
@@ -368,7 +389,7 @@ button{
     text-align: center;
     font-size: calc(0.6vh + 0.6vw);
 
-    background-color: #DADC36;
+    background-color: var(--accent-2);
     border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
 }
@@ -407,7 +428,7 @@ button{
     margin-top: 6%;
     margin-bottom: 6%;
     
-    background-color: #DADC36;
+    background-color: var(--accent-2);
     border-top-right-radius: calc(0.6vh + 0.6vw);
     border-bottom-right-radius: calc(0.6vh + 0.6vw);
 }
@@ -419,4 +440,17 @@ button{
     margin-left: 2%;
     margin-right: 4%;
     margin-bottom: 0.8%;
+}
+
+@media (max-width: 900px) {
+  #sliders { width: 80% !important; right: 0 !important; left: 0 !important; }
+  #controladores { left: 0 !important; width: 100% !important; top: calc(30vh + 6vw); }
+  .name_slider { width: 20% !important; font-size: calc(1vh + 1vw); }
+  #titulo h1 { font-size: calc(4vh + 4vw); }
+}
+@media (max-width: 480px) {
+  #titulo { height: calc(12vh + 8vw); }
+  #sliders { display:block; position: relative; top: auto; left: auto; right: auto; }
+  button img { height: calc(5vh + 3vw); width: calc(5vh + 3vw); }
+}
 }
