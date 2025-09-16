@@ -30,3 +30,20 @@ Otro de los problemas que tuvimos al principio, es que queríamos que mientras t
 <3 <3 <3 <3 
 
 
+## Ejecución y tests (actualizado)
+
+- Para ejecutar un servidor simple y visualizar la página en el navegador (recomendado en lugar de abrir el archivo directamente):
+
+  npm install
+  npm run start
+
+  Luego abrir http://localhost:8080/HTML/Resonance.html
+
+- Para ejecutar los tests automatizados (Jest):
+
+  npm install
+  npm test
+
+Nota: Se han modularizado los ficheros JavaScript en JS/AudioEngine.js, JS/EffectsProcessor.js, JS/UIController.js y utilidades en JS/utils/. Los tests se encuentran en el directorio tests/. Si prefieres seguir abriendo el HTML localmente arrastrando el archivo al navegador, sigue funcionando como antes, pero para evitar problemas de CORS al usar audio y contextos offline se recomienda usar el pequeño servidor de arriba.
+
+Rationale: documents new scripts and brief guidance.
