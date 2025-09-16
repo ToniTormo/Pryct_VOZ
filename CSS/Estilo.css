@@ -30,6 +30,7 @@ body, html{
     height: 100%;
     position: fixed;
 }
+:root { --primary-color: #00A79D; --accent-color: #DADC36; --bg-color: #000000; }
 
 #titulo{
     position: fixed;
@@ -73,7 +74,7 @@ body, html{
     justify-content: center;
     justify-items: center;
 
-    background-color: #0AAB9C;
+    background-color: var(--primary-color);
 }
 
 .elem_indice{
@@ -190,7 +191,7 @@ body, html{
     margin-right: 8%;
     margin-left: 8%;
 
-    background: linear-gradient(to top, #DADC36, #00A79D);
+    background: linear-gradient(to top, var(--accent-color), var(--primary-color));
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -325,7 +326,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 5%, #00A79D 40%, #00A79D 100%);
+    background: linear-gradient(to top, var(--accent-color) 0%, var(--accent-color) 5%, var(--primary-color) 40%, var(--primary-color) 100%);
     border-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -351,6 +352,27 @@ button{
     border-style:none;
     background-color: transparent;
     cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.sliders{
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.sliders:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+}
+
+.name_slider{
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.name_slider:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35);
 }
 
 .name_controladores{
@@ -419,4 +441,33 @@ button{
     margin-left: 2%;
     margin-right: 4%;
     margin-bottom: 0.8%;
+}@media (max-width: 900px) {
+    #sliders {
+        position: static;
+        width: 100%;
+        height: auto;
+        right: 0;
+        left: 0;
+        top: calc(22vh + 6vw);
+    }
+    #controladores {
+        position: static;
+        width: 100%;
+        margin-top: 2rem;
+        left: 0;
+    }
+    #titulo {
+        height: auto;
+        position: relative;
+    }
+}
+
+@media (max-width: 480px) {
+    #titulo h1 {
+        font-size: 6vw;
+    }
+    .elem_indice {
+        width: auto;
+        font-size: 3.5vw;
+    }
 }

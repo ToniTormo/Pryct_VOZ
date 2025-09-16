@@ -7,6 +7,9 @@ En tus manos dejamos nuestro proyecto de la asignatura de Voz.
 Primeramente, te explicaremos de forma breve cómo puedes inicializarlo. 
 
 **Para probar nuestro proyecto solo tienes que abrir tu navegador y arrastrar el HTML dentro.**
+Nota: Este repositorio ahora incluye scripts npm para ejecutar tests y un arranque de desarrollo. Si desea ejecutar los tests unitarios (Jest) ejecute: npm install && npm test. Para iniciar en un entorno Node.js con módulos y pruebas use: npm start (arranca un pequeño servidor si lo configura). Los ficheros JS han sido modularizados en JS/AudioEngine.js, JS/EffectsProcessor.js, JS/UIController.js y utilidades en JS/utils/. Si abre el HTML directamente en el navegador la interfaz sigue funcionando (main.js expone módulos al objeto window para compatibilidad).
+
+Si prefiere el uso simple original (arrastrar el HTML al navegador) eso sigue funcionando.
 Y ya está. Fácil y sencillo. **No necesitas Ni servidores ni descarga de librerías.**
 
 Una vez se abra la página **recomendamos que leas todos los pop-ups de información** para poder hacer un correcto uso de sus funciones.

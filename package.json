@@ -1,0 +1,13 @@
+{
+  "name": "pryct_voz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest --verbose",
+    "start": "node -e \"console.log('Start script placeholder — this project is mostly frontend. Use a static server if needed.');\""
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

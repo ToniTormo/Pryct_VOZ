@@ -1,367 +1,74 @@
+'use strict';
 
-// Variables globales
-let audioStream;
-let audioRecorder;
-let mediaRecorder;
-const audioElement = document.getElementById('repro'); // Obtener el elemento reproductor
-var audio = document.getElementById('repro');
-let ctx;
-var sourceNode;
-var Puerta_ruido;
-var retardo;
-var feed;
-var chor_delays = [];
-var chor_gains=[];
-var Puerta_ruidooff;
-var retardooff;
-var feedoff;
-var chor_delaysoff = [];
-var chor_gainsoff=[];
-var grabando = false;
-var audioUrl;
-var offlineContext;
-var offlineSource;
-var audioBuffer;
-var wavBlob;
-var revdelay;
-var revdelayoff;
-var revgain;
-var revgainoff;
-document.getElementById('startButton').disabled = false;
+// Lightweight initializer / loader for both Node (CommonJS) and browser environments.
+// This file delegates heavy logic to AudioEngine.js, EffectsProcessor.js and UIController.js.
 
-// Función para iniciar la grabación
-async function startRecording() {
-  audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  if (audioStream) {
+// Attempt to require modules via CommonJS (Node). If require is not available or fails,
+// fall back to window globals (browser).
+let AudioEngine;
+let EffectsProcessor;
+let UIController;
 
-    const constraints = { audio: true };
-    let chunks = [];
-    if (!ctx) {
-      ctx = new AudioContext();
+try {
+  AudioEngine = (typeof require !== 'undefined') ? require('./AudioEngine') : window.AudioEngine;
+} catch (err) {
+  // If require exists but module not found or other error, fall back to window (if present).
+  AudioEngine = (typeof window !== 'undefined') ? window.AudioEngine : undefined;
+}
 
+try {
+  EffectsProcessor = (typeof require !== 'undefined') ? require('./EffectsProcessor') : window.EffectsProcessor;
+} catch (err) {
+  EffectsProcessor = (typeof window !== 'undefined') ? window.EffectsProcessor : undefined;
+}
+
+try {
+  UIController = (typeof require !== 'undefined') ? require('./UIController') : window.UIController;
+} catch (err) {
+  UIController = (typeof window !== 'undefined') ? window.UIController : undefined;
+}
+
+// Initialize wiring between UI and audio/effects modules.
+// UIController is responsible for registering DOM event listeners and delegating actions
+// to AudioEngine and EffectsProcessor. Do not register event listeners in this file.
+if (UIController && typeof UIController.init === 'function') {
+  try {
+    // Provide references to the audio modules so the UI can wire them up.
+    UIController.init({ AudioEngine, EffectsProcessor });
+  } catch (initErr) {
+    // Initialization errors should be surfaced for debugging, but not crash the app.
+    if (typeof console !== 'undefined' && console.error) {
+      console.error('UIController.init failed:', initErr);
     }
-    if (!sourceNode){
-    sourceNode = ctx.createMediaElementSource(audioElement);
-    }
- 
-    source = ctx.createMediaStreamSource(audioStream);
-    audioRecorder = ctx.createMediaStreamDestination();
-    source.connect(audioRecorder);
-    mediaRecorder = new MediaRecorder(audioRecorder.stream, { mimeType: 'audio/webm', audioBitsPerSecond : 256000 });
-    mediaRecorder.start();
-
-    document.getElementById('downloadButton').disabled = true
-
-    mediaRecorder.ondataavailable = async function (e) {
-      chunks.push(e.data);
-      const blob = new Blob(chunks, {type: mediaRecorder.mimeType});
-      const arrayBuffer = await blob.arrayBuffer();
-      if (!audioBuffer){
-        audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-      }
-      
-      // Configuración de nodos de efectos
-      sourceNode.buffer = audioBuffer;
-      chunks = [];
-      audioUrl = window.URL.createObjectURL(blob);
-      audioElement.src = audioUrl;
-      if (!offlineContext){ 
-        offlineContext= new OfflineAudioContext(
-        audioBuffer.numberOfChannels,
-        audioBuffer.length,
-        audioBuffer.sampleRate);
-      }
-      if (!offlineSource){
-        offlineSource= offlineContext.createBufferSource();
-      } 
-
-      chorus();
-      eco();
-      reverb();
-      aplicar_efectos();
-      
-    };
-
-  } else {
-    console.log("MediaDevices.getUserMedia() not supported on your browser!");
   }
-  
-}
-
-// Función para detener la grabación
-async function stopRecording() {
-  mediaRecorder.stop();
-  audioStream.getTracks().forEach(track => track.stop());
-  // Actualizar UI
-  document.getElementById('startButton').disabled = false;
-  document.getElementById('downloadButton').disabled = false; // Habilitar el botón de descarga
-  document.getElementById('stopButton').disabled=false;
-  
-}
-
-function start_stop(){
-  if (grabando == false){
-    document.getElementById('startImg').src = "../img/cuadrado.png";
-    startRecording();
-    grabando = true;
-  } else {
-    document.getElementById('startImg').src = "../img/micro.png";
-    stopRecording();
-    grabando = false;
-  }
-}
-
-// Iniciar grabación al hacer clic en el botón "Comenzar grabación"
-document.getElementById('startButton').addEventListener('click', start_stop);
-
-function eco(){
-
-  // Crear nodo de efecto de eco (retardo)
-  retardo = ctx.createDelay();
-  retardo.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
-  feed = ctx.createGain();
-  feed.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
-  retardooff = offlineContext.createDelay();
-  retardooff.delayTime.value = document.getElementById("valueEcho").value; // Tiempo de retardo en segundos (de momento va de 0 a 1)
-  feedoff = offlineContext.createGain();
-  feedoff.gain.value = document.getElementById("valueEcho").value/2; // Nivel de retroalimentación (0 a 1)
-}
-
-function reverb(){
-  revdelay = ctx.createDelay();
-  revdelay.delayTime.value = 0.01; // Tiempo de retardo en segundos (de momento va de 0 a 1)
-  revgain = ctx.createGain();
-  revgain.gain.value = document.getElementById("valueReverb").value; // Nivel de retroalimentación (0 a 1)
-  revdelayoff = offlineContext.createDelay();
-  revdelayoff.delayTime.value = 0.02; // Tiempo de retardo en segundos (de momento va de 0 a 1)
-  revgainoff = offlineContext.createGain();
-  revgainoff.gain.value = document.getElementById("valueReverb").value/2; // Nivel de retroalimentación (0 a 1)
-}
-
-function aplicar_efectos(){
-  //desconectamos
-  sourceNode.disconnect();
-  //Chorus
-  chor_delays.forEach(function(delay) {
-    sourceNode.connect(delay);
-  });
-  sourceNode.connect(retardo);
-  for (var i = 0; i < chor_delays.length; i++) {
-    chor_delays[i].connect(chor_gains[i])
-  }
-  chor_gains.forEach(function(gain) {
-    gain.connect(retardo);
-  });
-  //Eco
-  retardo.connect(feed);
-  feed.connect(retardo);
-  retardo.connect(revdelay);
-  //Reverb
-  revdelay.connect(revgain);
-  revgain.connect(revdelay);
-  revdelay.connect(ctx.destination);
-}
-
-// Función de modulación
-function modulationFunction(modDepth,modFreq,time) {
-  return Math.sin(2 * Math.PI * modFreq * time) * modDepth;
-}
-//Chorus
-function chorus(){
-
-  // Parámetros de modulación
-  var modFreq = 0.2; // Frecuencia de modulación en Hz
-  var modDepth = 0.02; // Profundidad de modulación en segundos (ajuste según sea necesario)
-  // Crear nodos de retardo para las voces moduladas
-  var numVoices = document.getElementById("valueChorus").value; // Número de voces moduladas
-  
-  for (var i = 0; i < numVoices; i++) {
-      var delayModulated = ctx.createDelay();
-      var gm = ctx.createGain();
-      gm.gain.value=0.4 + Math.random() * 0.4;
-      delayModulated.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
-      chor_delays.push(delayModulated);
-      chor_gains.push(gm);
-      
-  }
-  for (var i = 0; i < numVoices; i++) {
-    var delayModulatedoff = offlineContext.createDelay();
-    var gmoff = offlineContext.createGain();
-    gmoff.gain.value=0.4 + Math.random() * 0.4;
-    delayModulatedoff.delayTime.value = Math.random() * 0.1; // Tiempo de retardo inicial para cada voz modulada
-    chor_delaysoff.push(delayModulatedoff);
-    chor_gainsoff.push(gmoff);
-}
-
-  // Aplicar la modulación al tiempo de retardo del nodo modulado
-  var currentTime = ctx.currentTime;
-  chor_delays.forEach(function(delay) {
-    delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
-  });
-  chor_delaysoff.forEach(function(delay) {
-    delay.delayTime.setValueAtTime(delay.delayTime.value + modulationFunction(modDepth,modFreq,currentTime), currentTime);
-  });
-
-}
-
-function desconectar(){
-  //desconectamos
-  sourceNode.disconnect();
-  //Chorus
-  chor_delays.forEach(function(delay) {
-    delay.disconnect();
-  });
-  chor_gains.forEach(function(gain) {
-    gain.disconnect();
-  });
-  //Eco
-  retardo.disconnect();
-  feed.disconnect();
-  revdelay.disconnect();
-  revgain.disconnect();
-  chor_delays = [];
-  chor_gains=[];
-}
-document.getElementById("play-pause").addEventListener('click', function(){
-  desconectar();
-  chorus();
-  eco();
-  reverb();
-  aplicar_efectos();
-  if (audioElement.paused || audioElement.ended) {
-    audioElement.play();
-
 } else {
-    audioElement.pause();
-
-}
-}
-);
-
-async function render(){
-  desconectar();
-  offlineSource='';
-  offlineSource = offlineContext.createBufferSource();
-  offlineSource.buffer = audioBuffer;
-  //desconectamos
-  offlineSource.disconnect();
-  //Chorus
-  chor_delaysoff.forEach(function(dly) {
-    offlineSource.connect(dly);
-  });
-  offlineSource.connect(retardooff);
-  for (var i = 0; i < chor_delaysoff.length; i++) {
-    chor_delaysoff[i].connect(chor_gainsoff[i])
+  if (typeof console !== 'undefined' && console.warn) {
+    console.warn('UIController or UIController.init not available. Ensure UIController.js is loaded.');
   }
-  chor_gainsoff.forEach(function(gain) {
-    gain.connect(retardooff);
-  });
-  //Eco
-  retardooff.connect(feedoff);
-  feedoff.connect(retardooff);
-  retardooff.connect(revdelayoff);
-  //Reverb
-  revdelayoff.connect(revgainoff);
-  revgainoff.connect(revdelayoff);
-  revdelayoff.connect(offlineContext.destination);
-
-  offlineSource.start();
-  const renderedBuffer = await offlineContext.startRendering();
-
-  
-
-  // Convertir el buffer renderizado a WAV
-  wavBlob = bufferToWave(renderedBuffer);
-  aplicar_efectos();
-
-  //Desconectar todo
-  offlineSource.disconnect();
-  //Chorus
-
-  for (var i = 0; i < chor_delays.length; i++) {
-    chor_delaysoff[i].disconnect()
-  }
-  chor_gainsoff.forEach(function(gain) {
-    gain.disconnect();
-  });
-  //Eco
-  retardooff.disconnect();
-  feedoff.disconnect();
-
-  revdelayoff.disconnect();
-  revgainoff.disconnect();
-
-  chor_delaysoff = [];
-  chor_gainsoff=[];
-
 }
 
-
-document.getElementById('downloadButton').onclick = async function() {
-  await render();
-  audioUrl='';    
-  const a = document.createElement('a');
-  a.style.display = 'none';
-  // const blob = new Blob(down, { type: mediaRecorder.mimeType });
-  audioUrl = window.URL.createObjectURL(wavBlob);
-  a.href = audioUrl;
-  a.download = 'grabacion.wav';
-  document.body.appendChild(a);
-  a.click();
-  URL.revokeObjectURL(audioUrl);
-  document.body.removeChild(a);
-  document.getElementById('downloadButton').disabled=true;
-};
-
-function bufferToWave(abuffer) {
-  const numOfChan = abuffer.numberOfChannels;
-  const length = abuffer.length * numOfChan * 2 + 44;
-  const buffer = new ArrayBuffer(length);
-  const view = new DataView(buffer);
-  const channels = [];
-  let offset = 0;
-  let pos = 0;
-
-  function setUint16(data) {
-    view.setUint16(pos, data, true);
-    pos += 2;
+// Expose modules to browser global scope for direct usage/development convenience.
+if (typeof window !== 'undefined') {
+  try {
+    if (typeof AudioEngine !== 'undefined') window.AudioEngine = AudioEngine;
+    if (typeof EffectsProcessor !== 'undefined') window.EffectsProcessor = EffectsProcessor;
+    if (typeof UIController !== 'undefined') window.UIController = UIController;
+    // Also expose a small namespace for convenience
+    window.App = window.App || {};
+    window.App.AudioEngine = AudioEngine;
+    window.App.EffectsProcessor = EffectsProcessor;
+    window.App.UIController = UIController;
+  } catch (err) {
+    // Swallow errors assigning globals in restrictive environments.
   }
-
-  function setUint32(data) {
-    view.setUint32(pos, data, true);
-    pos += 4;
-  }
-
-  // Write WAVE header
-  setUint32(0x46464952); // "RIFF"
-  setUint32(length - 8); // file length - 8
-  setUint32(0x45564157); // "WAVE"
-  setUint32(0x20746d66); // "fmt " chunk
-  setUint32(16); // length = 16
-  setUint16(1); // PCM (uncompressed)
-  setUint16(numOfChan);
-  setUint32(abuffer.sampleRate);
-  setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
-  setUint16(numOfChan * 2); // block-align
-  setUint16(16); // 16-bit (hardcoded in this demo)
-
-  // Write interleaved data
-  setUint32(0x61746164); // "data" - chunk
-  setUint32(length - pos - 4); // chunk length
-
-  for (let i = 0; i < abuffer.numberOfChannels; i++) {
-    channels.push(abuffer.getChannelData(i));
-  }
-
-  while (pos < length) {
-    for (let i = 0; i < numOfChan; i++) {
-      let sample = Math.max(-1, Math.min(1, channels[i][offset])); // clamp
-      sample = sample * 32767.5; // scale to 16-bit signed int
-      view.setInt16(pos, sample, true); // write 16-bit sample
-      pos += 2;
-    }
-    offset++; // next source sample
-  }
-  return new Blob([buffer], { type: "audio/wav" });
 }
 
+// Export modules for CommonJS consumers (Node).
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { AudioEngine, EffectsProcessor, UIController };
+}
+
+// NOTE: Any direct DOM manipulation or event listeners that existed previously in main.js
+// have been removed from this entry file. UIController.init is responsible for all UI wiring
+// (event listeners, form validation, responsive behaviors, etc.). This keeps a single
+// environment-agnostic entry that delegates logic to the modular files.
