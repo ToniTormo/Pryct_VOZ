@@ -21,14 +21,17 @@ time, mark, audio, video {
 }
 
 body, html{
-    background-color:black;
+    --primary-color: #00A79D;
+    --accent-color: #DADC36;
+    --background-color: #000000;
+    background-color: var(--background-color);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    
     width: 100%;
     height: 100%;
     position: fixed;
+    transition: background-color 300ms ease-in-out, color 200ms ease-in-out;
 }
 
 #titulo{
@@ -371,6 +374,54 @@ button{
     background-color: #DADC36;
     border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
+}
+/* Simple UI animations and transitions */
+button {
+  border-style: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+}
+
+.sliders {
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.sliders:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.name_slider, .name_controladores, .elem_indice {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Simple pulsing for download button when enabled */
+#downloadButton:enabled img {
+  transition: transform 300ms ease;
+}
+
+#downloadButton:enabled:hover img {
+  transform: scale(1.03);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  #sliders { width: 90%; right: 2%; left: 2%; }
+  #controladores { left: 2%; width: 96%; }
+  #botones_mid { left: 2%; right: 2%; }
+  .name_slider { font-size: calc(1vh + 1vw); }
+}
+
+@media (max-width: 480px) {
+  #titulo h1 { font-size: calc(4vh + 4vw); }
+  .elem_indice { width: 12%; }
+  .sliders { margin-right: 2%; margin-left: 2%; }
 }
 
 /* Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / Info / */

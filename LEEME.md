@@ -30,3 +30,19 @@ Otro de los problemas que tuvimos al principio, es que queríamos que mientras t
 <3 <3 <3 <3 
 
 
+## Ejecutar proyecto y tests (nuevos scripts)
+
+Se ha añadido soporte para ejecutar pruebas unitarias y un servidor de desarrollo local mediante npm. Desde la raíz del proyecto:
+
+- Instala dependencias de desarrollo (jest y http-server):
+  npm install
+
+- Ejecuta las pruebas con Jest:
+  npm test
+
+- Sirve la carpeta con un servidor estático para probar en el navegador:
+  npm start
+
+Nota: El funcionamiento de la aplicación en el navegador no ha cambiado: puede seguir arrastrando el HTML al navegador para abrirlo o usando 'npm start' y apuntando con su navegador a http://localhost:8080 (puerto por defecto de http-server). Los scripts solo facilitan la ejecución de tests unitarios y el servido rápido cuando se trabaja con Node.js.
+
+Si no desea usar 'npm start', puede seguir probando abriendo HTML/Resonance.html en el navegador directamente.
