@@ -1,3 +1,4 @@
+(function(){
 const crearInfoBox = (info, text) => {
     const body = document.body;
 
@@ -118,3 +119,4 @@ Reverb.addEventListener('input', function() {
     spanReverb.textContent = this.value;
 });
 
+})();

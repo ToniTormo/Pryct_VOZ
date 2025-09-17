@@ -29,6 +29,14 @@ body, html{
     width: 100%;
     height: 100%;
     position: fixed;
+:root {
+  --main-bg: #000000;
+  --accent: #DADC36;
+  --accent-2: #00A79D;
+  --text: #ffffff;
+}
+
+* { transition: all 0.25s ease-in-out; }
 }
 
 #titulo{
@@ -419,4 +427,28 @@ button{
     margin-left: 2%;
     margin-right: 4%;
     margin-bottom: 0.8%;
+/* Simple animations */
+button:hover img, #div_boton_dorado:hover, #div_boton_azul:hover, #div_boton_rojo:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: brightness(1.05);
+}
+
+#titulo { transition: filter 0.5s ease; }
+#titulo:hover { filter: grayscale(0%); }
+
+.elem_indice { transition: box-shadow 0.25s ease; }
+.elem_indice:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+
+/* Responsive basic adjustments */
+@media (max-width: 900px) {
+  #sliders { width: 90%; right: 0; left: 5%; }
+  #controladores { left: 5%; right: 5%; width: 90%; }
+  #titulo h1 { font-size: calc(4vh + 2vw); }
+}
+
+@media (max-width: 480px) {
+  #titulo h1 { font-size: calc(4vh + 6vw); }
+  .sliders { margin-right: 3%; margin-left: 3%; }
+  .name_slider, .name_controladores { font-size: calc(0.9vh + 0.9vw); }
+}
 }

@@ -1,0 +1,14 @@
+{
+  "name": "Pryct_VOZ",
+  "version": "1.0.0",
+  "description": "Resonance audio effects project modularized",
+  "main": "JS/main.js",
+  "scripts": {
+    "test": "jest",
+    "start": "npx http-server -c-1 ./HTML -p 8080"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "http-server": "^14.0.0"
+  }
+}

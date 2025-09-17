@@ -30,3 +30,10 @@ Otro de los problemas que tuvimos al principio, es que queríamos que mientras t
 <3 <3 <3 <3 
 
 
+## Uso con Node / Tests
+Se ha modularizado el proyecto para facilitar el desarrollo y pruebas unitarias.
+- Para instalar dependencias de desarrollo: npm install
+- Iniciar un servidor local para probar en el navegador: npm run start (abre http://localhost:8080/Resonance.html)
+- Ejecutar tests unitarios (Jest): npm test
+
+Si prefieres seguir abriendo el HTML arrastrando el archivo al navegador, sigue siendo posible: abre HTML/Resonance.html directamente.
