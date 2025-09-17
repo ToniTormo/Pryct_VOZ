@@ -30,3 +30,20 @@ Otro de los problemas que tuvimos al principio, es que queríamos que mientras t
 <3 <3 <3 <3 
 
 
+## Development & Tests
+
+He adaptado el proyecto para ser modular y añadí scripts npm para desarrollo y tests. Opcionalmente puedes usar los scripts si tienes Node.js instalado.
+
+- Instalar dependencias de desarrollo (Jest y http-server):
+  npm install
+
+- Ejecutar tests (Jest):
+  npm test
+
+- Levantar un servidor estático para probar en el navegador (opcional):
+  npm start
+  Luego abrir http://localhost:8080/HTML/Resonance.html
+
+Nota: El proyecto original permitía abrir el HTML arrastrando el archivo al navegador. Tras modularizar algunos módulos con UMD, el comportamiento en navegador sin servidor sigue siendo compatible (los scripts exponen sus API vía window). Se añade el servidor sólo como ayuda para desarrollo local y para evitar problemas de bloqueo de recursos en navegadores que restringen archivos locales.
+
+If everything else behaves the same for casual usage (open the HTML directly), you can keep using it as before.

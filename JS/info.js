@@ -1,3 +1,4 @@
+const audioElement = (typeof window !== 'undefined' && window.audioElement) ? window.audioElement : (document ? document.getElementById('repro') : null);
 const crearInfoBox = (info, text) => {
     const body = document.body;
 

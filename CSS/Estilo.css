@@ -19,10 +19,35 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+/* CSS variables and simple animations */
+:root {
+  --primary-color: #00A79D; /* teal */
+  --accent-color: #DADC36;  /* gold */
+  --bg-color: #000000;      /* background */
+  --text-color: #ffffff;
+}
+
+/* Smooth transitions and hover effects */
+button, .elem_indice, .sliders, .name_slider, #div_boton_dorado, #div_boton_azul, #div_boton_rojo {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+button:hover, .elem_indice:hover, .sliders:hover, .name_slider:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Subtle pulsing animation for the record button */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+#startButton:hover img { animation: pulse 1s infinite; }
 
 body, html{
-    background-color:black;
-    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     
@@ -73,8 +98,7 @@ body, html{
     justify-content: center;
     justify-items: center;
 
-    background-color: #0AAB9C;
-}
+    background-color: var(--primary-color);}
 
 .elem_indice{
     width: 4%;
@@ -145,8 +169,7 @@ body, html{
     display: flex;
     height: fit-content;
     
-    background-color: #DADC36;
-}
+    background-color: var(--accent-color);}
 
 /* Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / Sliders / */
 
@@ -190,8 +213,7 @@ body, html{
     margin-right: 8%;
     margin-left: 8%;
 
-    background: linear-gradient(to top, #DADC36, #00A79D);
-    border-radius: calc(0.6vh + 0.6vw);
+    background: linear-gradient(to top, var(--accent-color), var(--primary-color));    border-radius: calc(0.6vh + 0.6vw);
 }
 
 .name_slider{
@@ -209,8 +231,7 @@ body, html{
     text-align: center;
     font-size: calc(0.7vh + 0.7vw);
 
-    background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
+    background-color: var(--accent-color);    border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
 }
 
@@ -286,8 +307,7 @@ body, html{
     font-size: calc(0.7vh + 0.7vw);
     text-align: center;
     
-    background-color: #DADC36;
-    border-bottom-left-radius: calc(0.6vh + 0.6vw);
+    background-color: var(--accent-color);    border-bottom-left-radius: calc(0.6vh + 0.6vw);
     border-top-left-radius: calc(0.6vh + 0.6vw);
     cursor: pointer;
 }
@@ -325,8 +345,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 5%, #00A79D 40%, #00A79D 100%);
-    border-radius: calc(0.6vh + 0.6vw);
+    background: linear-gradient(to top, var(--accent-color) 0%, var(--accent-color) 5%, var(--primary-color) 40%, var(--primary-color) 100%);    border-radius: calc(0.6vh + 0.6vw);
 }
 
 #div_boton_rojo{
@@ -338,8 +357,7 @@ body, html{
     height: fit-content;
     align-items: center;
     
-    background: linear-gradient(to top, #DADC36 0%, #DADC36 1%, #e34949 30%, #e34949 100%);
-    border-radius: calc(0.6vh + 0.6vw);
+    background: linear-gradient(to top, var(--accent-color) 0%, var(--accent-color) 1%, #e34949 30%, #e34949 100%);    border-radius: calc(0.6vh + 0.6vw);
 }
 
 #startImg, #stopImg, #downloadImg{
@@ -368,8 +386,7 @@ button{
     text-align: center;
     font-size: calc(0.6vh + 0.6vw);
 
-    background-color: #DADC36;
-    border-radius: calc(0.6vh + 0.6vw);
+    background-color: var(--accent-color);    border-radius: calc(0.6vh + 0.6vw);
     z-index: -1;
 }
 
@@ -407,8 +424,7 @@ button{
     margin-top: 6%;
     margin-bottom: 6%;
     
-    background-color: #DADC36;
-    border-top-right-radius: calc(0.6vh + 0.6vw);
+    background-color: var(--accent-color);    border-top-right-radius: calc(0.6vh + 0.6vw);
     border-bottom-right-radius: calc(0.6vh + 0.6vw);
 }
 
@@ -419,4 +435,10 @@ button{
     margin-left: 2%;
     margin-right: 4%;
     margin-bottom: 0.8%;
+}@media (max-width: 900px) {
+  #sliders { width: 90% !important; right: 0 !important; left: 5% !important; }
+  #controladores { left: 5% !important; width: 90% !important; }
+  #titulo { height: auto; padding: 1rem; }
+  .name_slider { position: static; display: block; width: auto; }
+  .elem_slider { transform: none; width: 100%; }
 }
